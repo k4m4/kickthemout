@@ -4,7 +4,7 @@
 
 """
 Copyright (C) 2016 Nikolaos Kamarinakis (nikolaskam@gmail.com)
-See License at nikolaskama.me (https://nikolaskama.me/onioffproject)
+See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 """
 
 import time, os, sys, logging

@@ -14,6 +14,7 @@ if not my_mac:
     print "Cant get local mac address, quitting"
     sys.exit(1)
 """
+my_mac =  # MY MAC
 
 # REQUEST Host_Target & Host_Impersonation
 
@@ -21,8 +22,8 @@ if not my_mac:
 target = raw_input("Enter host target: ")
 impersonation = raw_input("Enter host to impersonate: ")
 """
-target = 
-impersonation = 
+target =  # TARGET MAC
+impersonation =  # IMPERSONATION MAC
 
 # CRAFT & SEND PACKET
 

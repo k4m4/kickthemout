@@ -2,6 +2,7 @@ import scapy
 
 from scapy.all import *
 
+"""
 # GET MAC ADDRESS
 def get_mac_address():
     my_macs = [get_if_hwaddr(i) for i in get_if_list()]
@@ -12,11 +13,16 @@ my_mac = get_mac_address()
 if not my_mac:
     print "Cant get local mac address, quitting"
     sys.exit(1)
+"""
 
 # REQUEST Host_Target & Host_Impersonation
 
+"""
 target = raw_input("Enter host target: ")
 impersonation = raw_input("Enter host to impersonate: ")
+"""
+target = 
+impersonation = 
 
 # CRAFT & SEND PACKET
 

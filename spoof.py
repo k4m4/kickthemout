@@ -1,3 +1,5 @@
+#kickthemout/scan.py by @xdavidhu
+
 def sendPacket(my_mac, interface, my_ip, target_ip, target_mac):
 
     import sys

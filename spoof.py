@@ -17,8 +17,8 @@ from scapy.all import (
     sendp
 )
 
-def sendPacket(my_mac, gateway_ip, target_ip, target_mac):
 
+def sendPacket(my_mac, gateway_ip, target_ip, target_mac):
     ether = Ether()
     ether.src = my_mac
 
@@ -35,9 +35,9 @@ def sendPacket(my_mac, gateway_ip, target_ip, target_mac):
     ether.dst = target_mac
 
     arp.op = 2
-    
+
     def broadcastPacket():
-    	packet = ether/arp
-    	sendp(x=packet, verbose=False)
-    
+        packet = ether / arp
+        sendp(x=packet, verbose=False)
+
     broadcastPacket()

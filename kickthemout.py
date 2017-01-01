@@ -99,7 +99,7 @@ def kickoneoff():
         return # TODO: Test "break"
 
     # print("\n{0}Target mac => '{1}" + one_target_mac + "{2}'{3}\n").format(GREEN, RED, GREEN, END) # {TESTING}
-    print("{0}Spoofing started... {1}").format(GREEN, END)
+    print("\n{0}Spoofing started... {1}").format(GREEN, END)
     try:
         while True:
             spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, one_target_ip, one_target_mac)

@@ -97,7 +97,7 @@ def kickoneoff():
             one_target_mac = host[1]
     if one_target_mac == "":
         print("\nIP address is not up. Please try again.")
-        break # TODO: Test "break"
+        return # TODO: FIX
 
     print("\n{0}Target mac => '{1}" + one_target_mac + "{2}'{3}\n").format(GREEN, RED, GREEN, END)
     print("{0}Spoofing started... {1}\n").format(GREEN, END)

@@ -97,7 +97,7 @@ def kickoneoff():
             one_target_mac = host[1]
     if one_target_mac == "":
         print("\nIP address is not up. Please try again.")
-        return
+        break # TODO: Test "break"
 
     print("\n{0}Target mac => '{1}" + one_target_mac + "{2}'{3}\n").format(GREEN, RED, GREEN, END)
     print("{0}Spoofing started... {1}\n").format(GREEN, END)
@@ -129,13 +129,12 @@ def kicksomeoff():
             if host[0] == onlineIPs[i]:
                 mac = host[1]
         vendor = resolveMac(mac)
-        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + vendor + "\n{4}").format(YELLOW, WHITE,
-                                                                                                      RED, GREEN, END)
+        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + vendor + "\n{4}").format(YELLOW, WHITE,                                                                                                      RED, GREEN, END)
 
     canBreak = False
     while not canBreak:
         try:
-            choice = raw_input("\nChoose the targets (separate by a ','): ")
+            choice = raw_input("\nChoose devices to target(comma-separated): ")
             canBreak = True
         except KeyboardInterrupt:
             return
@@ -145,7 +144,7 @@ def kicksomeoff():
     some_ipList = ""
     for i in some_targets:
         try:
-            some_ipList = some_ipList + GREEN + "'" + RED + onlineIPs[int(i)] + GREEN + "', "
+            some_ipList += GREEN + "'" + RED + onlineIPs[int(i)] + GREEN + "', "
         except KeyboardInterrupt:
             return
         except:
@@ -193,6 +192,8 @@ def kickalloff():
         vendor = resolveMac(mac)
         print(str("{0}"+ str(onlineIPs[i]) + "{1}\t" + vendor + "{2}").format(RED, GREEN, END))
 
+    print("\n{0}Targets: {1}" + ','.join(onlineIPs)).format(GREEN, END)
+
     print("\n{0}Spoofing started... {1}\n").format(GREEN, END)
     try:
         reScan = 0
@@ -222,33 +223,24 @@ def getDefaultInterface():
         if (arg <= 0 or arg >= 0xFFFFFFFF):
             raise ValueError("illegal netmask value", hex(arg))
         return 32 - int(round(math.log(0xFFFFFFFF - arg, 2)))
-
     def to_CIDR_notation(bytes_network, bytes_netmask):
         network = scapy.utils.ltoa(bytes_network)
         netmask = long2net(bytes_netmask)
         net = "%s/%s" % (network, netmask)
         if netmask < 16:
             return None
-
         return net
-
     for network, netmask, _, interface, address in scapy.config.conf.route.routes:
-
         # skip loopback network and default gw
         if network == 0 or interface == 'lo' or address == '127.0.0.1' or address == '0.0.0.0':
             continue
-
         if netmask <= 0 or netmask == 0xFFFFFFFF:
             continue
-
         net = to_CIDR_notation(network, netmask)
-
         if interface != scapy.config.conf.iface:
             continue
-
         if net:
             return interface
-
 
 def getGatewayIP():
     getGateway_p = sr1(IP(dst="google.com", ttl=0) / ICMP() / "XXXXXXXXXXX", verbose=False)
@@ -264,7 +256,9 @@ def resolveMac(mac):
         vendor = vendor[:25]
         return vendor
     except:
-        return "RESOLVING_ERROR"
+        return "[-] Error Resolving Mac Address"
+        return "[-] Exiting..."
+        raise SystemExit
 
 def main():
 
@@ -272,10 +266,8 @@ def main():
 
     print(
         "\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}"
-        + defaultGatewayIP + "{6}'. {7}" + str(len(hostsList)) + "{8} hosts are up.{9}").format(GREEN, RED, GREEN, RED,
-                                                                                                GREEN, RED, GREEN, RED,
-                                                                                                GREEN, END)
-
+        + defaultGatewayIP + "{6}'. {7}" + str(len(hostsList)) + "{8} hosts are up.{9}").format(GREEN, RED, GREEN, RED, GREEN, 
+                                                                                                RED, GREEN, RED, GREEN, END)
     try:
 
         while True:
@@ -314,6 +306,5 @@ if __name__ == '__main__':
     defaultGatewayIP = getGatewayIP()
     defaultInterfaceMac = get_if_hwaddr(defaultInterface)
     scanNetwork()
-
 
     main()

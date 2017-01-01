@@ -13,7 +13,6 @@ import scan, spoof
 from time import sleep
 import urllib2 as urllib
 
-
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # Shut up scapy!
 from scapy.all import *
 
@@ -97,10 +96,10 @@ def kickoneoff():
             one_target_mac = host[1]
     if one_target_mac == "":
         print("\nIP address is not up. Please try again.")
-        return # TODO: FIX
+        return # TODO: Test "break"
 
-    print("\n{0}Target mac => '{1}" + one_target_mac + "{2}'{3}\n").format(GREEN, RED, GREEN, END)
-    print("{0}Spoofing started... {1}\n").format(GREEN, END)
+    # print("\n{0}Target mac => '{1}" + one_target_mac + "{2}'{3}\n").format(GREEN, RED, GREEN, END) # {TESTING}
+    print("{0}Spoofing started... {1}").format(GREEN, END)
     try:
         while True:
             spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, one_target_ip, one_target_mac)
@@ -112,7 +111,7 @@ def kickoneoff():
             spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, one_target_ip, one_target_mac)
             rearp = rearp + 1
             time.sleep(0.5)
-        print("\n{0}Re-arped{1} target.{2}").format(RED, GREEN, END)
+        print("{0}Re-arped{1} target.{2}").format(RED, GREEN, END)
 
 
 def kicksomeoff():
@@ -174,8 +173,7 @@ def kicksomeoff():
                         spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
             rearp = rearp + 1
             time.sleep(0.5)
-        print("\n{0}Re-arped{1} targets.{2}").format(RED, GREEN, END)
-
+        print("{0}Re-arped{1} targets.{2}").format(RED, GREEN, END)
 
 def kickalloff():
     os.system("clear||cls")
@@ -190,9 +188,9 @@ def kickalloff():
             if host[0] == onlineIPs[i]:
                 mac = host[1]
         vendor = resolveMac(mac)
-        print(str("{0}"+ str(onlineIPs[i]) + "{1}\t" + vendor + "{2}").format(RED, GREEN, END))
+        print(str("  {0}"+ str(onlineIPs[i]) + "{1}\t" + vendor + "{2}").format(RED, GREEN, END))
 
-    print("\n{0}Targets: {1}" + ','.join(onlineIPs)).format(GREEN, END)
+    print("\n{0}Targets: {1}" + ', '.join(onlineIPs)).format(GREEN, END) # {TESTING}
 
     print("\n{0}Spoofing started... {1}\n").format(GREEN, END)
     try:
@@ -215,7 +213,7 @@ def kickalloff():
                     spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
             rearp = rearp + 1
             time.sleep(0.5)
-        print("\n{0}Re-arped{1} targets.{2}").format(RED, GREEN, END)
+        print("{0}Re-arped{1} targets.{2}").format(RED, GREEN, END)
 
 
 def getDefaultInterface():
@@ -256,9 +254,7 @@ def resolveMac(mac):
         vendor = vendor[:25]
         return vendor
     except:
-        return "[-] Error Resolving Mac Address"
-        return "[-] Exiting..."
-        raise SystemExit
+        return "N/A"
 
 def main():
 

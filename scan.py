@@ -13,7 +13,6 @@ def scanNetwork():
             raise ValueError("illegal netmask value", hex(arg))
         return 32 - int(round(math.log(0xFFFFFFFF - arg, 2)))
 
-
     def to_CIDR_notation(bytes_network, bytes_netmask):
         network = scapy.utils.ltoa(bytes_network)
         netmask = long2net(bytes_netmask)
@@ -22,7 +21,6 @@ def scanNetwork():
             return None
 
         return net
-
 
     def scan_and_print_neighbors(net, interface, timeout=1):
         hostsList = []

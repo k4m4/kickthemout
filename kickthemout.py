@@ -63,7 +63,7 @@ def regenOnlineIPs():
             defaultGatewayMac = host[1]
 
 
-def kickoneoff():
+def kickoneoff(): # TODO: do not allow only one device!!
     os.system("clear||cls")
 
     print("\n{0}kickONEOff{1} selected...{2}\n").format(RED, GREEN, END)
@@ -111,7 +111,7 @@ def kickoneoff():
             spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, one_target_ip, one_target_mac)
             rearp = rearp + 1
             time.sleep(0.5)
-        print("{0}Re-arped{1} target.{2}").format(RED, GREEN, END)
+        print("{0}Re-arped{1} target successfully.{2}").format(RED, GREEN, END)
 
 
 def kicksomeoff():
@@ -173,7 +173,7 @@ def kicksomeoff():
                         spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
             rearp = rearp + 1
             time.sleep(0.5)
-        print("{0}Re-arped{1} targets.{2}").format(RED, GREEN, END)
+        print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
 
 def kickalloff():
     os.system("clear||cls")
@@ -213,7 +213,7 @@ def kickalloff():
                     spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
             rearp = rearp + 1
             time.sleep(0.5)
-        print("{0}Re-arped{1} targets.{2}").format(RED, GREEN, END)
+        print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
 
 
 def getDefaultInterface():

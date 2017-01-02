@@ -191,8 +191,6 @@ def kickalloff():
         vendor = resolveMac(mac)
         print(str("  {0}"+ str(onlineIPs[i]) + "{1}\t" + vendor + "{2}").format(RED, GREEN, END))
 
-    print("\n{0}Targets: {1}" + ', '.join(onlineIPs)).format(GREEN, END) # {TESTING}
-
     print("\n{0}Spoofing started... {1}\n").format(GREEN, END)
     try:
         reScan = 0

@@ -60,7 +60,7 @@ def scanNetwork():
     regenOnlineIPs()
 
 
-def kickoneoff(): # TODO: do not allow only one device!!
+def kickoneoff():
     os.system("clear||cls")
 
     print("\n{0}kickONEOff{1} selected...{2}\n").format(RED, GREEN, END)
@@ -94,7 +94,6 @@ def kickoneoff(): # TODO: do not allow only one device!!
         print("\nIP address is not up. Please try again.")
         return
 
-    # print("\n{0}Target mac => '{1}" + one_target_mac + "{2}'{3}\n").format(GREEN, RED, GREEN, END) # {TESTING}
     print("\n{0}Target: {1}" + one_target_ip).format(GREEN, END)
 
     print("\n{0}Spoofing started... {1}").format(GREEN, END)
@@ -276,13 +275,10 @@ def main():
                 raise SystemExit
             elif choice == '1':
                 kickoneoff()
-                # EXECUTE kickoneoff FUNCTION (SCAN & PARSE)
             elif choice == '2':
                 kicksomeoff()
-                # EXECUTE kicksomeoff FUNCTION
             elif choice == '3':
                 kickalloff()
-                # EXECUTE kickalloff FUNCTION (FF:FF:FF:FF:FF:FF)
             elif choice.upper() == 'CLEAR':
                 os.system("clear||cls")
             else:

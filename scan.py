@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -.- coding: utf-8 -.-
 # scan.py 
-# author: Benedikt Waldvogel
+# author: Benedikt Waldvogel (MIT Licensed)
 # edited by: k4m4 & xdavidhu
 
 import logging

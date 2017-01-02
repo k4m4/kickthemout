@@ -4,6 +4,8 @@
 # author: Benedikt Waldvogel
 # edited by: k4m4 & xdavidhu
 
+import logging
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 import scapy.config, scapy.layers.l2, scapy.route, socket, math, errno
 
 def scanNetwork():

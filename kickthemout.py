@@ -32,7 +32,6 @@ def heading():
         YELLOW, RED, YELLOW, BLUE).center(111) +
     '\n' + 'Version: {0}0.1{1}\n'.format(YELLOW, END).center(86))
 
-
 def optionBanner():
     print('\nChoose option from menu:\n')
     sleep(0.2)
@@ -43,7 +42,6 @@ def optionBanner():
     print('\t{0}[{1}3{2}]{3} Kick ALL Off').format(YELLOW, RED, YELLOW, WHITE)
     sleep(0.2)
     print('\n\t{0}[{1}E{2}]{3} Exit KickThemOut\n').format(YELLOW, RED, YELLOW, WHITE)
-
 
 def regenOnlineIPs():
     global onlineIPs
@@ -58,7 +56,6 @@ def scanNetwork():
     global hostsList
     hostsList = scan.scanNetwork()
     regenOnlineIPs()
-
 
 def kickoneoff():
     os.system("clear||cls")
@@ -211,7 +208,6 @@ def kickalloff():
             time.sleep(0.5)
         print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
 
-
 def getDefaultInterface():
     def long2net(arg):
         if (arg <= 0 or arg >= 0xFFFFFFFF):
@@ -257,7 +253,7 @@ def main():
 
     print(
         "\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}"
-        + defaultGatewayIP + "{6}'. {7}" + str(len(hostsList)) + "{8} hosts are up.{9}").format(GREEN, RED, GREEN, RED, GREEN, 
+        + defaultGatewayIP + "{6}' --> {7}" + str(len(hostsList)) + "{8} hosts are up.{9}").format(GREEN, RED, GREEN, RED, GREEN, 
                                                                                                 RED, GREEN, RED, GREEN, END)
 
     try:

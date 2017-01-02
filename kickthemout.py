@@ -131,15 +131,13 @@ def kicksomeoff():
     while not canBreak:
         try:
             choice = raw_input("\nChoose devices to target(comma-separated): ")
-            canBreak = True
+            if ',' in choice:
+                some_targets = choice.split(",")
+                canBreak = True
+            else:
+                print("\n{0}ERROR:{1} Please select more than 1 devices from the list.{2}\n").format(RED, RED, END)
         except KeyboardInterrupt:
             return
-
-    if ',' in choice:
-        some_targets = choice.split(",")
-    else:
-        print("\n{0}ERROR:{2} Please select more than 1 devices.{3}\n").format(RED, RED, END)
-        return
 
     some_ipList = ""
     for i in some_targets:

@@ -18,7 +18,6 @@ from scapy.all import *
 
 BLUE, RED, WHITE, YELLOW, MAGENTA, GREEN, END = '\33[94m', '\033[91m', '\33[97m', '\33[93m', '\033[1;35m', '\033[1;32m', '\033[0m'
 
-
 def heading():
     sys.stdout.write(GREEN + """
     █  █▀ ▄█ ▄█▄    █  █▀    ▄▄▄▄▀  ▄  █ ▄███▄   █▀▄▀█  ████▄   ▄      ▄▄▄▄▀
@@ -28,11 +27,10 @@ def heading():
      █    ▐ ▀███▀    █     ▀         █  ▀███▀      █         █▄ ▄█   ▀
      ▀               ▀               ▀             ▀           ▀▀▀
     """ + END + BLUE +
-                     '\n' + '{0}Kick Devices Off Your LAN ({1}KickThemOut{2}){3}'.format(YELLOW, RED, YELLOW,
-                                                                                         BLUE).center(88) +
-                     '\n' + 'Made With <3 by: {0}Nikolaos Kamarinakis ({1}k4m4{2}) & {0}David Schütz ({1}xdavidhu{2}){3}'.format(
-        YELLOW, RED, YELLOW, BLUE).center(67) +
-                     '\n' + 'Version: {0}0.1{1}\n'.format(YELLOW, END).center(77))
+    '\n' + '{0}Kick Devices Off Your LAN ({1}KickThemOut{2}){3}'.format(YELLOW, RED, YELLOW, BLUE).center(98) +
+    '\n' + 'Made With <3 by: {0}Nikolaos Kamarinakis ({1}k4m4{2}) & {0}David Schütz ({1}xdavidhu{2}){3}'.format(
+        YELLOW, RED, YELLOW, BLUE).center(111) +
+    '\n' + 'Version: {0}0.1{1}\n'.format(YELLOW, END).center(86))
 
 
 def optionBanner():
@@ -47,20 +45,19 @@ def optionBanner():
     print('\n\t{0}[{1}E{2}]{3} Exit KickThemOut\n').format(YELLOW, RED, YELLOW, WHITE)
 
 
-def scanNetwork():
-    global hostsList
-    hostsList = scan.scanNetwork()
-    regenOnlineIPs()
-
 def regenOnlineIPs():
     global onlineIPs
     global defaultGatewayMac
-
     onlineIPs = []
     for host in hostsList:
         onlineIPs.append(host[0])
         if host[0] == defaultGatewayIP:
             defaultGatewayMac = host[1]
+
+def scanNetwork():
+    global hostsList
+    hostsList = scan.scanNetwork()
+    regenOnlineIPs()
 
 
 def kickoneoff(): # TODO: do not allow only one device!!
@@ -70,7 +67,6 @@ def kickoneoff(): # TODO: do not allow only one device!!
     scanNetwork()
 
     print("Online IPs: ")
-
     for i in range(len(onlineIPs)):
         mac = ""
         for host in hostsList:
@@ -96,9 +92,11 @@ def kickoneoff(): # TODO: do not allow only one device!!
             one_target_mac = host[1]
     if one_target_mac == "":
         print("\nIP address is not up. Please try again.")
-        return # TODO: Test "break"
+        return
 
     # print("\n{0}Target mac => '{1}" + one_target_mac + "{2}'{3}\n").format(GREEN, RED, GREEN, END) # {TESTING}
+    print("\n{0}Target: {1}" + one_target_ip).format(GREEN, END)
+
     print("\n{0}Spoofing started... {1}").format(GREEN, END)
     try:
         while True:
@@ -106,10 +104,10 @@ def kickoneoff(): # TODO: do not allow only one device!!
             time.sleep(15)
     except KeyboardInterrupt:
         print("\n{0}Re-arping{1} target...{2}").format(RED, GREEN, END)
-        rearp = 1
-        while rearp != 10:
+        reArp = 1
+        while reArp != 10:
             spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, one_target_ip, one_target_mac)
-            rearp = rearp + 1
+            reArp += 1
             time.sleep(0.5)
         print("{0}Re-arped{1} target successfully.{2}").format(RED, GREEN, END)
 
@@ -121,7 +119,6 @@ def kicksomeoff():
     scanNetwork()
 
     print("Online IPs: ")
-
     for i in range(len(onlineIPs)):
         mac = ""
         for host in hostsList:
@@ -138,7 +135,11 @@ def kicksomeoff():
         except KeyboardInterrupt:
             return
 
-    some_targets = choice.split(",")
+    if ',' in choice:
+        some_targets = choice.split(",")
+    else:
+        print("\n{0}ERROR:{2} Please select more than 1 devices.{3}\n").format(RED, RED, END)
+        return
 
     some_ipList = ""
     for i in some_targets:
@@ -164,14 +165,14 @@ def kicksomeoff():
             time.sleep(15)
     except KeyboardInterrupt:
         print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
-        rearp = 1
-        while rearp != 10:
+        reArp = 1
+        while reArp != 10:
             for i in some_targets:
                 ip = onlineIPs[int(i)]
                 for host in hostsList:
                     if host[0] == ip:
                         spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
-            rearp = rearp + 1
+            reArp += 1
             time.sleep(0.5)
         print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
 
@@ -199,19 +200,19 @@ def kickalloff():
             for host in hostsList:
                 if host[0] != defaultGatewayIP:
                     spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, host[0], host[1])
-            reScan = reScan + 1
+            reScan += 1
             if reScan == 4:
                 reScan = 0
                 scanNetwork()
             time.sleep(15)
     except KeyboardInterrupt:
         print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
-        rearp = 1
-        while rearp != 10:
+        reArp = 1
+        while reArp != 10:
             for host in hostsList:
                 if host[0] != defaultGatewayIP:
                     spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
-            rearp = rearp + 1
+            reArp += 1
             time.sleep(0.5)
         print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
 
@@ -229,7 +230,6 @@ def getDefaultInterface():
             return None
         return net
     for network, netmask, _, interface, address in scapy.config.conf.route.routes:
-        # skip loopback network and default gw
         if network == 0 or interface == 'lo' or address == '127.0.0.1' or address == '0.0.0.0':
             continue
         if netmask <= 0 or netmask == 0xFFFFFFFF:
@@ -264,6 +264,7 @@ def main():
         "\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}"
         + defaultGatewayIP + "{6}'. {7}" + str(len(hostsList)) + "{8} hosts are up.{9}").format(GREEN, RED, GREEN, RED, GREEN, 
                                                                                                 RED, GREEN, RED, GREEN, END)
+
     try:
 
         while True:

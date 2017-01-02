@@ -84,7 +84,7 @@ def kickoneoff(): # TODO: do not allow only one device!!
         except KeyboardInterrupt:
             return
         except:
-            print("{0}[!] Please enter a number from the list!{1}").format(RED, END)
+            print("\n{0}ERROR: Please enter a number from the list!{1}").format(RED, END)
 
     one_target_mac = ""
     for host in hostsList:
@@ -125,7 +125,7 @@ def kicksomeoff():
             if host[0] == onlineIPs[i]:
                 mac = host[1]
         vendor = resolveMac(mac)
-        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + vendor + "{4}").format(YELLOW, WHITE,                                                                                                      RED, GREEN, END)
+        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + vendor + "{4}").format(YELLOW, WHITE, RED, GREEN, END)
 
     canBreak = False
     while not canBreak:
@@ -135,7 +135,7 @@ def kicksomeoff():
                 some_targets = choice.split(",")
                 canBreak = True
             else:
-                print("\n{0}ERROR:{1} Please select more than 1 devices from the list.{2}\n").format(RED, RED, END)
+                print("\n{0}ERROR: Please select more than 1 devices from the list.{2}\n").format(RED, END)
         except KeyboardInterrupt:
             return
 
@@ -286,7 +286,7 @@ def main():
             elif choice.upper() == 'CLEAR':
                 os.system("clear||cls")
             else:
-                print("\n{0}ERROR:{1} Please select a valid option.{2}\n").format(RED, RED, END)
+                print("\n{0}ERROR: Please select a valid option.{2}\n").format(RED, END)
 
     except KeyboardInterrupt:
         print('\n\n{0}Thanks for dropping by.'

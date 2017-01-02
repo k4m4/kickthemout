@@ -101,7 +101,7 @@ def kickoneoff(): # TODO: do not allow only one device!!
     try:
         while True:
             spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, one_target_ip, one_target_mac)
-            time.sleep(15)
+            time.sleep(10)
     except KeyboardInterrupt:
         print("\n{0}Re-arping{1} target...{2}").format(RED, GREEN, END)
         reArp = 1
@@ -160,7 +160,7 @@ def kicksomeoff():
                 for host in hostsList:
                     if host[0] == ip:
                         spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, host[0], host[1])
-            time.sleep(15)
+            time.sleep(10)
     except KeyboardInterrupt:
         print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
         reArp = 1
@@ -200,7 +200,7 @@ def kickalloff():
             if reScan == 4:
                 reScan = 0
                 scanNetwork()
-            time.sleep(15)
+            time.sleep(10)
     except KeyboardInterrupt:
         print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
         reArp = 1

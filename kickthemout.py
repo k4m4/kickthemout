@@ -148,7 +148,7 @@ def kicksomeoff():
 
     print("\n{0}Targets: {1}" + some_ipList).format(GREEN, END)
 
-    print("\n{0}Spoofing started... {1}\n").format(GREEN, END)
+    print("\n{0}Spoofing started... {1}").format(GREEN, END)
     try:
         while True:
             for i in some_targets:
@@ -185,7 +185,7 @@ def kickalloff():
         vendor = resolveMac(mac)
         print(str("  {0}"+ str(onlineIPs[i]) + "{1}\t" + vendor + "{2}").format(RED, GREEN, END))
 
-    print("\n{0}Spoofing started... {1}\n").format(GREEN, END)
+    print("\n{0}Spoofing started... {1}").format(GREEN, END)
     try:
         reScan = 0
         while True:

@@ -79,13 +79,13 @@ def kickoneoff(): # TODO: do not allow only one device!!
     while not canBreak:
         try:
             choice = int(raw_input("\nChoose a target: "))
+            one_target_ip = onlineIPs[choice]
             canBreak = True
         except KeyboardInterrupt:
             return
         except:
-            print("{0}[!] Please enter a number!{1}").format(RED, END)
+            print("{0}[!] Please enter a number from the list!{1}").format(RED, END)
 
-    one_target_ip = onlineIPs[choice]
     one_target_mac = ""
     for host in hostsList:
         if host[0] == one_target_ip:

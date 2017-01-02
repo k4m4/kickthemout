@@ -285,8 +285,8 @@ def main():
                 # EXECUTE kickalloff FUNCTION (FF:FF:FF:FF:FF:FF)
             elif choice.upper() == 'CLEAR':
                 os.system("clear||cls")
-                # else:
-                # print('*INVALID OPTION*')
+            else:
+                print("\n{0}ERROR:{1} Please select a valid option.{2}\n").format(RED, RED, END)
 
     except KeyboardInterrupt:
         print('\n\n{0}Thanks for dropping by.'

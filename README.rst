@@ -29,7 +29,7 @@ Demo
 Here's a short demo:
 
 .. image:: https://nikolaskama.me/content/images/2017/01/kickthemout_asciinema.png
-   :target: https://asciinema.org/a/98200?autoplay=1
+   :target: https://asciinema.org/a/98200?autoplay=1&loop=1
 
 (For more demos click `here <https://asciinema.org/~k4m4>`_)
 

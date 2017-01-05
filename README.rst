@@ -10,7 +10,7 @@ Compatible with Python 2.6 & 2.7.
 
 Authors: `Nikolaos Kamarinakis <mailto:nikolaskam@gmail.com>`_  & `David Schütz <mailto:xdavid@protonmail.com>`_
 
-.. image:: https://nikolaskama.me/...
+.. image:: https://nikolaskama.me/content/images/2017/01/kickthemout.png
 
 Installation
 -------------

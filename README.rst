@@ -4,7 +4,7 @@ KickThemOut
 `KickThemOut <https://nikolaskama.me/kickthemoutproject/>`_ - **Kick Devices Off Your Network**
 
 A tool to kick devices out of your network and enjoy all the bandwidth for yourself.
-It allows you to select specific or all devices and ARP spoof them off your local area network.
+It allows you to select specific or all devices and ARP spoofs them off your local area network.
 
 Compatible with Python 2.6 & 2.7.
 

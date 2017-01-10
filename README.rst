@@ -43,7 +43,7 @@ In brief, do not use it with evil intent.
 License
 --------
 
-Copyright (c) 2017 by `Nikolaos Kamarinakis <mailto:nikolaskam@gmail.com>`_ & `David Schütz <mailto:xdavid@protonmail.com>`_. All rights reserved.
+Copyright (c) 2017 by `Nikolaos Kamarinakis <mailto:nikolaskam@gmail.com>`_ & `David Schütz <mailto:xdavid@protonmail.com>`_. Some rights reserved.
 
 KickThemOut is under the terms of the `MIT License <https://www.tldrlegal.com/l/mit>`_, following all clarifications stated in the `license file <https://raw.githubusercontent.com/k4m4/kickthemout/master/LICENSE>`_.
 

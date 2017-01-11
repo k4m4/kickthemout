@@ -236,10 +236,10 @@ def getGatewayIP():
         getGateway_p = sr1(IP(dst="google.com", ttl=0) / ICMP() / "XXXXXXXXXXX", verbose=False)
         return getGateway_p.src
     except:
-    print("\n{0}ERROR: Gateway IP could not be obtained. Please enter IP manually.{2}\n").format(RED, END)
-    header = ('{0}kickthemout{1}> {2}Enter Gateway IP {3}(e.g. 192.168.1.1): '.format(BLUE, WHITE, RED, END))
-    gatewayIP = raw_input(header)
-    return gatewayIP
+        print("\n{0}ERROR: Gateway IP could not be obtained. Please enter IP manually.{2}\n").format(RED, END)
+        header = ('{0}kickthemout{1}> {2}Enter Gateway IP {3}(e.g. 192.168.1.1): '.format(BLUE, WHITE, RED, END))
+        gatewayIP = raw_input(header)
+        return gatewayIP
 
 def resolveMac(mac):
     try:

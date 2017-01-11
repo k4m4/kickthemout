@@ -8,7 +8,7 @@ It allows you to select specific or all devices and ARP spoofs them off your loc
 
 Compatible with Python 2.6 & 2.7.
 
-Authors: `Nikolaos Kamarinakis <mailto:nikolaskam@gmail.com>`_  & `David Schütz <mailto:xdavid@protonmail.com>`_
+Authors: `Nikolaos Kamarinakis <mailto:nikolaskam@gmail.com>`_  & `David Schütz <mailto:xdavid@protonmail.com>`_.
 
 .. image:: https://nikolaskama.me/content/images/2017/01/kickthemout.png
 
@@ -31,7 +31,7 @@ Here's a short demo:
 .. image:: https://nikolaskama.me/content/images/2017/01/kickthemout_asciinema.png
    :target: https://asciinema.org/a/98200?autoplay=1&loop=1
 
-(For more demos click `here <https://asciinema.org/~k4m4>`_)
+(For more demos click `here <https://asciinema.org/~k4m4>`_.)
 
 Disclaimer
 -----------

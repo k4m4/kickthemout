@@ -9,14 +9,18 @@ See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 """
 
 import time, os, sys, logging, math
-import scan, spoof
 from time import sleep
 import urllib2 as urllib
 
-logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # Shut up scapy!
-from scapy.all import *
-
 BLUE, RED, WHITE, YELLOW, MAGENTA, GREEN, END = '\33[94m', '\033[91m', '\33[97m', '\33[93m', '\033[1;35m', '\033[1;32m', '\033[0m'
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # Shut up scapy!
+try:
+    from scapy.all import *
+    import scan, spoof
+except:
+    print("\n{0}ERROR: Requirements have not been properly satisfied. Please try running:\n\t{1}$ sudo pip install -r requirements.txt{2}").format(RED, GREEN, END)
+    print("\n{0}If you still get the same error, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues/\n{2}").format(RED, BLUE, END)
+    raise SystemExit
 
 def heading():
     sys.stdout.write(GREEN + """
@@ -131,7 +135,7 @@ def kicksomeoff():
                 some_targets = choice.split(",")
                 canBreak = True
             else:
-                print("\n{0}ERROR: Please select more than 1 devices from the list.{2}\n").format(RED, END)
+                print("\n{0}ERROR: Please select more than 1 devices from the list.{1}\n").format(RED, END)
         except KeyboardInterrupt:
             return
 
@@ -284,7 +288,7 @@ def main():
             elif choice.upper() == 'CLEAR':
                 os.system("clear||cls")
             else:
-                print("\n{0}ERROR: Please select a valid option.{2}\n").format(RED, END)
+                print("\n{0}ERROR: Please select a valid option.{1}\n").format(RED, END)
 
     except KeyboardInterrupt:
         print('\n\n{0}Thanks for dropping by.'

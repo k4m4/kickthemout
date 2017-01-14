@@ -8,7 +8,8 @@ Copyright (C) 2016 Nikolaos Kamarinakis (nikolaskam@gmail.com) & David Schütz (
 See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 """
 
-import sys
+import sys, logging
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 from scapy.all import (
     get_if_hwaddr,
     getmacbyip,
@@ -16,7 +17,6 @@ from scapy.all import (
     Ether,
     sendp
 )
-
 
 def sendPacket(my_mac, gateway_ip, target_ip, target_mac):
     ether = Ether()

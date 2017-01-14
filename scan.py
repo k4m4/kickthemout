@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -.- coding: utf-8 -.-
 # scan.py 
-# author: Benedikt Waldvogel
+# author: Benedikt Waldvogel (MIT Licensed)
 # edited by: k4m4 & xdavidhu
 
+import logging
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 import scapy.config, scapy.layers.l2, scapy.route, socket, math, errno
 
 def scanNetwork():
@@ -13,7 +15,6 @@ def scanNetwork():
             raise ValueError("illegal netmask value", hex(arg))
         return 32 - int(round(math.log(0xFFFFFFFF - arg, 2)))
 
-
     def to_CIDR_notation(bytes_network, bytes_netmask):
         network = scapy.utils.ltoa(bytes_network)
         netmask = long2net(bytes_netmask)
@@ -22,7 +23,6 @@ def scanNetwork():
             return None
 
         return net
-
 
     def scan_and_print_neighbors(net, interface, timeout=1):
         hostsList = []

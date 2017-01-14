@@ -23,6 +23,43 @@ You can download KickThemOut by cloning the `Git Repo <https://github.com/k4m4/k
     
     $ pip install -r requirements.txt
 
+Installation For Mac Os X
+--------------------------
+
+Clone `Git Repo <https://github.com/k4m4/kickthemout>`_ ::
+
+    $ git clone https://github.com/k4m4/kickthemout.git
+    
+    $ cd kickthemout
+
+Install Os X requirements::
+    
+    $ pip install -r requirements_for_osx.txt
+
+Install `libdnet <http://libdnet.sourceforge.net>`_ ::
+
+Using Homebrew::
+
+	$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null 2> /dev/null
+
+	$ brew update
+
+	$ brew install libdnet
+
+From source::
+
+	$ wget http://ftp.psu.ac.th/pub/snort/libdnet-1.12.tgz
+
+	$ tar xfz libdnet-1.12.tgz
+
+	$ ./configure
+
+	$ make
+
+	$ sudo make install
+
+	$ cd python 2.x setup.py install
+
 Demo
 -----
 

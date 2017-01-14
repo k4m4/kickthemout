@@ -18,10 +18,12 @@ logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # Shut up scapy!
 try:
     if os.geteuid() != 0:
         print("\n{0}ERROR: KickThemOut must run as root. Try again with sudo/root:\n\t{1}$ sudo python kickthemout.py{2}\n").format(RED, GREEN, END)
-        raise SystemExit
+        notRoot = True
 except:
     # User is probably on windows
     pass
+if notRoot:
+    raise SystemExit
 
 try:
     from scapy.all import *

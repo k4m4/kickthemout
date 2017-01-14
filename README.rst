@@ -42,7 +42,7 @@ Keep in mind that you might be asked to run some commands after executing the pr
     
     $ python kickthemout.py
 
-**NOTE**: You need to have `Homebrew <http://brew.sh/>`_ installed before downloading requirements.
+**NOTE**: You need to have `Homebrew <http://brew.sh/>`_ installed before running the Mac OS installation.
 
 Demo
 -----

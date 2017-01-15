@@ -63,7 +63,11 @@ From source::
 
 
 Usage
------::
+-----
+
+Run `kickthemout` with `sudo` privileges:
+
+::
 
 	$ sudo python kickthemout.py
 

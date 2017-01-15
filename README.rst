@@ -23,26 +23,54 @@ You can download KickThemOut by cloning the `Git Repo <https://github.com/k4m4/k
     
     $ sudo pip install -r requirements.txt
 
-Mac OS X Installation
-----------------------
 
-If you would like to install KickThemOut on a Mac, please run the following::
+Installation For Mac Os X
+--------------------------
 
-    $ sudo pip install pcapy
-    
-    $ brew install libdnet
-    
-    $ brew install scapy
-
-Keep in mind that you might be asked to run some commands after executing the previous step. Moving on::
+Clone `Git Repo <https://github.com/k4m4/kickthemout>`_ ::
 
     $ git clone https://github.com/k4m4/kickthemout.git
     
-    $ cd kickthemout/
-    
-    $ python kickthemout.py
+    $ cd kickthemout
 
-**NOTE**: You need to have `Homebrew <http://brew.sh/>`_ installed before running the Mac OS installation.
+Install Os X requirements::
+    
+    $ pip install -r requirements_for_osx.txt
+
+Install `libdnet <http://libdnet.sourceforge.net>`_ ::
+
+Using Homebrew::
+
+	$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null 2> /dev/null
+
+	$ brew update
+
+	$ brew install libdnet
+
+From source::
+
+	$ wget http://ftp.psu.ac.th/pub/snort/libdnet-1.12.tgz
+
+	$ tar xfz libdnet-1.12.tgz
+
+	$ ./configure
+
+	$ make
+
+	$ sudo make install
+
+	$ cd python 2.x setup.py install
+
+
+Usage
+-----
+
+Run the script using `sudo` privileges:
+
+::
+
+	$ sudo python kickthemout.py
+
 
 Demo
 -----

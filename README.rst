@@ -63,7 +63,7 @@ From source::
 
 
 Usage::
-------
+-------
 
 	$ sudo python kickthemout.py
 

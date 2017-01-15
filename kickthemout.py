@@ -14,24 +14,12 @@ import urllib2 as urllib
 
 BLUE, RED, WHITE, YELLOW, MAGENTA, GREEN, END = '\33[94m', '\033[91m', '\33[97m', '\33[93m', '\033[1;35m', '\033[1;32m', '\033[0m'
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # Shut up scapy!
-
-notRoot = False
-try:
-    if os.geteuid() != 0:
-        print("\n{0}ERROR: KickThemOut must run as root. Try again with sudo/root:\n\t{1}$ sudo python kickthemout.py{2}\n").format(RED, GREEN, END)
-        notRoot = True
-except:
-    # User is probably on windows
-    pass
-if notRoot:
-    raise SystemExit
-
 try:
     from scapy.all import *
     import scan, spoof
 except:
     print("\n{0}ERROR: Requirements have not been properly satisfied. Please try running:\n\t{1}$ sudo pip install -r requirements.txt{2}").format(RED, GREEN, END)
-    print("\n{0}If you still get the same error, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues/\n{2}").format(RED, BLUE, END)
+    print("\n{0}If you still get the same error, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n{2}").format(RED, BLUE, END)
     raise SystemExit
 
 def heading():
@@ -277,6 +265,21 @@ def main():
         "\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}"
         + defaultGatewayIP + "{6}' --> {7}" + str(len(hostsList)) + "{8} hosts are up.{9}").format(GREEN, RED, GREEN, RED, GREEN, 
                                                                                                 RED, GREEN, RED, GREEN, END)
+
+    if len(hostsList) == 0 or len(hostsList) == 1:
+        if len(hostsList) == 1:
+            if hostsList[0][0] == defaultGatewayIP:
+                print("\n{0}{1}WARNING: There are {2}0{3} hosts up on you network except your gateway.\n\tYou can't kick anyone off {4}:/{5}\n").format(
+                    GREEN, RED, GREEN, RED, GREEN, END)
+                raise SystemExit
+        else:
+            print(
+            "\n{0}{1}WARNING: There are {2}0{3} hosts up on you network.\n\tIt looks like something went wrong {4}:/{5}").format(
+                GREEN, RED, GREEN, RED, GREEN, END)
+            print(
+            "\n{0}If you are experiencing this error multiple times, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n{2}").format(
+                RED, BLUE, END)
+            raise SystemExit
 
     try:
 

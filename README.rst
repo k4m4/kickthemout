@@ -23,6 +23,7 @@ You can download KickThemOut by cloning the `Git Repo <https://github.com/k4m4/k
     
     $ pip install -r requirements.txt
 
+
 Installation For Mac Os X
 --------------------------
 
@@ -61,8 +62,12 @@ From source::
 	$ cd python 2.x setup.py install
 
 
-Usage::
-------
+Usage
+-----
+
+Run the script using `sudo` privileges:
+
+::
 
 	$ sudo python kickthemout.py
 

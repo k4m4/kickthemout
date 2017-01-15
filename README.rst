@@ -62,7 +62,7 @@ From source::
 	$ cd python 2.x setup.py install
 
 
-Usage::
+Usage_ ::
 -----
 
 	$ sudo python kickthemout.py

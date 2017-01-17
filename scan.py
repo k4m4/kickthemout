@@ -54,7 +54,7 @@ def scanNetwork():
         if netmask <= 0 or netmask == 0xFFFFFFFF:
             continue
 
-        # Skip APIPA network (corresponds to the 169.254.0.0/16 adress range)
+        # Skip APIPA network (corresponds to the 169.254.0.0/16 address range)
         # See https://fr.wikipedia.org/wiki/Automatic_Private_Internet_Protocol_Addressing for more details
         if network == 2851995648:
             continue

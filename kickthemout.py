@@ -11,8 +11,19 @@ See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 import time, os, sys, logging, math
 from time import sleep
 import urllib2 as urllib
-
 BLUE, RED, WHITE, YELLOW, MAGENTA, GREEN, END = '\33[94m', '\033[91m', '\33[97m', '\33[93m', '\033[1;35m', '\033[1;32m', '\033[0m'
+
+notRoot = False
+try:
+    if os.geteuid() != 0:
+        print("\n{0}ERROR: KickThemOut must run as root. Try again with sudo/root:\n\t{1}$ sudo python kickthemout.py{2}\n").format(RED, GREEN, END)
+        notRoot = True
+except:
+    # User is probably on windows
+    pass
+if notRoot:
+    raise SystemExit
+
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # Shut up scapy!
 try:
     from scapy.all import *

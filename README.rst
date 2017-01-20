@@ -30,9 +30,7 @@ If you would like to install KickThemOut on a Mac, please run the following::
 
     $ sudo pip install pcapy
     
-    $ brew install libdnet
-    
-    $ brew install scapy
+    $ brew install libdnet scapy
 
 Keep in mind that you might be asked to run some commands after executing the previous step. Moving on::
 

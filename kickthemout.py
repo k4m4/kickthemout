@@ -257,14 +257,27 @@ def getGatewayIP():
         return gatewayIP
 
 def getDefaultInterfaceMAC():
+    getDefaultInterfaceMACManually = False
     try:
         defaultInterfaceMac = get_if_hwaddr(defaultInterface)
-	return defaultInterfaceMac
+
+        if defaultInterfaceMac == "" or not defaultInterfaceMac:
+            getDefaultInterfaceMACManually = True
+        else:
+            return defaultInterfaceMac
     except:
-        print("\n{0}ERROR: Default Interface MAC Address could not be obtained. Please enter MAC manually.{1}\n").format(RED, END)
-        header = ('{0}kickthemout{1}> {2}Enter MAC Address {3}(MM:MM:MM:SS:SS:SS): '.format(BLUE, WHITE, RED, END))
-        defaultInterfaceMac = raw_input(header)
-	return defaultInterfaceMac
+        getDefaultInterfaceMACManually = True
+
+    if getDefaultInterfaceMACManually:
+        print("\n{0}{1}ERROR: Your Default Interface's ({2}" + defaultInterface + "{3}) MAC Address could not be obtained.\n\tPlease enter it manually.{4}\n").format(GREEN, RED, GREEN, RED, END)
+        header = ("{0}kickthemout{1}> {2}{3}{4}'s MAC Address {5}(MM:MM:MM:SS:SS:SS): ".format(BLUE, WHITE, GREEN, defaultInterface, RED, END))
+        try:
+            defaultInterfaceMac = raw_input(header)
+            return defaultInterfaceMac
+        except KeyboardInterrupt:
+            print('\n\n{0}Thanks for dropping by.'
+                  '\nCatch ya later!{1}').format(GREEN, END)
+            raise SystemExit
 
 def resolveMac(mac):
     try:

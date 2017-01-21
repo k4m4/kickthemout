@@ -11,15 +11,12 @@ See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 import time, os, sys, logging, math
 from time import sleep
 import urllib2 as urllib
-
 BLUE, RED, WHITE, YELLOW, MAGENTA, GREEN, END = '\33[94m', '\033[91m', '\33[97m', '\33[93m', '\033[1;35m', '\033[1;32m', '\033[0m'
 
 notRoot = False
 try:
     if os.geteuid() != 0:
-        print(
-            "\n{0}ERROR: KickThemOut must run as root. Try again with sudo/root:\n\t{1}$ sudo python kickthemout.py{2}\n").format(
-            RED, GREEN, END)
+        print("\n{0}ERROR: KickThemOut must run as root. Try again with sudo/root:\n\t{1}$ sudo python kickthemout.py{2}\n").format(RED, GREEN, END)
         notRoot = True
 except:
     # User is probably on windows
@@ -32,14 +29,9 @@ try:
     from scapy.all import *
     import scan, spoof
 except:
-    print(
-        "\n{0}ERROR: Requirements have not been properly satisfied. Please try running:\n\t{1}$ sudo pip install -r requirements.txt{2}").format(
-        RED, GREEN, END)
-    print(
-        "\n{0}If you still get the same error, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n{2}").format(
-        RED, BLUE, END)
+    print("\n{0}ERROR: Requirements have not been properly satisfied. Please try running:\n\t{1}$ sudo pip install -r requirements.txt{2}").format(RED, GREEN, END)
+    print("\n{0}If you still get the same error, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n{2}").format(RED, BLUE, END)
     raise SystemExit
-
 
 def heading():
     sys.stdout.write(GREEN + """
@@ -50,12 +42,10 @@ def heading():
      █    ▐ ▀███▀    █     ▀         █  ▀███▀      █         █▄ ▄█   ▀
      ▀               ▀               ▀             ▀           ▀▀▀
     """ + END + BLUE +
-                     '\n' + '{0}Kick Devices Off Your LAN ({1}KickThemOut{2}){3}'.format(YELLOW, RED, YELLOW,
-                                                                                         BLUE).center(98) +
-                     '\n' + 'Made With <3 by: {0}Nikolaos Kamarinakis ({1}k4m4{2}) & {0}David Schütz ({1}xdavidhu{2}){3}'.format(
+    '\n' + '{0}Kick Devices Off Your LAN ({1}KickThemOut{2}){3}'.format(YELLOW, RED, YELLOW, BLUE).center(98) +
+    '\n' + 'Made With <3 by: {0}Nikolaos Kamarinakis ({1}k4m4{2}) & {0}David Schütz ({1}xdavidhu{2}){3}'.format(
         YELLOW, RED, YELLOW, BLUE).center(111) +
-                     '\n' + 'Version: {0}0.1{1}\n'.format(YELLOW, END).center(86))
-
+    '\n' + 'Version: {0}0.1{1}\n'.format(YELLOW, END).center(86))
 
 def optionBanner():
     print('\nChoose option from menu:\n')
@@ -68,7 +58,6 @@ def optionBanner():
     sleep(0.2)
     print('\n\t{0}[{1}E{2}]{3} Exit KickThemOut\n').format(YELLOW, RED, YELLOW, WHITE)
 
-
 def regenOnlineIPs():
     global onlineIPs
     global defaultGatewayMac
@@ -78,12 +67,10 @@ def regenOnlineIPs():
         if host[0] == defaultGatewayIP:
             defaultGatewayMac = host[1]
 
-
 def scanNetwork():
     global hostsList
     hostsList = scan.scanNetwork()
     regenOnlineIPs()
-
 
 def kickoneoff():
     os.system("clear||cls")
@@ -98,8 +85,7 @@ def kickoneoff():
             if host[0] == onlineIPs[i]:
                 mac = host[1]
         vendor = resolveMac(mac)
-        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + vendor + "{4}").format(YELLOW, WHITE, RED,
-                                                                                                    GREEN, END)
+        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t"+ vendor + "{4}").format(YELLOW, WHITE, RED, GREEN, END)
 
     canBreak = False
     while not canBreak:
@@ -150,8 +136,7 @@ def kicksomeoff():
             if host[0] == onlineIPs[i]:
                 mac = host[1]
         vendor = resolveMac(mac)
-        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + vendor + "{4}").format(YELLOW, WHITE, RED,
-                                                                                                    GREEN, END)
+        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + vendor + "{4}").format(YELLOW, WHITE, RED, GREEN, END)
 
     canBreak = False
     while not canBreak:
@@ -200,7 +185,6 @@ def kicksomeoff():
             time.sleep(0.5)
         print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
 
-
 def kickalloff():
     os.system("clear||cls")
 
@@ -214,7 +198,7 @@ def kickalloff():
             if host[0] == onlineIPs[i]:
                 mac = host[1]
         vendor = resolveMac(mac)
-        print(str("  {0}" + str(onlineIPs[i]) + "{1}\t" + vendor + "{2}").format(RED, GREEN, END))
+        print(str("  {0}"+ str(onlineIPs[i]) + "{1}\t" + vendor + "{2}").format(RED, GREEN, END))
 
     print("\n{0}Spoofing started... {1}").format(GREEN, END)
     try:
@@ -239,13 +223,11 @@ def kickalloff():
             time.sleep(0.5)
         print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
 
-
 def getDefaultInterface():
     def long2net(arg):
         if (arg <= 0 or arg >= 0xFFFFFFFF):
             raise ValueError("illegal netmask value", hex(arg))
         return 32 - int(round(math.log(0xFFFFFFFF - arg, 2)))
-
     def to_CIDR_notation(bytes_network, bytes_netmask):
         network = scapy.utils.ltoa(bytes_network)
         netmask = long2net(bytes_netmask)
@@ -253,7 +235,6 @@ def getDefaultInterface():
         if netmask < 16:
             return None
         return net
-
     for network, netmask, _, interface, address in scapy.config.conf.route.routes:
         if network == 0 or interface == 'lo' or address == '127.0.0.1' or address == '0.0.0.0':
             continue
@@ -265,7 +246,6 @@ def getDefaultInterface():
         if net:
             return interface
 
-
 def getGatewayIP():
     try:
         getGateway_p = sr1(IP(dst="google.com", ttl=0) / ICMP() / "XXXXXXXXXXX", verbose=False)
@@ -276,19 +256,15 @@ def getGatewayIP():
         gatewayIP = raw_input(header)
         return gatewayIP
 
-
 def getDefaultInterfaceMAC():
     try:
         defaultInterfaceMac = get_if_hwaddr(defaultInterface)
-        return defaultInterfaceMac
+	return defaultInterfaceMac
     except:
-        print(
-            "\n{0}ERROR: Default Interface MAC Address could not be obtained. Please enter MAC manually.{1}\n").format(
-            RED, END)
+        print("\n{0}ERROR: Default Interface MAC Address could not be obtained. Please enter MAC manually.{1}\n").format(RED, END)
         header = ('{0}kickthemout{1}> {2}Enter MAC Address {3}(MM:MM:MM:SS:SS:SS): '.format(BLUE, WHITE, RED, END))
         defaultInterfaceMac = raw_input(header)
-        return defaultInterfaceMac
-
+	return defaultInterfaceMac
 
 def resolveMac(mac):
     try:
@@ -302,30 +278,27 @@ def resolveMac(mac):
     except:
         return "N/A"
 
-
 def main():
+
     heading()
 
     print(
         "\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}"
-        + defaultGatewayIP + "{6}' --> {7}" + str(len(hostsList)) + "{8} hosts are up.{9}").format(GREEN, RED, GREEN,
-                                                                                                   RED, GREEN,
-                                                                                                   RED, GREEN, RED,
-                                                                                                   GREEN, END)
+        + defaultGatewayIP + "{6}' --> {7}" + str(len(hostsList)) + "{8} hosts are up.{9}").format(GREEN, RED, GREEN, RED, GREEN,
+                                                                                                RED, GREEN, RED, GREEN, END)
 
     if len(hostsList) == 0 or len(hostsList) == 1:
         if len(hostsList) == 1:
             if hostsList[0][0] == defaultGatewayIP:
-                print(
-                    "\n{0}{1}WARNING: There are {2}0{3} hosts up on you network except your gateway.\n\tYou can't kick anyone off {4}:/{5}\n").format(
+                print("\n{0}{1}WARNING: There are {2}0{3} hosts up on you network except your gateway.\n\tYou can't kick anyone off {4}:/{5}\n").format(
                     GREEN, RED, GREEN, RED, GREEN, END)
                 raise SystemExit
         else:
             print(
-                "\n{0}{1}WARNING: There are {2}0{3} hosts up on you network.\n\tIt looks like something went wrong {4}:/{5}").format(
+            "\n{0}{1}WARNING: There are {2}0{3} hosts up on you network.\n\tIt looks like something went wrong {4}:/{5}").format(
                 GREEN, RED, GREEN, RED, GREEN, END)
             print(
-                "\n{0}If you are experiencing this error multiple times, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n{2}").format(
+            "\n{0}If you are experiencing this error multiple times, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n{2}").format(
                 RED, BLUE, END)
             raise SystemExit
 
@@ -357,8 +330,8 @@ def main():
         print('\n\n{0}Thanks for dropping by.'
               '\nCatch ya later!{1}').format(GREEN, END)
 
-
 if __name__ == '__main__':
+
     defaultInterface = getDefaultInterface()
     defaultGatewayIP = getGatewayIP()
     defaultInterfaceMac = getDefaultInterfaceMAC()

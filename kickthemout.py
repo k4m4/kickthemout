@@ -256,6 +256,16 @@ def getGatewayIP():
         gatewayIP = raw_input(header)
         return gatewayIP
 
+def getDefaultInterfaceMAC():
+    try:
+        defaultInterfaceMac = get_if_hwaddr(defaultInterface)
+	return defaultInterfaceMac
+    except:
+        print("\n{0}ERROR: Default Interface MAC Address could not be obtained. Please enter MAC manually.{1}\n").format(RED, END)
+        header = ('{0}kickthemout{1}> {2}Enter MAC Address {3}(MM:MM:MM:SS:SS:SS): '.format(BLUE, WHITE, RED, END))
+        defaultInterfaceMac = raw_input(header)
+	return defaultInterfaceMac
+
 def resolveMac(mac):
     try:
         url = "http://macvendors.co/api/vendorname/"
@@ -324,7 +334,7 @@ if __name__ == '__main__':
 
     defaultInterface = getDefaultInterface()
     defaultGatewayIP = getGatewayIP()
-    defaultInterfaceMac = get_if_hwaddr(defaultInterface)
+    defaultInterfaceMac = getDefaultInterfaceMAC()
     scanNetwork()
 
     main()

@@ -22,7 +22,7 @@ except:
     # User is probably on windows
     pass
 if notRoot:
-    raise SystemExit
+    sys.exit(1)
 
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # Shut up scapy!
 try:
@@ -31,7 +31,7 @@ try:
 except:
     print("\n{0}ERROR: Requirements have not been properly satisfied. Please try running:\n\t{1}$ sudo pip install -r requirements.txt{2}").format(RED, GREEN, END)
     print("\n{0}If you still get the same error, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n{2}").format(RED, BLUE, END)
-    raise SystemExit
+    sys.exit(1)
 
 def heading():
     sys.stdout.write(GREEN + """
@@ -259,12 +259,12 @@ def getGatewayIP():
 def getDefaultInterfaceMAC():
     try:
         defaultInterfaceMac = get_if_hwaddr(defaultInterface)
-	return defaultInterfaceMac
+        return defaultInterfaceMac
     except:
         print("\n{0}ERROR: Default Interface MAC Address could not be obtained. Please enter MAC manually.{1}\n").format(RED, END)
         header = ('{0}kickthemout{1}> {2}Enter MAC Address {3}(MM:MM:MM:SS:SS:SS): '.format(BLUE, WHITE, RED, END))
         defaultInterfaceMac = raw_input(header)
-	return defaultInterfaceMac
+        return defaultInterfaceMac
 
 def resolveMac(mac):
     try:
@@ -292,7 +292,7 @@ def main():
             if hostsList[0][0] == defaultGatewayIP:
                 print("\n{0}{1}WARNING: There are {2}0{3} hosts up on you network except your gateway.\n\tYou can't kick anyone off {4}:/{5}\n").format(
                     GREEN, RED, GREEN, RED, GREEN, END)
-                raise SystemExit
+                sys.exit(1)
         else:
             print(
             "\n{0}{1}WARNING: There are {2}0{3} hosts up on you network.\n\tIt looks like something went wrong {4}:/{5}").format(
@@ -300,7 +300,7 @@ def main():
             print(
             "\n{0}If you are experiencing this error multiple times, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n{2}").format(
                 RED, BLUE, END)
-            raise SystemExit
+            sys.exit(1)
 
     try:
 
@@ -314,7 +314,7 @@ def main():
             if choice.upper() == 'E' or choice.upper() == 'EXIT':
                 print('\n{0}Thanks for dropping by.'
                       '\nCatch ya later!{1}').format(GREEN, END)
-                raise SystemExit
+                sys.exit(1)
             elif choice == '1':
                 kickoneoff()
             elif choice == '2':

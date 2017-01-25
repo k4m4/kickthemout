@@ -69,7 +69,11 @@ def regenOnlineIPs():
 
 def scanNetwork():
     global hostsList
-    hostsList = scan.scanNetwork()
+    try:
+        hostsList = scan.scanNetwork()
+    except:
+        print("\n{0}ERROR: Network scanning failed. Please check your requirements configuration.{1}\n").format(RED, END)
+        raise SystemExit
 
     regenOnlineIPs()
 

@@ -12,11 +12,6 @@ Authors: `Nikolaos Kamarinakis <mailto:nikolaskam@gmail.com>`_  & `David Schütz
 
 .. image:: https://nikolaskama.me/content/images/2017/01/kickthemout.png
 
-Dependencies
--------------
-
-KickThemOut use **python2** and won't work with **python3**. 
-
 Installation
 -------------
 

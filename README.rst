@@ -12,6 +12,11 @@ Authors: `Nikolaos Kamarinakis <mailto:nikolaskam@gmail.com>`_  & `David Schütz
 
 .. image:: https://nikolaskama.me/content/images/2017/01/kickthemout.png
 
+Dependencies
+-------------
+
+KickThemOut use **python2** and won't work with **python3**. 
+
 Installation
 -------------
 
@@ -22,6 +27,8 @@ You can download KickThemOut by cloning the `Git Repo <https://github.com/k4m4/k
     $ cd kickthemout/
     
     $ sudo pip install -r requirements.txt
+
+**Note:** If you are using a distribution that is using **python3** as default, you will need to use **pip2** instead of just **pip** (that will link to **pip3**).
 
 Mac OS X Installation
 ----------------------

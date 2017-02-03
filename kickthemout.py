@@ -264,7 +264,15 @@ def getGatewayIP():
 def getDefaultInterfaceMAC():
     try:
         defaultInterfaceMac = get_if_hwaddr(defaultInterface)
-        return defaultInterfaceMac
+        if defaultInterfaceMac == "" or not defaultInterfaceMac:
+            print(
+            "\n{0}ERROR: Default Interface MAC Address could not be obtained. Please enter MAC manually.{1}\n").format(
+                RED, END)
+            header = ('{0}kickthemout{1}> {2}Enter MAC Address {3}(MM:MM:MM:SS:SS:SS): '.format(BLUE, WHITE, RED, END))
+            defaultInterfaceMac = raw_input(header)
+            return defaultInterfaceMac
+        else:
+            return defaultInterfaceMac
     except:
         print("\n{0}ERROR: Default Interface MAC Address could not be obtained. Please enter MAC manually.{1}\n").format(RED, END)
         header = ('{0}kickthemout{1}> {2}Enter MAC Address {3}(MM:MM:MM:SS:SS:SS): '.format(BLUE, WHITE, RED, END))

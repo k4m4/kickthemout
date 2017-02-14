@@ -58,23 +58,66 @@ def optionBanner():
     sleep(0.2)
     print('\n\t{0}[{1}E{2}]{3} Exit KickThemOut\n').format(YELLOW, RED, YELLOW, WHITE)
 
+def runDebug():
+    print("\n\n{0}WARNING! An unknown error has occurred, starting debug...{1}").format(RED, END)
+    print(
+    "{0}Starting debug... (Please report this crash on 'https://github.com/k4m4/kickthemout/issues' with your private informations removed if necessary){1}").format(
+        RED, END)
+    print("{0}").format(RED)
+    try:
+        print("Current defaultGatewayMac: " + defaultGatewayMac)
+    except:
+        print ("Failed to print defaultGatewayMac...")
+    try:
+        print ("Reloading mac getter function...")
+        regenOnlineIPs()
+        print("Reloaded defaultGatewayMac: " + defaultGatewayMac)
+    except:
+        print ("Failed to reload mac getter function / to print defaultGatewayMac...")
+    try:
+        print ("Known gateway IP: " + defaultGatewayIP)
+    except:
+        print ("Failed to print defaultGatewayIP...")
+    try:
+        print ("Current hostslist array: ")
+        print hostsList
+    except:
+        print ("Failed to print hostsList array...")
+    print ("DEBUG FINISHED.\nShutting down...")
+    print("{0}").format(END)
+    raise SystemExit
+
 def regenOnlineIPs():
     global onlineIPs
     global defaultGatewayMac
+    global defaultGatewayMacSet
+
+    if not defaultGatewayMacSet:
+        defaultGatewayMac = ""
+
     onlineIPs = []
     for host in hostsList:
         onlineIPs.append(host[0])
-        if host[0] == defaultGatewayIP:
-            defaultGatewayMac = host[1]
+        if not defaultGatewayMacSet:
+            if host[0] == defaultGatewayIP:
+                defaultGatewayMac = host[1]
+
+    if not defaultGatewayMacSet and defaultGatewayMac == "":
+        print("\n{0}ERROR: Default Gateway MAC Address could not be obtained. Please enter MAC manually.{1}\n").format(RED, END)
+        header = ("{0}kickthemout{1}> {2}Enter your gateway's MAC Address {3}(MM:MM:MM:SS:SS:SS): ".format(BLUE, WHITE, RED, END))
+        defaultGatewayMac = raw_input(header)
+        defaultGatewayMacSet = True
 
 def scanNetwork():
     global hostsList
     try:
         hostsList = scan.scanNetwork()
+    except KeyboardInterrupt:
+        print('\n\n{0}Thanks for dropping by.\nCatch ya later!{1}').format(GREEN, END)
+        raise SystemExit
     except:
         print("\n{0}ERROR: Network scanning failed. Please check your requirements configuration.{1}\n").format(RED, END)
         raise SystemExit
-
     regenOnlineIPs()
 
 def kickoneoff():
@@ -122,7 +165,12 @@ def kickoneoff():
         print("\n{0}Re-arping{1} target...{2}").format(RED, GREEN, END)
         reArp = 1
         while reArp != 10:
-            spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, one_target_ip, one_target_mac)
+            try:
+                spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
+            except KeyboardInterrupt:
+                pass
+            except:
+                runDebug()
             reArp += 1
             time.sleep(0.5)
         print("{0}Re-arped{1} target successfully.{2}").format(RED, GREEN, END)
@@ -185,7 +233,12 @@ def kicksomeoff():
                 ip = onlineIPs[int(i)]
                 for host in hostsList:
                     if host[0] == ip:
-                        spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
+                        try:
+                            spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
+                        except KeyboardInterrupt:
+                            pass
+                        except:
+                            runDebug()
             reArp += 1
             time.sleep(0.5)
         print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
@@ -223,7 +276,12 @@ def kickalloff():
         while reArp != 10:
             for host in hostsList:
                 if host[0] != defaultGatewayIP:
-                    spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
+                    try:
+                        spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
+                    except KeyboardInterrupt:
+                        pass
+                    except:
+                        runDebug()
             reArp += 1
             time.sleep(0.5)
         print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
@@ -348,6 +406,8 @@ if __name__ == '__main__':
     defaultInterface = getDefaultInterface()
     defaultGatewayIP = getGatewayIP()
     defaultInterfaceMac = getDefaultInterfaceMAC()
+    global defaultGatewayMacSet
+    defaultGatewayMacSet = False
     scanNetwork()
 
     main()

@@ -48,6 +48,12 @@ Here's a short demo:
 
 (For more demos click `here <https://asciinema.org/~k4m4>`_.)
 
+Developers
+-----------
+
+* Nikolaos Kamarinakis - `@nikolaskama <https://twitter.com/nikolaskama>`_
+* David Schütz - `@xdavidhu <https://twitter.com/xdavidhu>`_
+
 Disclaimer
 -----------
 

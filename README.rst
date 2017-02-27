@@ -17,7 +17,6 @@ Authors: `Nikolaos Kamarinakis <mailto:nikolaskam@gmail.com>`_  & `David Schütz
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg
     :target: https://github.com/k4m4/kickthemout/blob/master/LICENSE
 .. image:: https://img.shields.io/badge/made%20with-%3C3-red.svg
-    :target: https://github.com/k4m4
 .. image:: https://img.shields.io/github/stars/k4m4/kickthemout.svg
     :target: https://github.com/k4m4/kickthemout/stargazers
     

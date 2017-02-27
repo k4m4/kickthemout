@@ -20,6 +20,8 @@ Authors: `Nikolaos Kamarinakis <mailto:nikolaskam@gmail.com>`_  & `David Schütz
     :target: https://github.com/k4m4
 .. image:: https://img.shields.io/github/stars/k4m4/kickthemout.svg
     :target: https://github.com/k4m4/kickthemout/stargazers
+    
+-------------
 
 Installation
 -------------

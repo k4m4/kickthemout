@@ -34,6 +34,8 @@ You can download KickThemOut by cloning the `Git Repo <https://github.com/k4m4/k
     
     $ sudo pip install -r requirements.txt
 
+**Note:** If you are using a distribution that is using **python3** as default, you will need to use **pip2** instead of just **pip** (that will link to **pip3**).
+
 Mac OS X Installation
 ----------------------
 

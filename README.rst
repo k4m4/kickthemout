@@ -23,7 +23,7 @@ Authors: `Nikolaos Kamarinakis <mailto:nikolaskam@gmail.com>`_  & `David Schütz
     
 -------------
 
-Linux Installation
+Installation on Debian based systems
 ----------------------
 
 You can download KickThemOut by cloning the `Git Repo <https://github.com/k4m4/kickthemout>`_ and simply installing its requirements::
@@ -36,7 +36,7 @@ You can download KickThemOut by cloning the `Git Repo <https://github.com/k4m4/k
 
     $ sudo python pip install -r requirements.txt
 
-Mac OS X Installation
+MacOS Installation
 ----------------------
 
 If you would like to install KickThemOut on a Mac, please run the following::

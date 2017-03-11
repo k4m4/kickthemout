@@ -23,29 +23,37 @@ Authors: `Nikolaos Kamarinakis <mailto:nikolaskam@gmail.com>`_  & `David Schütz
     
 -------------
 
-Installation
--------------
+Linux Installation
+----------------------
 
 You can download KickThemOut by cloning the `Git Repo <https://github.com/k4m4/kickthemout>`_ and simply installing its requirements::
+
+    $ sudo apt-get update && sudo apt-get install nmap
 
     $ git clone https://github.com/k4m4/kickthemout.git
     
     $ cd kickthemout/
-    
-    $ sudo pip install -r requirements.txt
+
+    $ sudo python pip install -r requirements.txt
 
 Mac OS X Installation
 ----------------------
 
 If you would like to install KickThemOut on a Mac, please run the following::
 
-    $ sudo pip install pcapy
-    
+    $ sudo python pip install pcapy
+
+    $ brew install nmap
+
     $ brew install libdnet scapy
 
 **Keep in mind** that you might be asked to run some commands after executing the previous step. Moving on::
 
     $ git clone https://github.com/k4m4/kickthemout.git
+
+    $ cd kickthemout/
+
+    $ sudo python pip install -r requirements.txt
 
 **NOTE**: You need to have `Homebrew <http://brew.sh/>`_ installed before running the Mac OS installation.
 

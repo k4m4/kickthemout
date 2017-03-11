@@ -111,7 +111,7 @@ def regenOnlineIPs():
 def scanNetwork():
     global hostsList
     try:
-        hostsList = scan.scanNetwork()
+        hostsList = scan.scanNetwork(getDefaultInterface(True))
     except KeyboardInterrupt:
         print('\n\n{0}Thanks for dropping by.\nCatch ya later!{1}').format(GREEN, END)
         raise SystemExit
@@ -286,7 +286,7 @@ def kickalloff():
             time.sleep(0.5)
         print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
 
-def getDefaultInterface():
+def getDefaultInterface(returnNet=False):
     def long2net(arg):
         if (arg <= 0 or arg >= 0xFFFFFFFF):
             raise ValueError("illegal netmask value", hex(arg))
@@ -307,7 +307,10 @@ def getDefaultInterface():
         if interface != scapy.config.conf.iface:
             continue
         if net:
-            return interface
+            if returnNet:
+                return net
+            else:
+                return interface
 
 def getGatewayIP():
     try:

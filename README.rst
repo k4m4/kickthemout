@@ -1,3 +1,5 @@
+.. image:: http://nikolaskama.me/content/images/2017/02/kickthemout_small.png
+
 KickThemOut
 ============
 
@@ -10,7 +12,16 @@ Compatible with Python 2.6 & 2.7.
 
 Authors: `Nikolaos Kamarinakis <mailto:nikolaskam@gmail.com>`_  & `David Schütz <mailto:xdavid@protonmail.com>`_.
 
-.. image:: https://nikolaskama.me/content/images/2017/01/kickthemout.png
+.. image:: https://travis-ci.org/k4m4/kickthemout.svg?branch=master
+    :target: https://travis-ci.org/k4m4/kickthemout
+.. image:: https://img.shields.io/badge/license-MIT-blue.svg
+    :target: https://github.com/k4m4/kickthemout/blob/master/LICENSE
+.. image:: https://img.shields.io/badge/made%20with-%3C3-red.svg
+    :target: https://nikolaskama.me/kickthemoutproject
+.. image:: https://img.shields.io/github/stars/k4m4/kickthemout.svg
+    :target: https://github.com/k4m4/kickthemout/stargazers
+    
+-------------
 
 Installation
 -------------
@@ -47,6 +58,12 @@ Here's a short demo:
    :target: https://asciinema.org/a/98200?autoplay=1&loop=1
 
 (For more demos click `here <https://asciinema.org/~k4m4>`_.)
+
+Developers
+-----------
+
+* Nikolaos Kamarinakis - `@nikolaskama <https://twitter.com/nikolaskama>`_
+* David Schütz - `@xdavidhu <https://twitter.com/xdavidhu>`_
 
 Disclaimer
 -----------

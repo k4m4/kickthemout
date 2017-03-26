@@ -21,7 +21,8 @@
 - **Python version**: <!-- Replace with python version -->
 - **Scapy version**: <!-- Replace with scapy version -->
 - **Nmap version**: <!-- Replace with nmap version -->
-- **Link of a [Gist](https://gist.github.com/) with the response of a `$ sudo python -vvv kickthemout.py` command`**: <!-- Gist Link Here -->
+<!-- Please create a Gist with the response of a `$ sudo python -vvv kickthemout.py` verbosity command -->
+- **Link of [Gist](https://gist.github.com/): <!-- Replace with gist link -->  
 
 ## Issue
 <!-- Now feel free to write about your issue; please remember to be as descriptive as possible! Thanks again! 🙌 ❤️ -->

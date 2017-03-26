@@ -16,7 +16,7 @@ BLUE, RED, WHITE, YELLOW, MAGENTA, GREEN, END = '\33[94m', '\033[91m', '\33[97m'
 notRoot = False
 try:
     if os.geteuid() != 0:
-        print("\n{0}ERROR: KickThemOut must run as root. Try again with sudo/root:\n\t{1}$ sudo python kickthemout.py{2}\n").format(RED, GREEN, END)
+        print("\n{0}ERROR: KickThemOut must be run with root privileges. Try again with sudo:\n\t{1}$ sudo python kickthemout.py{2}\n").format(RED, GREEN, END)
         notRoot = True
 except:
     # User is probably on windows
@@ -29,8 +29,8 @@ try:
     from scapy.all import *
     import scan, spoof
 except:
-    print("\n{0}ERROR: Requirements have not been properly satisfied. Please try running:\n\t{1}$ sudo pip install -r requirements.txt{2}").format(RED, GREEN, END)
-    print("\n{0}If you still get the same error, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n{2}").format(RED, BLUE, END)
+    print("\n{0}ERROR: Requirements have not been satisfied properly. Please look at the README file for configuration instructions.").format(RED)
+    print("\n{0}If you still cannot resolve this error, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n{2}").format(RED, BLUE, END)
     raise SystemExit
 
 def heading():

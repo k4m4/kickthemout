@@ -2,8 +2,8 @@
   Hi there! Thank you for bringing an issue to out attention.
 
   Before submitting, let's make sure of a few things.
-  Please make sure the following boxes are ticked if they apply.
-  If they do not, please try and fulfil these first.
+  Please ensure the following boxes are ticked if they apply.
+  If they do not, please try and fulfill them first.
 -->
 
 <!-- Checked checkbox should look like this: [x] -->

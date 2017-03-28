@@ -23,7 +23,7 @@ Authors: `Nikolaos Kamarinakis <mailto:nikolaskam@gmail.com>`_  & `David Schütz
     
 -------------
 
-Installation on Debian based systems
+Debian Installation
 ----------------------
 
 You can download KickThemOut by cloning the `Git Repo <https://github.com/k4m4/kickthemout>`_ and simply installing its requirements::

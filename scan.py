@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -.- coding: utf-8 -.-
 # scan.py
-# author: xdavidhu
+# authors: k4m4 & xdavidhu
 
 def scanNetwork(network):
     returnlist = []

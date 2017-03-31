@@ -61,7 +61,7 @@ def optionBanner():
 def runDebug():
     print("\n\n{0}WARNING! An unknown error has occurred, starting debug...{1}").format(RED, END)
     print(
-    "{0}Starting debug... (Please report this crash on 'https://github.com/k4m4/kickthemout/issues' with your private informations removed if necessary){1}").format(
+    "{0}Starting debug... (Please report this crash on 'https://github.com/k4m4/kickthemout/issues' with your private information removed where necessary){1}").format(
         RED, END)
     print("{0}").format(RED)
     try:

@@ -36,7 +36,7 @@ except:
 
 def heading():
     # Function for printing the logo & info
-    sys.stdout.write(GREEN + """
+    sys.stdout.write(GREEN + """                                                             
     █  █▀ ▄█ ▄█▄    █  █▀    ▄▄▄▄▀  ▄  █ ▄███▄   █▀▄▀█  ████▄   ▄      ▄▄▄▄▀
     █▄█   ██ █▀ ▀▄  █▄█   ▀▀▀ █    █   █ █▀   ▀  █ █ █  █   █    █  ▀▀▀ █
     █▀▄   ██ █   ▀  █▀▄       █    ██▀▀█ ██▄▄    █ ▄ █  █   █ █   █     █
@@ -458,6 +458,8 @@ if __name__ == '__main__':
     # -- Start point --
 
     # Setting the network info variables
+    sys.stdout.write("{0}Scanning your network, hang on...{1}\r".format(GREEN, END))
+    sys.stdout.flush()
     defaultInterface = getDefaultInterface()
     defaultGatewayIP = getGatewayIP()
     defaultInterfaceMac = getDefaultInterfaceMAC()

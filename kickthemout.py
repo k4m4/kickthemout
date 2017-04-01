@@ -36,7 +36,8 @@ except:
 
 def heading():
     # Function for printing the logo & info
-    sys.stdout.write(GREEN + """                                                             
+    spaces = " " * 76
+    sys.stdout.write(GREEN + spaces + """
     █  █▀ ▄█ ▄█▄    █  █▀    ▄▄▄▄▀  ▄  █ ▄███▄   █▀▄▀█  ████▄   ▄      ▄▄▄▄▀
     █▄█   ██ █▀ ▀▄  █▄█   ▀▀▀ █    █   █ █▀   ▀  █ █ █  █   █    █  ▀▀▀ █
     █▀▄   ██ █   ▀  █▀▄       █    ██▀▀█ ██▄▄    █ ▄ █  █   █ █   █     █

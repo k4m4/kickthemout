@@ -4,6 +4,7 @@
 # authors: k4m4 & xdavidhu
 
 def scanNetwork(network):
+    # Function for performing a network scan with nmap with the help of the python-nmap module
     returnlist = []
     import nmap
     nm = nmap.PortScanner()
@@ -16,4 +17,5 @@ def scanNetwork(network):
             except:
                 pass
 
+    # returnlist = hostsList array
     return returnlist

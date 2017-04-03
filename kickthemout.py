@@ -11,6 +11,7 @@ See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 import time, os, sys, logging, math
 from time import sleep
 import urllib2 as urllib
+import traceback
 BLUE, RED, WHITE, YELLOW, MAGENTA, GREEN, END = '\33[94m', '\033[91m', '\33[97m', '\33[93m', '\033[1;35m', '\033[1;32m', '\033[0m'
 
 notRoot = False
@@ -88,6 +89,11 @@ def runDebug():
         print hostsList
     except:
         print ("Failed to print hostsList array...")
+    try:
+        print ("Crash trace: ")
+        print(traceback.format_exc())
+    except:
+        print ("Failed to print crash trace...")
     print ("DEBUG FINISHED.\nShutting down...")
     print("{0}").format(END)
     raise SystemExit

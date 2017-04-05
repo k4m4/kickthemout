@@ -152,7 +152,10 @@ def kickoneoff():
     os.system("clear||cls")
 
     print("\n{0}kickONEOff{1} selected...{2}\n").format(RED, GREEN, END)
+    sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
+    sys.stdout.flush()
     scanNetwork()
+
 
     print("Online IPs: ")
     for i in range(len(onlineIPs)):
@@ -214,6 +217,8 @@ def kicksomeoff():
     os.system("clear||cls")
 
     print("\n{0}kickSOMEOff{1} selected...{2}\n").format(RED, GREEN, END)
+    sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
+    sys.stdout.flush()
     scanNetwork()
 
     print("Online IPs: ")
@@ -287,6 +292,8 @@ def kickalloff():
     os.system("clear||cls")
 
     print("\n{0}kickALLOff{1} selected...{2}\n").format(RED, GREEN, END)
+    sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
+    sys.stdout.flush()
     scanNetwork()
 
     print("Online IPs: ")

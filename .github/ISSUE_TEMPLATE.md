@@ -8,6 +8,8 @@
 
 <!-- Checked checkbox should look like this: [x] -->
 
+## Checklist for submitting an issue to `KickThemOut`:
+
 - [ ] I have carefully read the [README](https://github.com/k4m4/kickthemout/blob/master/README.rst) file and haven't managed to resolve my issue.
 - [ ] I have searched the [issues](https://github.com/k4m4/kickthemout/issues?utf8=%E2%9C%93&q=is%3Aissue) of this repo and believe that this is not a duplicate.
 - [ ] I am running the latest version of KickThemOut.
@@ -24,5 +26,6 @@
 <!-- Please create a Gist with the response of a `$ sudo python -vvv kickthemout.py` verbosity command -->
 - **Link of [Gist](https://gist.github.com/)**: <!-- Replace with gist link -->  
 
-## Issue
-<!-- Now feel free to write about your issue; please remember to be as descriptive as possible! Thanks again! 🙌 ❤️ -->
+<!-- Now feel free to write about your issue; please remember to be as descriptive as possible! Thanks again! 🙌 ❤️ --><br/ >
+
+- **Description**: <!-- Replace with a short description of your issue -->

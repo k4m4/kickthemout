@@ -352,20 +352,15 @@ def getDefaultInterface(returnNet=False):
         if netmask < 16:
             return None
         return net
-    for network, netmask, _, interface, address in scapy.config.conf.route.routes:
-        # loop through IPs (skip if local)
-        if network == 0 or interface == 'lo' or address == '127.0.0.1' or address == '0.0.0.0':
-            continue
-        if netmask <= 0 or netmask == 0xFFFFFFFF:
-            continue
-        net = to_CIDR_notation(network, netmask)
-        if interface != scapy.config.conf.iface:
-            continue
-        if net:
-            if returnNet:
-                return net
-            else:
-                return interface
+
+    iface_routes = [route for route in scapy.config.conf.route.routes if route[3] == scapy.config.conf.iface and route[1] != 0xFFFFFFFF]
+    network, netmask, _, interface, address = max(iface_routes, key=lambda item:item[1])
+    net = to_CIDR_notation(network, netmask)
+    if net:
+        if returnNet:
+            return net
+        else:
+            return interface
 
 
 

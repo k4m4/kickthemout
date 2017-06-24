@@ -51,7 +51,7 @@ If you would like to install KickThemOut on a Mac, please run the following::
 
     $ cd kickthemout/
 
-    $ sudo pip install -r requirements.txt
+    $ ./installer.sh
 
 **NOTE**: You need to have `Homebrew <http://brew.sh/>`_ installed before running the Mac OS installation.
 

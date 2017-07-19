@@ -11,7 +11,7 @@ See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 import time, os, sys, logging, math
 from time import sleep
 import urllib2 as urllib
-import traceback
+import traceback, socket
 BLUE, RED, WHITE, YELLOW, MAGENTA, GREEN, END = '\33[94m', '\033[91m', '\33[97m', '\33[93m', '\033[1;35m', '\033[1;32m', '\033[0m'
 
 notRoot = False

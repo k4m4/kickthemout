@@ -34,14 +34,18 @@ You can download KickThemOut by cloning the `Git Repo <https://github.com/k4m4/k
     
     $ cd kickthemout/
 
-    $ sudo python -m pip install -r requirements.txt
+    $ sudo -H pip install --upgrade pip
+    
+    $ sudo -H python -m pip install -r requirements.txt
 
 MacOS Installation
 ----------------------
 
 If you would like to install KickThemOut on a Mac, please run the following::
 
-    $ sudo pip install pcapy
+    $ sudo -H pip install --upgrade pip
+    
+    $ sudo -H pip install pcapy
     
     $ brew update
 
@@ -53,7 +57,7 @@ If you would like to install KickThemOut on a Mac, please run the following::
 
     $ cd kickthemout/
 
-    $ sudo pip install -r requirements.txt
+    $ sudo -H pip install -r requirements.txt
 
 **NOTE**: You need to have `Homebrew <http://brew.sh/>`_ installed before running the Mac OS installation.
 

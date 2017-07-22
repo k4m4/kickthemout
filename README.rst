@@ -42,6 +42,8 @@ MacOS Installation
 If you would like to install KickThemOut on a Mac, please run the following::
 
     $ sudo pip install pcapy
+    
+    $ brew update
 
     $ brew install --with-python libdnet scapy nmap
 

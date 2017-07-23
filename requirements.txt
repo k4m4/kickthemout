@@ -1,2 +1,4 @@
 scapy
+scapy-python3
 python-nmap
+netifaces

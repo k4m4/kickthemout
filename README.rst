@@ -37,6 +37,8 @@ You can download KickThemOut by cloning the `Git Repo <https://github.com/k4m4/k
     $ sudo -H pip install --upgrade pip
     
     $ sudo -H python -m pip install -r requirements.txt
+    
+    $ sudo python kickthemout.py
 
 MacOS Installation
 ----------------------
@@ -58,8 +60,23 @@ If you would like to install KickThemOut on a Mac, please run the following::
     $ cd kickthemout/
 
     $ sudo -H pip install -r requirements.txt
+    
+    $ sudo python kickthemout.py
 
 **NOTE**: You need to have `Homebrew <http://brew.sh/>`_ installed before running the Mac OS installation.
+
+Arch Installation
+----------------------
+
+You can download KickThemOut on an Arch based system by executing the following::
+
+    $ git clone https://github.com/k4m4/kickthemout.git
+    
+    $ cd kickthemout/
+    
+    $ sudo -H python -m pip install -r requirements.txt
+    
+    $ sudo python kickthemout.py
 
 Demo
 -----

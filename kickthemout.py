@@ -29,10 +29,6 @@ logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # Shut up scapy!
 try:
     from scapy.all import *
     import scan, spoof
-except KeyboardInterrupt:
-    print('\n\n{0}Thanks for dropping by.'
-          '\nCatch ya later!{1}').format(GREEN, END)
-    raise SystemExit
 except:
     print("\n{0}ERROR: Requirements have not been satisfied properly. Please look at the README file for configuration instructions.").format(RED)
     print("\n{0}If you still cannot resolve this error, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n{2}").format(RED, BLUE, END)
@@ -167,7 +163,7 @@ def retrieveMACAddress(hosts):
 
     nm = nmap.PortScanner()
     a = nm.scan(hosts=hosts, arguments='-sP -n')
-
+    
     for k, v in a['scan'].iteritems():
         if str(v['status']['state']) == 'up':
             try:
@@ -186,6 +182,8 @@ def nonInteractiveAttack():
 
     if options.attack is None:
         attackVector = 'ARP'
+    else:
+        attackVector = (options.attack).upper()
 
     print("\n{0}Targets: {1}" + ", ".join(target)).format(GREEN, END)
 
@@ -205,7 +203,7 @@ def nonInteractiveAttack():
                     except:
                         print("\n{0}ERROR: MAC address of target host could not be retrieved! Maybe host is down?{1}").format(RED, END)
                         raise SystemExit
-
+    
                     try:
                         spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, ip_address, mac_address)
                     except KeyboardInterrupt:
@@ -235,6 +233,10 @@ def nonInteractiveAttack():
                 reArp += 1
                 time.sleep(0.5)
             print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
+    #TODO: Implement attack vectors
+    else:
+
+        print("{0}"+attackVector+"{1} attack vector COMING SOON...{2}").format(RED, GREEN, END)
 
 
 
@@ -247,7 +249,7 @@ def kickoneoff():
     sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
     sys.stdout.flush()
     scanNetwork()
-
+    
     print("Online IPs: ")
     for i in range(len(onlineIPs)):
         mac = ""
@@ -256,7 +258,7 @@ def kickoneoff():
                 mac = host[1]
         vendor = resolveMac(mac)
         print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t"+ vendor + "{4}").format(YELLOW, WHITE, RED, GREEN, END)
-
+    
     canBreak = False
     while not canBreak:
         try:
@@ -264,9 +266,7 @@ def kickoneoff():
             one_target_ip = onlineIPs[choice]
             canBreak = True
         except KeyboardInterrupt:
-            print('\n\n{0}Thanks for dropping by.'
-                  '\nCatch ya later!{1}').format(GREEN, END)
-            raise SystemExit
+            return
         except:
             print("\n{0}ERROR: Please enter a number from the list!{1}").format(RED, END)
 
@@ -304,6 +304,10 @@ def kickoneoff():
                 reArp += 1
                 time.sleep(0.5)
             print("{0}Re-arped{1} target successfully.{2}").format(RED, GREEN, END)
+    #TODO: Implement attack vectors
+    else:
+
+        print("{0}"+attackVector+"{1} attack vector COMING SOON...{2}").format(RED, GREEN, END)
 
 
 
@@ -335,9 +339,7 @@ def kicksomeoff():
             else:
                 print("\n{0}ERROR: Please select more than 1 devices from the list.{1}\n").format(RED, END)
         except KeyboardInterrupt:
-            print('\n\n{0}Thanks for dropping by.'
-                  '\nCatch ya later!{1}').format(GREEN, END)
-            raise SystemExit
+            return
 
     some_ipList = ""
     for i in some_targets:
@@ -383,6 +385,10 @@ def kicksomeoff():
                 reArp += 1
                 time.sleep(0.5)
             print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
+    #TODO: Implement attack vectors
+    else:
+
+        print("{0}"+attackVector+"{1} attack vector COMING SOON...{2}").format(RED, GREEN, END)
 
 
 
@@ -437,6 +443,10 @@ def kickalloff():
                 reArp += 1
                 time.sleep(0.5)
             print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
+    #TODO: Implement attack vectors
+    else:
+
+        print("{0}"+attackVector+"{1} attack vector COMING SOON...{2}").format(RED, GREEN, END)
 
 
 
@@ -512,10 +522,6 @@ def resolveMac(mac):
         vendor = vendor.decode("utf-8")
         vendor = vendor[:25]
         return vendor
-    except KeyboardInterrupt:
-        print('\n\n{0}Thanks for dropping by.'
-              '\nCatch ya later!{1}').format(GREEN, END)
-        raise SystemExit
     except:
         return "N/A"
 
@@ -550,22 +556,22 @@ def main():
 
     else:
 
-        print("\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}" +
+        print("\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}" + 
             defaultGatewayIP + "{6}' --> Target(s): '{7}" + ", ".join(options.targets) + "{8}'.{9}").format(GREEN, RED, GREEN, RED, GREEN, RED, GREEN, RED, GREEN, END)
 
     if options.targets is None:
 
         try:
-
+    
             while True:
-
+    
                 optionBanner()
-
+    
                 header = ('{0}kickthemout{1}> {2}'.format(BLUE, WHITE, END))
                 choice = raw_input(header)
 
                 global attackVector
-
+    
                 if choice.upper() == 'E' or choice.upper() == 'EXIT':
                     print('\n{0}Thanks for dropping by.'
                           '\nCatch ya later!{1}').format(GREEN, END)
@@ -594,6 +600,9 @@ def main():
                     elif not interactive and options.attack is None:
                         attackVector = 'ARP' # set arp spoof as default attack method
                         kickoneoff()
+                    elif (interactive or not interactive) and options.attack is not None:
+                        attackVector = (options.attack).upper() # set arp spoof as default attack method
+                        kickoneoff()
                     else:
                         print("\n{0}ERROR: Something went terribly wrong. Please report this issue. {1}\n").format(RED, END)
                         raise SystemExit
@@ -621,6 +630,9 @@ def main():
                     elif not interactive and options.attack is None:
                         attackVector = 'ARP' # set arp spoof as default attack method
                         kicksomeoff()
+                    elif (interactive or not interactive) and options.attack is not None:
+                        attackVector = (options.attack).upper() # set arp spoof as default attack method
+                        kicksomeoff()
                     else:
                         print("\n{0}ERROR: Something went terribly wrong. Please report this issue. {1}\n").format(RED, END)
                         raise SystemExit
@@ -647,6 +659,9 @@ def main():
                             print("\n{0}ERROR: Please select a valid option.{1}\n").format(RED, END)
                     elif not interactive and options.attack is None:
                         attackVector = 'ARP' # set arp spoof as default attack method
+                        kickalloff()
+                    elif (interactive or not interactive) and options.attack is not None:
+                        attackVector = (options.attack).upper() # set arp spoof as default attack method
                         kickalloff()
                     else:
                         print("\n{0}ERROR: Something went terribly wrong. Please report this issue. {1}\n").format(RED, END)
@@ -696,30 +711,35 @@ if __name__ == '__main__':
     (options, argv) = parser.parse_args()
 
     # configure appropriate network info
-    try:
-        defaultInterface = getDefaultInterface()
-        defaultGatewayIP = getGatewayIP()
-        defaultInterfaceMac = getDefaultInterfaceMAC()
-        global defaultGatewayMacSet
-        defaultGatewayMacSet = False
+    defaultInterface = getDefaultInterface()
+    defaultGatewayIP = getGatewayIP()
+    defaultInterfaceMac = getDefaultInterfaceMAC()
+    global defaultGatewayMacSet
+    defaultGatewayMacSet = False
 
-        if options.attack is None and options.targets is None:
+    if options.attack is None and options.targets is None:
 
-            # set to interactive version
-            interactive = True
-            sys.stdout.write("{0}Scanning your network, hang on...{1}\r".format(GREEN, END))
-            sys.stdout.flush()
+        # set to interactive version
+        interactive = True
+        sys.stdout.write("{0}Scanning your network, hang on...{1}\r".format(GREEN, END))
+        sys.stdout.flush()
+        
+        # commence scanning process
+        scanNetwork()
 
-            # commence scanning process
-            scanNetwork()
+    elif options.attack is not None and options.targets is None:
 
-        else:
+        # set to interactive version
+        interactive = True
+        sys.stdout.write("{0}Scanning your network, hang on...{1}\r".format(GREEN, END))
+        sys.stdout.flush()
+        
+        # commence scanning process
+        scanNetwork()
 
-            # set to optparser version
-            interactive = False
-    except KeyboardInterrupt:
-        print('\n\n{0}Thanks for dropping by.'
-              '\nCatch ya later!{1}').format(GREEN, END)
-        raise SystemExit
+    else:
+
+        # set to optparser version
+        interactive = False
 
     main()

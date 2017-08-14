@@ -181,14 +181,9 @@ def retrieveMACAddress(hosts):
 # non interactive attack vector
 def nonInteractiveAttack():
 
-    print("\n{0}nonInteractiveAttack{1} activated...{2}").format(RED, GREEN, END)
+    print("\n{0}nonInteractiveAttack{1}" + "/{2}" + attackVector  + "{3} activated...{4}\n").format(RED, GREEN, BLUE, GREEN, END)
 
     target = options.targets
-
-    if options.attack is None:
-        attackVector = 'ARP'
-    else:
-        attackVector = (options.attack).upper()
 
     print("\n{0}Targets: {1}" + ", ".join(target)).format(GREEN, END)
 
@@ -771,7 +766,12 @@ if __name__ == '__main__':
 
     else:
 
-        if (options.attack).upper() == 'ARP' or (options.attack).upper() == 'DNS' or (options.attack).upper() == 'DEAUTH':
+        if options.attack is None:
+            attackVector = 'ARP'
+        else:
+            attackVector = (options.attack).upper()
+
+        if attackVector == 'ARP' or attackVector == 'DNS' or attackVector == 'DEAUTH':
             pass
         else:
             print("\n{0}ERROR: Invalid attack method selected. Please select one of the following methods:\n" +

@@ -731,13 +731,13 @@ if __name__ == '__main__':
         dest='attack', help='attack method')
 
     parser.add_option('-p', '--packets', action='store',
-        dest='packets', help='number of packets broadcasted per minute (12 recommended)')
+        dest='packets', help='number of packets broadcasted per minute (default: 6)')
 
     def targetList(option, opt, value, parser):
         setattr(parser.values, option.dest, value.split(','))
     parser.add_option('-t', '--target', action='callback',
         callback=targetList, type='string',
-        dest='targets', help='specify target IP addresses')
+        dest='targets', help='specify target IP address(es)')
 
     (options, argv) = parser.parse_args()
 

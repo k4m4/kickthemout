@@ -234,7 +234,7 @@ def nonInteractiveAttack():
     #TODO: Implement attack vectors
     else:
 
-        print("{0}"+attackVector+"{1} attack vector COMING SOON...{2}").format(RED, GREEN, END)
+        print("\n--> {0}"+attackVector+"{1} attack vector COMING SOON...{2} <--").format(RED, GREEN, END)
 
 
 
@@ -305,7 +305,7 @@ def kickoneoff():
     #TODO: Implement attack vectors
     else:
 
-        print("{0}"+attackVector+"{1} attack vector COMING SOON...{2}").format(RED, GREEN, END)
+        print("\n--> {0}"+attackVector+"{1} attack vector COMING SOON...{2} <--").format(RED, GREEN, END)
 
 
 
@@ -386,7 +386,7 @@ def kicksomeoff():
     #TODO: Implement attack vectors
     else:
 
-        print("{0}"+attackVector+"{1} attack vector COMING SOON...{2}").format(RED, GREEN, END)
+        print("\n--> {0}"+attackVector+"{1} attack vector COMING SOON...{2} <--").format(RED, GREEN, END)
 
 
 
@@ -732,7 +732,6 @@ if __name__ == '__main__':
         shutdown()
 
     if options.attack is None and options.targets is None or options.attack is not None and options.targets is None:
-
         # set to interactive version
         interactive = True
         global stopAnimation
@@ -744,7 +743,15 @@ if __name__ == '__main__':
         # commence scanning process
         scanNetwork()
         stopAnimation = True
+
     else:
+
+        if (options.attack).upper() == 'ARP' or (options.attack).upper() == 'DNS' or (options.attack).upper() == 'DEAUTH':
+            pass
+        else:
+            print("\n{0}ERROR: Invalid attack method selected. Please select one of the following methods:\n" +
+                "\t{1}ARP{2} (ARP Spoofing), {3}DNS{4} (DNS Poisoning), {5}DEAUTH{6} (Deauthanticating){7}\n").format(RED, BLUE, RED, BLUE, RED, BLUE, RED, END)
+            raise SystemExit
 
         # set to optparser version
         interactive = False

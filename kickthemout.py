@@ -234,7 +234,7 @@ def nonInteractiveAttack():
     #TODO: Implement attack vectors
     else:
 
-        print("{0}"+attackVector+"{1} attack vector COMING SOON...{2}").format(RED, GREEN, END)
+        print("\n--> {0}"+attackVector+"{1} attack vector COMING SOON...{2} <--").format(RED, GREEN, END)
 
 
 
@@ -305,7 +305,7 @@ def kickoneoff():
     #TODO: Implement attack vectors
     else:
 
-        print("{0}"+attackVector+"{1} attack vector COMING SOON...{2}").format(RED, GREEN, END)
+        print("\n--> {0}"+attackVector+"{1} attack vector COMING SOON...{2} <--").format(RED, GREEN, END)
 
 
 
@@ -386,7 +386,7 @@ def kicksomeoff():
     #TODO: Implement attack vectors
     else:
 
-        print("{0}"+attackVector+"{1} attack vector COMING SOON...{2}").format(RED, GREEN, END)
+        print("\n--> {0}"+attackVector+"{1} attack vector COMING SOON...{2} <--").format(RED, GREEN, END)
 
 
 

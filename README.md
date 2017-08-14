@@ -37,7 +37,6 @@ TODO:
 - [X] Add elif statements for cases where there’s **only one argument** (e.g. ❯❯❯ sudo python kickthemout.py --attack arp)
 - [X] Add optparse option for **number of packets** per second (—packets, -p)
 - [ ] Turn **select attack method** into function 
-- [ ] Make **arp default --attack option** (optparser)
 - [ ] Fix: If IP address in scan is too short, the **tab appears messed up**
 - [ ] **Start from [0]** in all options (not just when selecting target)
 - [ ] Implement: **`kickONEOff/ARP Spoofing selected…`**

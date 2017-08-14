@@ -694,17 +694,17 @@ def main():
 
 
 # loading animation during network scan
-def scanningAnimation():
+def scanningAnimation(text):
     global stopAnimation
-    text = "Scanning your network, hang on..."
+    #text = "Scanning your network, hang on..."
     i = 0
     while stopAnimation is not True:
         tempText = list(text)
         if i >= len(tempText):
             i = 0
         tempText[i] = tempText[i].upper()
-        tempText = "".join(tempText)
-        sys.stdout.write(GREEN + tempText + "\r" + END)
+        tempText = ''.join(tempText)
+        sys.stdout.write(GREEN + tempText + '\r' + END)
         sys.stdout.flush()
         i += 1
         time.sleep(0.1)
@@ -750,7 +750,7 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         shutdown()
 
-    if options.packets is not None and (options.packets).isdigit():
+    if (options.packets is not None and (options.packets).isdigit()) or options.packets is None:
         pass
     else:
         print("\n{0}ERROR: Argument for number of packets broadcasted per minute must be an integer {1}(e.g. {2}--packet 60{3}).\n").format(RED, END, BLUE, END)
@@ -761,7 +761,7 @@ if __name__ == '__main__':
         interactive = True
         global stopAnimation
         stopAnimation = False
-        t = threading.Thread(target=scanningAnimation)
+        t = threading.Thread(target=scanningAnimation('Scanning your network, hang on...'))
         t.daemon = True
         t.start()
 

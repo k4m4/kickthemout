@@ -730,15 +730,30 @@ if __name__ == '__main__':
 
     elif options.attack is not None and options.targets is None:
 
-        # set to interactive version
-        interactive = True
-        sys.stdout.write("{0}Scanning your network, hang on...{1}\r".format(GREEN, END))
-        sys.stdout.flush()
-
-        # commence scanning process
-        scanNetwork()
+        if (options.attack).upper() == 'ARP' or (options.attack).upper() == 'DNS' or (options.attack).upper() == 'DEAUTH':
+            
+            # set to interactive version
+            interactive = True
+            sys.stdout.write("{0}Scanning your network, hang on...{1}\r".format(GREEN, END))
+            sys.stdout.flush()
+    
+            # commence scanning process
+            scanNetwork()
+        
+        else:
+            
+            print("\n{0}ERROR: Invalid attack method selected. Please select one of the following methods:\n" +
+                "\t{1}ARP{2} (ARP Spoofing), {3}DNS{4} (DNS Poisoning), {5}DEAUTH{6} (Deauthanticating){7}\n").format(RED, BLUE, RED, BLUE, RED, BLUE, RED, END)
+            raise SystemExit
 
     else:
+
+        if (options.attack).upper() == 'ARP' or (options.attack).upper() == 'DNS' or (options.attack).upper() == 'DEAUTH':
+            pass
+        else:
+            print("\n{0}ERROR: Invalid attack method selected. Please select one of the following methods:\n" +
+                "\t{1}ARP{2} (ARP Spoofing), {3}DNS{4} (DNS Poisoning), {5}DEAUTH{6} (Deauthanticating){7}\n").format(RED, BLUE, RED, BLUE, RED, BLUE, RED, END)
+            raise SystemExit
 
         # set to optparser version
         interactive = False

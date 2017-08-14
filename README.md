@@ -21,29 +21,29 @@ Authors: [Nikolaos Kamarinakis](mailto:nikolaskam@gmail.com) & [David Schütz](m
 TODO:
 ------
 
-- [ ] Fix README.rst —> README.md
-- [ ] Fix ERROR —> Error
-- [ ] Add Error Codes (e.g. Error 21, IOError: [Errno 6] Device not configured)
-- [ ] Add How it Works to README
-- [ ] Add DNS Poisoning Attack (test)
-- [ ] Add Deauth Attack
-- [X] Implement ParseOpt
-- [ ] Add loading animation (like in msfconsole)
-- [X] Fix ^C error when scanning (doesn’t quit)
-- [X] Fix ^C error —> ‘kickthemout> ^C^C’ (must enter ^C twice to quite)
-- [ ] Implement clock (like in onioff)
-- [ ] Disallow kicking gateway out (only in kickalloff())
-- [X] Add select attack method option
-- [X] Add elif statements for cases where there’s only one argument (e.g. ❯❯❯ sudo python kickthemout.py --attack arp)
-- [ ] Add optparse option for number of packets per second (—packets, -p)
-- [ ] Turn select attack method into function 
-- [ ] Make arp default —attack option (optparser)
-- [ ] Fix: If IP address in scan is too short, the tab appears messed up
-- [ ] Start from [0] in all options (not just when selecting target)
-- [ ] Implement: `kickONEOff/ARP Spoofing selected…`
-- [ ] Handle EOFError (when doing ^D instead of ^C)
-- [ ] Add FAQ to README
-- [ ] Add Requirements Error Guide to README (alternative methods to try and solve error)
+- [X] Fix **README.rst —> README.md**
+- [ ] Fix **ERROR —> Error**
+- [ ] Add **Error Codes** (e.g. Error 21, IOError: [Errno 6] Device not configured)
+- [ ] Add **How it Works** to README
+- [ ] Add **DNS Poisoning Attack** (test)
+- [ ] Add **Deauth Attack**
+- [X] Implement **ParseOpt**
+- [ ] Add **loading animation** (like in msfconsole)
+- [X] Fix **^C error when scanning** (doesn’t quit)
+- [X] Fix **^C^C** error —> ‘kickthemout> ^C^C’ (must enter ^C twice to quite)
+- [ ] Implement **clock** (like in onioff)
+- [ ] Disallow **kicking gateway out** (only in kickalloff())
+- [X] Add **select attack method** option
+- [X] Add elif statements for cases where there’s **only one argument** (e.g. ❯❯❯ sudo python kickthemout.py --attack arp)
+- [ ] Add optparse option for **number of packets** per second (—packets, -p)
+- [ ] Turn **select attack method** into function 
+- [ ] Make **arp default --attack option** (optparser)
+- [ ] Fix: If IP address in scan is too short, the **tab appears messed up**
+- [ ] **Start from [0]** in all options (not just when selecting target)
+- [ ] Implement: **`kickONEOff/ARP Spoofing selected…`**
+- [ ] Handle **EOFError** (when doing ^D instead of ^C)
+- [ ] Add **FAQ** to README
+- [ ] Add **Requirements Error Guide** to README (alternative methods to try and solve error)
     
 -------------
 

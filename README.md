@@ -45,7 +45,7 @@ TODO:
 - [ ] Add **Requirements Error Guide** to README (alternative methods to try and solve error)
 - [ ] Create **setup.py** (or bash script)
 - [ ] Add **—scan option** (for simple nmap scan) (MAYBE)
-- [ ] **Remove ‘%’** in the end of  ❯❯❯ sudo python kickthemout.py -h
+- [X] **Remove ‘%’** in the end of  ❯❯❯ sudo python kickthemout.py -h
 - [ ] Add **USAGE** to README
     
 -------------

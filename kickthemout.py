@@ -715,7 +715,7 @@ if __name__ == '__main__':
     examples = ('\nExamples:\n'+
                 '  sudo python kickthemout.py --attack arp --target 192.168.1.10 \n'+
                 '  sudo python kickthemout.py -a dns -t 192.168.1.5,192.168.1.10 \n'+
-                '  sudo python kickthemout.py')
+                '  sudo python kickthemout.py\n')
 
     parser = optparse.OptionParser(epilog=examples,
         usage='sudo python %prog [options]',

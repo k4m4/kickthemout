@@ -712,12 +712,11 @@ def scanningAnimation():
 
 
 if __name__ == '__main__':
+    
     # implement option parser
     optparse.OptionParser.format_epilog = lambda self, formatter: self.epilog
 
     version = '0.1'
-    info = 'KickThemOut ' + version + ' Nikolaos Kamarinakis & David Schütz'
-
     examples = ('\nExamples:\n'+
                 '  sudo python kickthemout.py --attack arp --target 192.168.1.10 \n'+
                 '  sudo python kickthemout.py -a dns -t 192.168.1.5,192.168.1.10 \n'+

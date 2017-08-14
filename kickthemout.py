@@ -694,9 +694,9 @@ def main():
 
 
 # loading animation during network scan
-def scanningAnimation(text):
+def scanningAnimation():
     global stopAnimation
-    #text = "Scanning your network, hang on..."
+    text = "Scanning your network, hang on..."
     i = 0
     while stopAnimation is not True:
         tempText = list(text)
@@ -761,7 +761,7 @@ if __name__ == '__main__':
         interactive = True
         global stopAnimation
         stopAnimation = False
-        t = threading.Thread(target=scanningAnimation('Scanning your network, hang on...'))
+        t = threading.Thread(target=scanningAnimation)
         t.daemon = True
         t.start()
 

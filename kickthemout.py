@@ -239,10 +239,10 @@ def nonInteractiveAttack():
 
 
 # kick one device
-def kickoneoff():
+def kickoneoff(txtMethod):
     os.system("clear||cls")
 
-    print("\n{0}kickONEOff{1} selected...{2}\n").format(RED, GREEN, END)
+    print("\n{0}kickONEOff{1}" + "/{2}" + txtMethod  + "{3} selected...{4}\n").format(RED, GREEN, BLUE, GREEN, END)
 
     sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
     sys.stdout.flush()
@@ -313,7 +313,7 @@ def kickoneoff():
 def kicksomeoff():
     os.system("clear||cls")
 
-    print("\n{0}kickSOMEOff{1} selected...{2}\n").format(RED, GREEN, END)
+    print("\n{0}kickSOMEOff{1}" + "/{2}" + txtMethod  + "{3} selected...{4}\n").format(RED, GREEN, BLUE, GREEN, END)
     sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
     sys.stdout.flush()
     scanNetwork()
@@ -394,7 +394,7 @@ def kicksomeoff():
 def kickalloff():
     os.system("clear||cls")
 
-    print("\n{0}kickALLOff{1} selected...{2}\n").format(RED, GREEN, END)
+    print("\n{0}kickALLOff{1}" + "/{2}" + txtMethod  + "{3} selected...{4}\n").format(RED, GREEN, BLUE, GREEN, END)
     sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
     sys.stdout.flush()
     scanNetwork()
@@ -588,13 +588,13 @@ def main():
                             raise SystemExit
                         elif choice == '1':
                             attackVector = 'ARP'
-                            kickoneoff()
+                            kickoneoff("ARP Spoofing")
                         elif choice == '2':
                             attackVector = 'DNS'
-                            kickoneoff()
+                            kickoneoff("DNS Poisoning")
                         elif choice == '3':
                             attackVector = 'DEAUTH'
-                            kickoneoff()
+                            kickoneoff("DNS Poisoning")
                         else:
                             print("\n{0}ERROR: Please select a valid option.{1}\n").format(RED, END)
                     elif not interactive and options.attack is None:
@@ -618,13 +618,13 @@ def main():
                             raise SystemExit
                         elif choice == '1':
                             attackVector = 'ARP'
-                            kicksomeoff()
+                            kicksomeoff("ARP Spoofing")
                         elif choice == '2':
                             attackVector = 'DNS'
-                            kicksomeoff()
+                            kicksomeoff("DNS Poisoning")
                         elif choice == '3':
                             attackVector = 'DEAUTH'
-                            kicksomeoff()
+                            kicksomeoff("Deauthing")
                         else:
                             print("\n{0}ERROR: Please select a valid option.{1}\n").format(RED, END)
                     elif not interactive and options.attack is None:
@@ -648,13 +648,13 @@ def main():
                             raise SystemExit
                         elif choice == '1':
                             attackVector = 'ARP'
-                            kickalloff()
+                            kickalloff("ARP Spoofing")
                         elif choice == '2':
                             attackVector = 'DNS'
-                            kickalloff()
+                            kickalloff("DNS Poisoning")
                         elif choice == '3':
                             attackVector = 'DEAUTH'
-                            kickalloff()
+                            kickalloff("Deauthing")
                         else:
                             print("\n{0}ERROR: Please select a valid option.{1}\n").format(RED, END)
                     elif not interactive and options.attack is None:
@@ -682,7 +682,6 @@ def main():
 
 
 if __name__ == '__main__':
-
     # implement option parser
     optparse.OptionParser.format_epilog = lambda self, formatter: self.epilog
 

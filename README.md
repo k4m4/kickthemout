@@ -92,14 +92,15 @@ Arch Installation
 
 You can download KickThemOut on an Arch based system by executing the following:
 
+```
 ~ ❯❯❯ git clone https://github.com/k4m4/kickthemout.git
 
 ~ ❯❯❯ cd kickthemout/
 
-~ ❯❯❯ sudo -H python -m pip install -r requirements.txt
+~ ❯❯❯ sudo -H python2 -m pip install -r requirements.txt
 
-$ sudo python kickthemout.py
-
+~/kickthemout ❯❯❯ sudo python2 kickthemout.py
+```
 
 Demo
 -----

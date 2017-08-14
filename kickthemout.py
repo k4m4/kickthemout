@@ -161,7 +161,7 @@ def scanNetwork():
 
 
 
-# TODO: Add this to scan.py
+# TODO: Add this to scan.py (maybe)
 # retrieve host MAC address
 def retrieveMACAddress(hosts):
     try:
@@ -178,7 +178,7 @@ def retrieveMACAddress(hosts):
 
 
 
-# non interactive attack vector
+# non interactive attack
 def nonInteractiveAttack():
 
     print("\n{0}nonInteractiveAttack{1}" + "/{2}" + attackVector  + "{3} activated...{4}\n").format(RED, GREEN, BLUE, GREEN, END)

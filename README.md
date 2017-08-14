@@ -39,10 +39,14 @@ TODO:
 - [ ] Turn **select attack method** into function 
 - [ ] Fix: If IP address in scan is too short, the **tab appears messed up**
 - [ ] **Start from [0]** in all options (not just when selecting target)
-- [ ] Implement: **`kickONEOff/ARP Spoofing selected…`**
+- [X] Implement: **`kickONEOff/{attackVector} Spoofing selected…`**
 - [ ] Handle **EOFError** (when doing ^D instead of ^C)
 - [ ] Add **FAQ** to README
 - [ ] Add **Requirements Error Guide** to README (alternative methods to try and solve error)
+- [ ] Create **setup.py** (or bash script)
+- [ ] Add **—scan option** (for simple nmap scan) (MAYBE)
+- [ ] **Remove ‘%’** in the end of  ❯❯❯ sudo python kickthemout.py -h
+- [ ] Add **USAGE** to README
     
 -------------
 
@@ -62,6 +66,7 @@ You can download KickThemOut by cloning the [Git Repo](https://github.com/k4m4/k
 
 ~/kickthemout ❯❯❯ sudo python kickthemout.py
 ```
+
 
 MacOS Installation
 -------------------
@@ -102,6 +107,7 @@ You can download KickThemOut on an Arch based system by executing the following:
 ~/kickthemout ❯❯❯ sudo python2 kickthemout.py
 ```
 
+
 Demo
 -----
 
@@ -111,17 +117,30 @@ Here's a short demo:
 
 (For more demos click [here](https://asciinema.org/~k4m4))
 
+
+How it works
+-------------
+*TODO*
+
+
+FAQ
+----
+*TODO*
+
+
 Developers
 -----------
 
 * Nikolaos Kamarinakis - [@nikolaskama](https://twitter.com/nikolaskama)
 * David Schütz - [@xdavidhu](https://twitter.com/xdavidhu)
 
+
 Disclaimer
 -----------
 
 KickThemOut is provided as is under the MIT Licence (as stated below). 
 It is built for educational purposes *only*. If you choose to use it otherwise, the developers will not be held responsible. Please, do not use it with evil intent.
+
 
 License
 --------

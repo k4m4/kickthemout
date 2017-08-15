@@ -59,7 +59,26 @@ def heading():
         YELLOW, RED, YELLOW, BLUE).center(111) +
     '\n' + 'Version: {0}0.1{1}\n'.format(YELLOW, END).center(86))
 
-
+# loading animation during network scan
+def scanningAnimation(text):
+    global stopAnimation
+    if text == 1:
+        text = "Scanning your network, hang on..."
+    elif text == 2:
+        text = "Hang on..."
+    else:
+        return
+    i = 0
+    while stopAnimation is not True:
+        tempText = list(text)
+        if i >= len(tempText):
+            i = 0
+        tempText[i] = tempText[i].upper()
+        tempText = ''.join(tempText)
+        sys.stdout.write(GREEN + tempText + '\r' + END)
+        sys.stdout.flush()
+        i += 1
+        time.sleep(0.1)
 
 # display options
 def optionBanner():
@@ -241,10 +260,15 @@ def kickoneoff():
     os.system("clear||cls")
 
     print("\n{0}kickONEOff{1}" + "/{2}" + attackVector  + "{3} selected...{4}\n").format(RED, GREEN, BLUE, GREEN, END)
+    global stopAnimation
+    stopAnimation = False
+    t = threading.Thread(target=scanningAnimation, args=(2,))
+    t.daemon = True
+    t.start()
 
-    sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
-    sys.stdout.flush()
+    # commence scanning process
     scanNetwork()
+    stopAnimation = True
 
     print("Online IPs: ")
     for i in range(len(onlineIPs)):
@@ -315,9 +339,15 @@ def kicksomeoff():
     os.system("clear||cls")
 
     print("\n{0}kickSOMEOff{1}" + "/{2}" + attackVector  + "{3} selected...{4}\n").format(RED, GREEN, BLUE, GREEN, END)
-    sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
-    sys.stdout.flush()
+    global stopAnimation
+    stopAnimation = False
+    t = threading.Thread(target=scanningAnimation, args=(2,))
+    t.daemon = True
+    t.start()
+
+    # commence scanning process
     scanNetwork()
+    stopAnimation = True
 
     print("Online IPs: ")
     for i in range(len(onlineIPs)):
@@ -399,9 +429,15 @@ def kickalloff():
     os.system("clear||cls")
 
     print("\n{0}kickALLOff{1}" + "/{2}" + attackVector  + "{3} selected...{4}\n").format(RED, GREEN, BLUE, GREEN, END)
-    sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
-    sys.stdout.flush()
+    global stopAnimation
+    stopAnimation = False
+    t = threading.Thread(target=scanningAnimation, args=(2,))
+    t.daemon = True
+    t.start()
+
+    # commence scanning process
     scanNetwork()
+    stopAnimation = True
 
     print("Online IPs: ")
     for i in range(len(onlineIPs)):
@@ -686,28 +722,8 @@ def main():
 
         nonInteractiveAttack()
 
-
-
-# loading animation during network scan
-def scanningAnimation():
-    global stopAnimation
-    text = "Scanning your network, hang on..."
-    i = 0
-    while stopAnimation is not True:
-        tempText = list(text)
-        if i >= len(tempText):
-            i = 0
-        tempText[i] = tempText[i].upper()
-        tempText = ''.join(tempText)
-        sys.stdout.write(GREEN + tempText + '\r' + END)
-        sys.stdout.flush()
-        i += 1
-        time.sleep(0.1)
-
-
-
 if __name__ == '__main__':
-    
+
     # implement option parser
     optparse.OptionParser.format_epilog = lambda self, formatter: self.epilog
 
@@ -756,7 +772,7 @@ if __name__ == '__main__':
         interactive = True
         global stopAnimation
         stopAnimation = False
-        t = threading.Thread(target=scanningAnimation)
+        t = threading.Thread(target=scanningAnimation, args=(1,))
         t.daemon = True
         t.start()
 

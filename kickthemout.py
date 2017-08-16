@@ -61,24 +61,27 @@ def heading():
 
 # loading animation during network scan
 def scanningAnimation(text):
-    global stopAnimation
-    if text == 1:
-        text = "Scanning your network, hang on..."
-    elif text == 2:
-        text = "Hang on..."
-    else:
-        return
-    i = 0
-    while stopAnimation is not True:
-        tempText = list(text)
-        if i >= len(tempText):
-            i = 0
-        tempText[i] = tempText[i].upper()
-        tempText = ''.join(tempText)
-        sys.stdout.write(GREEN + tempText + '\r' + END)
-        sys.stdout.flush()
-        i += 1
-        time.sleep(0.1)
+    try:
+        global stopAnimation
+        if text == 1:
+            text = "Scanning your network, hang on..."
+        elif text == 2:
+            text = "Hang on..."
+        else:
+            return
+        i = 0
+        while stopAnimation is not True:
+            tempText = list(text)
+            if i >= len(tempText):
+                i = 0
+            tempText[i] = tempText[i].upper()
+            tempText = ''.join(tempText)
+            sys.stdout.write(GREEN + tempText + '\r' + END)
+            sys.stdout.flush()
+            i += 1
+            time.sleep(0.1)
+    except:
+        raise SystemExit
 
 # display options
 def optionBanner():

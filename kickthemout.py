@@ -120,11 +120,11 @@ def runDebug():
     except:
         print ("Failed to print defaultGatewayMac...")
     try:
-        print ("Reloading mac getter function...")
+        print ("Reloading MAC retriever function...")
         regenOnlineIPs()
         print("Reloaded defaultGatewayMac: " + defaultGatewayMac)
     except:
-        print ("Failed to reload mac getter function / to print defaultGatewayMac...")
+        print ("Failed to reload MAC retriever function / to print defaultGatewayMac...")
     try:
         print ("Known gateway IP: " + defaultGatewayIP)
     except:
@@ -579,7 +579,7 @@ def main():
     if interactive:
 
         print(
-            "\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}"
+            "\n{0}Using interface '{1}" + defaultInterface + "{2}' with MAC address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}"
             + defaultGatewayIP + "{6}' --> {7}" + str(len(hostsList)) + "{8} hosts are up.{9}").format(GREEN, RED, GREEN, RED, GREEN, RED, GREEN, RED, GREEN, END)
         # display warning in case of no active hosts
         if len(hostsList) == 0 or len(hostsList) == 1:
@@ -599,7 +599,7 @@ def main():
 
     else:
 
-        print("\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}" +
+        print("\n{0}Using interface '{1}" + defaultInterface + "{2}' with MAC address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}" +
             defaultGatewayIP + "{6}' --> Target(s): '{7}" + ", ".join(options.targets) + "{8}'.{9}").format(GREEN, RED, GREEN, RED, GREEN, RED, GREEN, RED, GREEN, END)
 
     if options.targets is None:

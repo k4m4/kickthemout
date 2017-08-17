@@ -47,7 +47,7 @@ TODO:
 - [ ] Add **—scan option** (for simple nmap scan) (MAYBE)
 - [x] **Remove ‘%’** in the end of  ❯❯❯ sudo python kickthemout.py -h
 - [ ] Add **USAGE** to README
-- [ ] **Change text var** to actual text in scanningAnimation(text) function
+- [x] **Change text var** to actual text in scanningAnimation(text) function
 - [x] Implement camelcase to all variable names
 - [ ] Migrate all **double quotes to single quotes**
 - [ ] Add **keyboard exception** to scanningAnimation(text)

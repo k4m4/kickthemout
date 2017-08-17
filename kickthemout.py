@@ -65,12 +65,6 @@ def heading():
 def scanningAnimation(text):
     try:
         global stopAnimation
-        if text == 1:
-            text = "Scanning your network, hang on..."
-        elif text == 2:
-            text = "Hang on..."
-        else:
-            return
         i = 0
         while stopAnimation is not True:
             tempText = list(text)
@@ -269,7 +263,7 @@ def kickoneoff():
     print("\n{0}kickONEOff{1}" + "/{2}" + attackVector  + "{3} selected...{4}\n").format(RED, GREEN, BLUE, GREEN, END)
     global stopAnimation
     stopAnimation = False
-    t = threading.Thread(target=scanningAnimation, args=(2,))
+    t = threading.Thread(target=scanningAnimation, args=('Hang on...',))
     t.daemon = True
     t.start()
 
@@ -348,7 +342,7 @@ def kicksomeoff():
     print("\n{0}kickSOMEOff{1}" + "/{2}" + attackVector  + "{3} selected...{4}\n").format(RED, GREEN, BLUE, GREEN, END)
     global stopAnimation
     stopAnimation = False
-    t = threading.Thread(target=scanningAnimation, args=(2,))
+    t = threading.Thread(target=scanningAnimation, args=('Hang on...',))
     t.daemon = True
     t.start()
 
@@ -438,7 +432,7 @@ def kickalloff():
     print("\n{0}kickALLOff{1}" + "/{2}" + attackVector  + "{3} selected...{4}\n").format(RED, GREEN, BLUE, GREEN, END)
     global stopAnimation
     stopAnimation = False
-    t = threading.Thread(target=scanningAnimation, args=(2,))
+    t = threading.Thread(target=scanningAnimation, args=('Hang on...',))
     t.daemon = True
     t.start()
 
@@ -779,7 +773,7 @@ if __name__ == '__main__':
         interactive = True
         global stopAnimation
         stopAnimation = False
-        t = threading.Thread(target=scanningAnimation, args=(1,))
+        t = threading.Thread(target=scanningAnimation, args=('Scanning your network, hang on...',))
         t.daemon = True
         t.start()
 

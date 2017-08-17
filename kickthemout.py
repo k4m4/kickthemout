@@ -59,6 +59,8 @@ def heading():
         YELLOW, RED, YELLOW, BLUE).center(111) +
     '\n' + 'Version: {0}0.1{1}\n'.format(YELLOW, END).center(86))
 
+
+
 # loading animation during network scan
 def scanningAnimation(text):
     global stopAnimation
@@ -79,6 +81,8 @@ def scanningAnimation(text):
         sys.stdout.flush()
         i += 1
         time.sleep(0.1)
+
+
 
 # display options
 def optionBanner():
@@ -180,7 +184,7 @@ def scanNetwork():
 
 
 
-# TODO: Add this to scan.py (maybe)
+# TODO: Add this to scan.py (MAYBE)
 # retrieve host MAC address
 def retrieveMACAddress(hosts):
     try:

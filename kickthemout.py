@@ -223,12 +223,12 @@ def nonInteractiveAttack():
             while True:
                 # broadcast malicious ARP packets (10p/s)
                 for i in target:
-                    ip_address = i
-                    mac_address = retrieveMACAddress(ip_address)
-                    if mac_address == False:
+                    ipAddress = i
+                    macAddress = retrieveMACAddress(ipAddress)
+                    if macAddress == False:
                         print("\n{0}ERROR: MAC address of target host could not be retrieved! Maybe host is down?{1}").format(RED, END)
                         raise SystemExit
-                    spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, ip_address, mac_address)
+                    spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, ipAddress, macAddress)
                 if options.packets is not None:
                     time.sleep(60/options.packets)
                 else:
@@ -240,14 +240,14 @@ def nonInteractiveAttack():
             while reArp != 10:
                 # broadcast ARP packets with legitimate info to restore connection
                 for i in target:
-                    ip_address = i
+                    ipAddress = i
                     try:
-                        mac_address = retrieveMACAddress(ip_address)
+                        macAddress = retrieveMACAddress(ipAddress)
                     except:
                         print("\n{0}ERROR: MAC address of target host could not be retrieved! Maybe host is down?{1}").format(RED, END)
                         raise SystemExit
                     try:
-                        spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, ip_address, mac_address)
+                        spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, ipAddress, macAddress)
                     except KeyboardInterrupt:
                         pass
                     except:
@@ -290,7 +290,7 @@ def kickoneoff():
     while not canBreak:
         try:
             choice = int(raw_input("\nChoose a target: "))
-            one_target_ip = onlineIPs[choice]
+            oneTargetIP = onlineIPs[choice]
             canBreak = True
         except KeyboardInterrupt:
             shutdown()
@@ -298,15 +298,15 @@ def kickoneoff():
             print("\n{0}ERROR: Please enter a number from the list!{1}").format(RED, END)
 
     # locate MAC of specified device
-    one_target_mac = ""
+    oneTargetMAC = ""
     for host in hostsList:
-        if host[0] == one_target_ip:
-            one_target_mac = host[1]
-    if one_target_mac == "":
+        if host[0] == oneTargetIP:
+            oneTargetMAC = host[1]
+    if oneTargetMAC == "":
         print("\nIP address is not up. Please try again.")
         return
 
-    print("\n{0}Target: {1}" + one_target_ip).format(GREEN, END)
+    print("\n{0}Target: {1}" + oneTargetIP).format(GREEN, END)
 
     if attackVector == 'ARP':
 
@@ -314,7 +314,7 @@ def kickoneoff():
         try:
             while True:
                 # broadcast malicious ARP packets (10p/s)
-                spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, one_target_ip, one_target_mac)
+                spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, oneTargetIP, oneTargetMAC)
                 if options.packets is not None:
                     time.sleep(60/options.packets)
                 else:
@@ -370,25 +370,25 @@ def kicksomeoff():
         try:
             choice = raw_input("\nChoose devices to target(comma-separated): ")
             if ',' in choice:
-                some_targets = choice.split(",")
+                someTargets = choice.split(",")
                 canBreak = True
             else:
                 print("\n{0}ERROR: Please select more than 1 devices from the list.{1}\n").format(RED, END)
         except KeyboardInterrupt:
             shutdown()
 
-    some_ipList = ""
-    for i in some_targets:
+    someIPList = ""
+    for i in someTargets:
         try:
-            some_ipList += GREEN + "'" + RED + onlineIPs[int(i)] + GREEN + "', "
+            someIPList += GREEN + "'" + RED + onlineIPs[int(i)] + GREEN + "', "
         except KeyboardInterrupt:
             shutdown()
         except:
             print("\n{0}ERROR: '{1}" + i + "{2}' is not in the list.{3}\n").format(RED, GREEN, RED, END)
             return
-    some_ipList = some_ipList[:-2] + END
+    someIPList = someIPList[:-2] + END
 
-    print("\n{0}Targets: {1}" + some_ipList).format(GREEN, END)
+    print("\n{0}Targets: {1}" + someIPList).format(GREEN, END)
 
     if attackVector == 'ARP':
 
@@ -396,7 +396,7 @@ def kicksomeoff():
         try:
             while True:
                 # broadcast malicious ARP packets (10p/s)
-                for i in some_targets:
+                for i in someTargets:
                     ip = onlineIPs[int(i)]
                     for host in hostsList:
                         if host[0] == ip:
@@ -411,7 +411,7 @@ def kicksomeoff():
             reArp = 1
             while reArp != 10:
                 # broadcast ARP packets with legitimate info to restore connection
-                for i in some_targets:
+                for i in someTargets:
                     ip = onlineIPs[int(i)]
                     for host in hostsList:
                         if host[0] == ip:
@@ -526,8 +526,8 @@ def getDefaultInterface(returnNet=False):
 # retrieve gateway IP
 def getGatewayIP():
     try:
-        getGateway_p = sr1(IP(dst="google.com", ttl=0) / ICMP() / "XXXXXXXXXXX", verbose=False)
-        return getGateway_p.src
+        getGateway = sr1(IP(dst="google.com", ttl=0) / ICMP() / "XXXXXXXXXXX", verbose=False)
+        return getGateway.src
     except:
         # request gateway IP address (after failed detection by scapy)
         print("\n{0}ERROR: Gateway IP could not be obtained. Please enter IP manually.{1}\n").format(RED, END)

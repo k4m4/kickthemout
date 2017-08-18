@@ -52,6 +52,8 @@ TODO:
 - [ ] Migrate all **double quotes to single quotes**
 - [ ] Add **keyboard exception** to scanningAnimation(text)
 - [ ] Create **man page**
+- [ ] Call **shutdown function** in every systemExit
+- [ ] Add **scanning functions to scan.py**
     
 -------------
 

@@ -13,17 +13,14 @@ from time import sleep
 import urllib2 as urllib
 BLUE, RED, WHITE, YELLOW, MAGENTA, GREEN, END = '\33[94m', '\033[91m', '\33[97m', '\33[93m', '\033[1;35m', '\033[1;32m', '\033[0m'
 
-notRoot = False
 try:
     # check whether user is root
     if os.geteuid() != 0:
         print("\n{0}ERROR: KickThemOut must be run with root privileges. Try again with sudo:\n\t{1}$ sudo python kickthemout.py{2}\n").format(RED, GREEN, END)
-        notRoot = True
+        raise SystemExit
 except:
     # then user is probably on windows
     pass
-if notRoot:
-    raise SystemExit
 
 def shutdown():
     print('\n\n{0}Thanks for dropping by.'
@@ -617,9 +614,7 @@ def main():
                 global attackVector
 
                 if choice.upper() == 'E' or choice.upper() == 'EXIT':
-                    print('\n{0}Thanks for dropping by.'
-                          '\nCatch ya later!{1}').format(GREEN, END)
-                    raise SystemExit
+                    shutdown()
 
                 elif choice == '1':
                     if interactive and options.attack is None:
@@ -627,9 +622,7 @@ def main():
                         header2 = ('{0}kickthemout{1}> {2}'.format(BLUE, WHITE, END))
                         choice = raw_input(header)
                         if choice.upper() == 'E' or choice.upper() == 'EXIT':
-                            print('\n{0}Thanks for dropping by.'
-                                '\nCatch ya later!{1}').format(GREEN, END)
-                            raise SystemExit
+                            shutdown()
                         elif choice == '1':
                             attackVector = 'ARP'
                             kickoneoff()
@@ -657,9 +650,7 @@ def main():
                         header2 = ('{0}kickthemout{1}> {2}'.format(BLUE, WHITE, END))
                         choice = raw_input(header)
                         if choice.upper() == 'E' or choice.upper() == 'EXIT':
-                            print('\n{0}Thanks for dropping by.'
-                                '\nCatch ya later!{1}').format(GREEN, END)
-                            raise SystemExit
+                            shutdown()
                         elif choice == '1':
                             attackVector = 'ARP'
                             kicksomeoff()
@@ -687,9 +678,7 @@ def main():
                         header2 = ('{0}kickthemout{1}> {2}'.format(BLUE, WHITE, END))
                         choice = raw_input(header)
                         if choice.upper() == 'E' or choice.upper() == 'EXIT':
-                            print('\n{0}Thanks for dropping by.'
-                                '\nCatch ya later!{1}').format(GREEN, END)
-                            raise SystemExit
+                            shutdown()
                         elif choice == '1':
                             attackVector = 'ARP'
                             kickalloff()

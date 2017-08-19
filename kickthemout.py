@@ -404,7 +404,7 @@ def getDefaultInterfaceMAC():
 def resolveMac(mac):
     try:
         # sen request to macvendors.co
-        url = "http://macvendors.co/api/vendorname/"
+        url = "https://macvendors.co/api/vendorname/"
         request = urllib.Request(url + mac, headers={'User-Agent': "API Browser"})
         response = urllib.urlopen(request)
         vendor = response.read()

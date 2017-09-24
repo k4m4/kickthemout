@@ -26,7 +26,7 @@ TODO:
 - [ ] Add **Error Codes** (e.g. Error 21, IOError: [Errno 6] Device not configured)
 - [ ] Add **How it Works** to README
 - [ ] Add **DNS Poisoning Attack** (test)
-- [ ] Add **Deauth Attack**
+- [x] Add **Deauth Attack**
 - [x] Implement **ParseOpt**
 - [ ] Add **loading animation** (like in msfconsole)
 - [x] Fix **^C error when scanning** (doesn’t quit)
@@ -52,7 +52,7 @@ TODO:
 - [ ] Migrate all **double quotes to single quotes**
 - [ ] Add **keyboard exception** to scanningAnimation(text)
 - [ ] Create **man page**
-- [ ] Call **shutdown function** in every systemExit
+- [x] Call **shutdown function** in every systemExit
 - [ ] Add **scanning functions to scan.py**
     
 -------------

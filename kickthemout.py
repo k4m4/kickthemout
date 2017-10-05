@@ -35,7 +35,7 @@ except KeyboardInterrupt:
     shutdown()
 except:
     print("\n{0}ERROR: Requirements have not been satisfied properly. Please look at the README file for configuration instructions.").format(RED)
-    print("\n{0}If you still cannot resolve this error, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n\n{2}Details: " + str(sys.exc_info()[1] ) + "{3}").format(RED, BLUE, RED, END)
+    print("\n{0}If you still cannot resolve this error, please submit an issue here:\n\t{1}https://github.com/k4m4/kickthemout/issues\n\n{2}Details: {3}" + str(sys.exc_info()[1] ) + "{4}").format(RED, BLUE, RED, GREEN, END)
     #print("Details: " + sys.exc_info())
     raise SystemExit
 
@@ -258,9 +258,15 @@ def nonInteractiveAttack():
         # <FIX>
         header = ('{0}iface{1}: '.format(BLUE, END))
         iface = raw_input(header)
+        try:
+            hw = get_if_raw_hwaddr(iface)
+        except:
+            print("\n{0}ERROR: Wireless Interface {1}" + str(iface) + "{2} could not be detected. Make sure it's running normally.{3}").format(RED, GREEN, RED, END)
+            raise SystemExit
         # </FIX>
 
         try:
+            print("\n{0}Deauthing started... {1}").format(GREEN, END)
             while True:
                 # broadcast malicious DEAUTH packets
                 for i in target:
@@ -279,7 +285,7 @@ def nonInteractiveAttack():
 
     else:
 
-        print("\n--> {0}"+attackVector+"{1} attack vector COMING SOON...{2} <--").format(RED, GREEN, END)
+        print("\n--> {0}"+attackVector+"{1} attack vector (might be) COMING SOON...{2} <--").format(RED, GREEN, END)
 
 
 
@@ -366,9 +372,15 @@ def kickoneoff():
         # <FIX>
         header = ('{0}iface{1}: '.format(BLUE, END))
         iface = raw_input(header)
+        try:
+            hw = get_if_raw_hwaddr(iface)
+        except:
+            print("\n{0}ERROR: Wireless Interface {1}" + str(iface) + "{2} could not be detected. Make sure it's running normally.{3}").format(RED, GREEN, RED, END)
+            raise SystemExit
         # </FIX>
 
         try:
+            print("\n{0}Deauthing started... {1}").format(GREEN, END)
             while True:
                 # broadcast malicious DEAUTH packets
                 macAddress = oneTargetMAC
@@ -384,7 +396,7 @@ def kickoneoff():
             print("\n{0}Stopped{1} deauth attack...{2}").format(RED, GREEN, END)
     else:
 
-        print("\n--> {0}"+attackVector+"{1} attack vector COMING SOON...{2} <--").format(RED, GREEN, END)
+        print("\n--> {0}"+attackVector+"{1} attack vector (might be) COMING SOON...{2} <--").format(RED, GREEN, END)
 
 
 
@@ -482,9 +494,15 @@ def kicksomeoff():
         # <FIX>
         header = ('{0}iface{1}: '.format(BLUE, END))
         iface = raw_input(header)
+        try:
+            hw = get_if_raw_hwaddr(iface)
+        except:
+            print("\n{0}ERROR: Wireless Interface {1}" + str(iface) + "{2} could not be detected. Make sure it's running normally.{3}").format(RED, GREEN, RED, END)
+            raise SystemExit
         # </FIX>
 
         try:
+            print("\n{0}Deauthing started... {1}").format(GREEN, END)
             while True:
                 # broadcast malicious DEAUTH packets
                 for i in someTargets:
@@ -503,7 +521,7 @@ def kicksomeoff():
 
     else:
 
-        print("\n--> {0}"+attackVector+"{1} attack vector COMING SOON...{2} <--").format(RED, GREEN, END)
+        print("\n--> {0}"+attackVector+"{1} attack vector (might be) COMING SOON...{2} <--").format(RED, GREEN, END)
 
 
 
@@ -578,9 +596,15 @@ def kickalloff():
         # <FIX>
         header = ('{0}iface{1}: '.format(BLUE, END))
         iface = raw_input(header)
+        try:
+            hw = get_if_raw_hwaddr(iface)
+        except:
+            print("\n{0}ERROR: Wireless Interface {1}" + str(iface) + "{2} could not be detected. Make sure it's running normally.{3}").format(RED, GREEN, RED, END)
+            raise SystemExit
         # </FIX>
 
         try:
+            print("\n{0}Deauthing started... {1}").format(GREEN, END)
             while True:
                 # broadcast malicious DEAUTH packets
                 spoof.sendDeauthPacket(iface, bssid, 'FF:FF:FF:FF:FF:FF')
@@ -593,7 +617,7 @@ def kickalloff():
 
     else:
 
-        print("{0}"+attackVector+"{1} attack vector COMING SOON...{2}").format(RED, GREEN, END)
+        print("{0}"+attackVector+"{1} attack vector (might be) COMING SOON...{2}").format(RED, GREEN, END)
 
 
 

@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # -.- coding: utf-8 -.-
 # kickthemout.py
-# authors: k4m4 & xdavidhu
 
 """
-Copyright (C) 2016 Nikolaos Kamarinakis (nikolaskam@gmail.com) & David Schütz (xdavid@protonmail.com)
+Copyright (C) 2017 Nikolaos Kamarinakis (nikolaskam@gmail.com) & David Schütz (xdavid@protonmail.com)
 See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 """
 
@@ -852,7 +851,7 @@ if __name__ == '__main__':
     version = '0.1'
     examples = ('\nExamples:\n'+
                 '  sudo python kickthemout.py --attack arp --target 192.168.1.10 \n'+
-                '  sudo python kickthemout.py -a dns -t 192.168.1.5,192.168.1.10 \n'+
+                '  sudo python kickthemout.py -a deauth -t 192.168.1.5,192.168.1.10 \n'+
                 '  sudo python kickthemout.py\n')
 
     parser = optparse.OptionParser(epilog=examples,

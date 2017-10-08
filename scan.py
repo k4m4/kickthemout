@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 # -.- coding: utf-8 -.-
 # scan.py
-# authors: k4m4 & xdavidhu
+
+"""
+Copyright (C) 2017 Nikolaos Kamarinakis (nikolaskam@gmail.com) & David Schütz (xdavid@protonmail.com)
+See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
+"""
 
 def scanNetwork(network):
     # Function for performing a network scan with nmap with the help of the python-nmap module

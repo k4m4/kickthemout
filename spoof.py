@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # -.- coding: utf-8 -.-
 # spoof.py
-# authors: k4m4 & xdavidhu
 
 """
-Copyright (C) 2016 Nikolaos Kamarinakis (nikolaskam@gmail.com) & David Schütz (xdavid@protonmail.com)
+Copyright (C) 2017 Nikolaos Kamarinakis (nikolaskam@gmail.com) & David Schütz (xdavid@protonmail.com)
 See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 """
 

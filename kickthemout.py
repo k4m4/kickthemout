@@ -164,7 +164,7 @@ def kickoneoff():
             if host[0] == onlineIPs[i]:
                 mac = host[1]
         vendor = resolveMac(mac)
-        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t"+ vendor + "{4}").format(YELLOW, WHITE, RED, GREEN, END)
+        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + mac + "{4}\t" + vendor + "{5}").format(YELLOW, WHITE, RED, BLUE, GREEN, END)
 
     canBreak = False
     while not canBreak:

@@ -165,7 +165,7 @@ def kickoneoff():
                 mac = host[1]
         vendor = resolveMac(mac)
         hostname = utils.socket.gethostbyaddr(onlineIPs[i])[0]
-        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + mac + "{4}\t" + vendor + " - " + hostname "{5}").format(YELLOW, WHITE, RED, BLUE, GREEN, END)
+        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + mac + "{4}\t" + vendor + " - " + hostname + "{5}").format(YELLOW, WHITE, RED, BLUE, GREEN, END)
 
     canBreak = False
     while not canBreak:

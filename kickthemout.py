@@ -163,7 +163,7 @@ def kickoneoff():
         for host in hostsList:
             if host[0] == onlineIPs[i]:
                 mac = host[1]
-        hostname = socket.gethostbyaddr(onlineIPs[i])[0]
+        hostname = utils.socket.gethostbyaddr(onlineIPs[i])[0]
         vendor = resolveMac(mac)
         print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t"+ vendor +  " (" + hostname + ")""{4}").format(YELLOW, WHITE, RED, GREEN, END)
 
@@ -228,7 +228,7 @@ def kicksomeoff():
         for host in hostsList:
             if host[0] == onlineIPs[i]:
                 mac = host[1]
-        hostname = socket.gethostbyaddr(onlineIPs[i])[0]
+        hostname = utils.socket.gethostbyaddr(onlineIPs[i])[0]
         vendor = resolveMac(mac)
         print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + vendor +  " (" + hostname + ")" "{4}").format(YELLOW, WHITE, RED, GREEN, END)
 

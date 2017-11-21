@@ -164,7 +164,9 @@ def kickoneoff():
             if host[0] == onlineIPs[i]:
                 mac = host[1]
         vendor = resolveMac(mac)
-        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + mac + "{4}\t" + vendor + "{5}").format(YELLOW, WHITE, RED, BLUE, GREEN, END)
+        hostname = utils.socket.gethostbyaddr(onlineIPs[i])[0]
+        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + vendor + " - " + hostname + "{4}" ).format(YELLOW, WHITE, RED, GREEN, END)
+
 
     canBreak = False
     while not canBreak:
@@ -228,7 +230,8 @@ def kicksomeoff():
             if host[0] == onlineIPs[i]:
                 mac = host[1]
         vendor = resolveMac(mac)
-        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + vendor + "{4}").format(YELLOW, WHITE, RED, GREEN, END)
+        hostname = utils.socket.gethostbyaddr(onlineIPs[i])[0]
+        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + vendor + " - " + hostname + "{4}" ).format(YELLOW, WHITE, RED, GREEN, END)
 
     canBreak = False
     while not canBreak:
@@ -424,7 +427,7 @@ def main():
 
     print(
         "\n{0}Using interface '{1}" + defaultInterface + "{2}' with mac address '{3}" + defaultInterfaceMac + "{4}'.\nGateway IP: '{5}"
-        + defaultGatewayIP + "{6}' --> {7}" + str(len(hostsList)) + "{8} hosts are up.{9}").format(GREEN, RED, GREEN, RED, GREEN, 
+        + defaultGatewayIP + "{6}' --> {7}" + str(len(hostsList)) + "{8} hosts are up.{9}").format(GREEN, RED, GREEN, RED, GREEN,
                                                                                                 RED, GREEN, RED, GREEN, END)
     # display warning in case of no active hosts
     if len(hostsList) == 0 or len(hostsList) == 1:

@@ -151,7 +151,7 @@ def get_hostname(ip):
     except:
         pass
     if ip == utils.socket.getfqdn(ip):
-        hostname == 'N/A'
+        hostname = 'N/A'
     return hostname
 
 

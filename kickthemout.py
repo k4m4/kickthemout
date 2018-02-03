@@ -79,28 +79,28 @@ def runDebug():
     try:
         print("Current defaultGatewayMac: " + defaultGatewayMac)
     except:
-        print ("Failed to print defaultGatewayMac...")
+        print("Failed to print defaultGatewayMac...")
     try:
-        print ("Reloading mac getter function...")
+        print("Reloading mac getter function...")
         regenOnlineIPs()
         print("Reloaded defaultGatewayMac: " + defaultGatewayMac)
     except:
-        print ("Failed to reload mac getter function / to print defaultGatewayMac...")
+        print("Failed to reload mac getter function / to print defaultGatewayMac...")
     try:
-        print ("Known gateway IP: " + defaultGatewayIP)
+        print("Known gateway IP: " + defaultGatewayIP)
     except:
-        print ("Failed to print defaultGatewayIP...")
+        print("Failed to print defaultGatewayIP...")
     try:
-        print ("Current hostslist array: ")
-        print hostsList
+        print("Current hostslist array: ")
+        print(hostsList)
     except:
-        print ("Failed to print hostsList array...")
+        print("Failed to print hostsList array...")
     try:
-        print ("Crash trace: ")
+        print("Crash trace: ")
         print(traceback.format_exc())
     except:
-        print ("Failed to print crash trace...")
-    print ("DEBUG FINISHED.\nShutting down...")
+        print("Failed to print crash trace...")
+    print("DEBUG FINISHED.\nShutting down...")
     print("{0}").format(END)
     raise SystemExit
 
@@ -145,12 +145,20 @@ def scanNetwork():
         raise SystemExit
     regenOnlineIPs()
 
+def get_hostname(ip):
+    try:
+        hostname = utils.socket.gethostbyaddr(ip)[0]
+    except:
+        pass
+    if ip == utils.socket.getfqdn(ip):
+        hostname == 'N/A'
+    return hostname
+
 
 
 # kick one device
 def kickoneoff():
     os.system("clear||cls")
-
     print("\n{0}kickONEOff{1} selected...{2}\n").format(RED, GREEN, END)
     sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
     sys.stdout.flush()
@@ -164,8 +172,8 @@ def kickoneoff():
             if host[0] == onlineIPs[i]:
                 mac = host[1]
         vendor = resolveMac(mac)
-        hostname = utils.socket.gethostbyaddr(onlineIPs[i])[0]
-        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + mac + "{4}\t" + vendor + " - " + hostname + "{5}").format(YELLOW, WHITE, RED, BLUE, GREEN, END)
+        hostname = get_hostname(onlineIPs[i])
+        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + mac + "{4}\t" + vendor + "(" + hostname + ")" + "{5}").format(YELLOW, WHITE, RED, BLUE, GREEN, END)
 
     canBreak = False
     while not canBreak:
@@ -216,7 +224,6 @@ def kickoneoff():
 # kick multiple devices
 def kicksomeoff():
     os.system("clear||cls")
-
     print("\n{0}kickSOMEOff{1} selected...{2}\n").format(RED, GREEN, END)
     sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
     sys.stdout.flush()
@@ -229,8 +236,8 @@ def kicksomeoff():
             if host[0] == onlineIPs[i]:
                 mac = host[1]
         vendor = resolveMac(mac)
-        hostname = utils.socket.gethostbyaddr(onlineIPs[i])[0]
-        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + vendor + " - " + hostname + "{4}" ).format(YELLOW, WHITE, RED, GREEN, END)
+        hostname = get_hostname(onlineIPs[i])
+        print("  [{0}" + str(i) + "{1}] {2}" + str(onlineIPs[i]) + "{3}\t" + vendor + "(" + hostname + ")" + "{4}" ).format(YELLOW, WHITE, RED, GREEN, END)
 
     canBreak = False
     while not canBreak:
@@ -292,7 +299,6 @@ def kicksomeoff():
 # kick all devices
 def kickalloff():
     os.system("clear||cls")
-
     print("\n{0}kickALLOff{1} selected...{2}\n").format(RED, GREEN, END)
     sys.stdout.write("{0}Hang on...{1}\r".format(GREEN, END))
     sys.stdout.flush()
@@ -305,7 +311,8 @@ def kickalloff():
             if host[0] == onlineIPs[i]:
                 mac = host[1]
         vendor = resolveMac(mac)
-        print(str("  {0}"+ str(onlineIPs[i]) + "{1}\t" + vendor + "{2}").format(RED, GREEN, END))
+        hostname = get_hostname(onlineIPs[i])
+        print(str("  {0}"+ str(onlineIPs[i]) + "{1}\t" + vendor + "(" + hostname + ")" + "{2}").format(RED, GREEN, END))
 
     print("\n{0}Spoofing started... {1}").format(GREEN, END)
     try:
@@ -473,6 +480,7 @@ def main():
               '\nCatch ya later!{1}').format(GREEN, END)
 
 if __name__ == '__main__':
+    os.system("clear||cls")
 
     # configure appropriate network info
     sys.stdout.write("{0}Scanning your network, hang on...{1}\r".format(GREEN, END))
@@ -485,5 +493,4 @@ if __name__ == '__main__':
 
     # commence scanning process
     scanNetwork()
-
     main()

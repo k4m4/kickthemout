@@ -5,16 +5,11 @@ python:
     - "3.5"
     - "3.6"
 dist: trusty
-env:
-  - COVERAGE_FILE=/tmp/.coverage
 
 install:
-    - pip3 install coveralls
     - pip3 install -r requirements.txt
 script:
-    - sudo -H coverage run kickthemout.py
-after_success:
-  - coveralls
+    - sudo python3 kickthemout.py
 
 branches:
   only:

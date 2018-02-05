@@ -4,6 +4,6 @@ python:
     - "3.5"
     - "3.6"
 install:
-    - pip3 install -r requirements.txt
+    - sudo pip3 install -r requirements.txt
 script:
-    - sudo python3 kickthemout.py
+    - sudo python3 -c "import kickthemout; import scan; import spoof"

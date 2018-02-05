@@ -4,14 +4,17 @@ python:
     - "3.4"
     - "3.5"
     - "3.6"
+dist: trusty
+env:
+  - COVERAGE_FILE=/tmp/.coverage
 
 install:
-    - pip3 install codecov
+    - pip3 install coveralls
     - pip3 install -r requirements.txt
 script:
-    - sudo coverage run kickthemout.py
+    - sudo -H coverage run kickthemout.py
 after_success:
-  - codecov
+  - coveralls
 
 branches:
   only:

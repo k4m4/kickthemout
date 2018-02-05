@@ -1,10 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -.- coding: utf-8 -.-
 # spoof.py
-# authors: k4m4 & xdavidhu
 
 """
-Copyright (C) 2016 Nikolaos Kamarinakis (nikolaskam@gmail.com) & David Schütz (xdavid@protonmail.com)
+Copyright (C) 2017-18 Nikolaos Kamarinakis (nikolaskam@gmail.com) & David Schütz (xdavid@protonmail.com)
 See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 """
 
@@ -15,11 +14,15 @@ from scapy.all import (
     getmacbyip,
     ARP,
     Ether,
-    sendp
+    sendp,
+    conf,
+    RadioTap,
+    Dot11,
+    Dot11Deauth
 )
 
+# send malicious ARP packets
 def sendPacket(my_mac, gateway_ip, target_ip, target_mac):
-    # Function for sending the malicious ARP packets out with the specified data
     ether = Ether()
     ether.src = my_mac
 

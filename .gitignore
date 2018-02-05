@@ -25,3 +25,4 @@ ENV/
 *.tmp
 *.bak
 *.cfg
+__pycache__/

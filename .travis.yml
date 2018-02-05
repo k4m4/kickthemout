@@ -6,9 +6,12 @@ python:
     - "3.6"
 
 install:
+    - pip3 install codecov
     - pip3 install -r requirements.txt
 script:
-    - sudo python3 -c "import kickthemout"
+    - sudo coverage run kickthemout.py
+after_success:
+  - codecov
 
 branches:
   only:

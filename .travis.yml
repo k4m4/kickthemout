@@ -6,4 +6,4 @@ python:
 install:
     - pip3 install -r requirements.txt
 script:
-    - sudo python -c "import kickthemout; import scan; import spoof"
+    - sudo python3 -c "import kickthemout; import scan; import spoof"

@@ -13,8 +13,8 @@ It allows you to select specific or all devices and ARP spoofs them off your loc
 
 Authors: [Nikolaos Kamarinakis](mailto:nikolaskam@gmail.com) & [David Schütz](mailto:xdavid@protonmail.com).
 
-[![Build Badge](https://travis-ci.org/k4m4/kickthemout.svg?branch=master)](https://travis-ci.org/k4m4/kickthemout)
 [![License Badge](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/k4m4/kickthemout/blob/master/LICENSE)
+[![Build Badge](https://travis-ci.org/k4m4/kickthemout.svg?branch=master)](https://travis-ci.org/k4m4/kickthemout)
 [![GitHub Stars](https://img.shields.io/github/stars/k4m4/kickthemout.svg)](https://github.com/k4m4/kickthemout/stargazers)
 
 ---
@@ -60,7 +60,7 @@ If you would like to install KickThemOut on a Mac, please run the following:
 
 **NOTE**: You need to have [Homebrew](http://brew.sh/) installed before running the Mac OS installation. 
 
-Also, **keep in mind** that you might be asked to run some commands after executing the 2nd last command.
+Also, **keep in mind** that you might be asked to run some extra commands after executing the pip installation.
 
 
 ## Arch Installation

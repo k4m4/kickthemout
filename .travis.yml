@@ -1,16 +1,14 @@
-language: python
 sudo: required
+language: python
 python:
     - "3.4"
     - "3.5"
     - "3.6"
-dist: trusty
 
 install:
-    - pip install scapy
     - pip3 install -r requirements.txt
 script:
-    - sudo python3 kickthemout.py
+    - sudo python -m "import kickthemout;"
 
 branches:
   only:

@@ -1,9 +1,10 @@
 language: python
+sudo: required
 python:
     - "3.4"
     - "3.5"
     - "3.6"
 install:
-    - sudo pip3 install -r requirements.txt
+    - pip3 install -r requirements.txt
 script:
-    - sudo python3 -c "import kickthemout; import scan; import spoof"
+    - python -c "import kickthemout; import scan; import spoof"

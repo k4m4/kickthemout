@@ -4,7 +4,17 @@ python:
     - "3.4"
     - "3.5"
     - "3.6"
+
 install:
     - pip3 install -r requirements.txt
 script:
-    - sudo python -c "import kickthemout; import scan; import spoof"
+    - sudo python3 -c "import kickthemout"
+
+branches:
+  only:
+  - master
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always

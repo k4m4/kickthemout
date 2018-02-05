@@ -7,7 +7,7 @@ python:
 dist: trusty
 
 install:
-    - sudo -H pip3 install scapy
+    - pip3 install scapy
     - pip3 install -r requirements.txt
 script:
     - sudo python3 kickthemout.py

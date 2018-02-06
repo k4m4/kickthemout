@@ -7,7 +7,7 @@ python:
     - "3.6"
 
 install:
-    - sudo pip3 install -r requirements.txt
+    - pip3 install -r requirements.txt
 script:
     - sudo python -c "import kickthemout;"
 

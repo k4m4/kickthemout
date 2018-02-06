@@ -20,7 +20,7 @@ Authors: [Nikolaos Kamarinakis](mailto:nikolaskam@gmail.com) & [David Schütz](m
 
 ---
 
-<p align="center">✨Read my latest post: <a href="http://resources.infosecinstitute.com/inspecting-deep-web-links"><i>KickThemout v2.0! 🎉</i></a></p>
+<p align="center">✨Read my latest post: <a href="https://nikolaskama.me/kickthemout-v2-0/"><i>KickThemout v2.0! 🎉</i></a></p>
     
 -------------
 

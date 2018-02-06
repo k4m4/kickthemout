@@ -49,8 +49,8 @@ def heading():
     █▄█   ██ █▀ ▀▄  █▄█   ▀▀▀ █    █   █ █▀   ▀  █ █ █  █   █    █  ▀▀▀ █
     █▀▄   ██ █   ▀  █▀▄       █    ██▀▀█ ██▄▄    █ ▄ █  █   █ █   █     █
     █  █  ▐█ █▄  ▄▀ █  █     █     █   █ █▄   ▄▀ █   █  ▀████ █   █    █
-     █    ▐ ▀███▀    █     ▀         █  ▀███▀      █         █▄ ▄█   ▀
-     ▀               ▀               ▀             ▀           ▀▀▀
+       █   ▐ ▀███▀     █     ▀         █ ▀███▀       █        █▄ ▄█    ▀
+       ▀               ▀               ▀             ▀         ▀▀▀
     """ + END + BLUE +
     '\n' + '{}Kick Devices Off Your LAN ({}KickThemOut{}){}'.format(YELLOW, RED, YELLOW, BLUE).center(98) +
     '\n' + 'Made With <3 by: {0}Nikolaos Kamarinakis ({1}k4m4{2}) & {0}David Schütz ({1}xdavidhu{2}){3}'.format(YELLOW, RED, YELLOW, BLUE).center(111) +

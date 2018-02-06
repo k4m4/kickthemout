@@ -9,7 +9,7 @@ python:
 install:
     - sudo pip install -r requirements.txt
 script:
-    - sudo python3 -c "import kickthemout;"
+    - sudo python -c "import kickthemout;"
 
 branches:
   only:

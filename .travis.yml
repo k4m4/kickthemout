@@ -7,7 +7,7 @@ python:
     - "3.6"
 
 install:
-    - pip3 install -r requirements.txt
+    - sudo pip3 install -r requirements.txt
 script:
     - sudo python -c "import kickthemout;"
 
@@ -19,6 +19,7 @@ addons:
   apt:
     packages:
       - nmap
+      - python3-pip
 
 notifications:
   email:

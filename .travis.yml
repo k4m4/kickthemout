@@ -7,9 +7,9 @@ python:
     - "3.6"
 
 install:
-    - sudo -H python -m pip install -r requirements.txt
+    - sudo -H python3 -m pip install -r requirements.txt
 script:
-    - sudo -H python -c "import kickthemout; import scan; import spoof;"
+    - sudo -H python3 -c "import kickthemout; import scan; import spoof;"
 
 branches:
   only:

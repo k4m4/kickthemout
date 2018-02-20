@@ -48,7 +48,7 @@ You can download KickThemOut by cloning the [Git Repo](https://github.com/k4m4/k
 If you would like to install KickThemOut on a Mac, please run the following:
 
 ```
-~ ❯❯❯ brew install libdnet
+~ ❯❯❯ brew install libdnet nmap
 
 ~ ❯❯❯ git clone https://github.com/k4m4/kickthemout.git
 

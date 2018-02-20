@@ -259,6 +259,7 @@ def scanNetwork():
         pass
     except:
         print("\n\n{}ERROR: Network scanning failed. Please check your requirements configuration.{}".format(RED, END))
+        print("\n{}If you still cannot resolve this error, please submit an issue here:\n\t{}https://github.com/k4m4/kickthemout/issues\n\n{}Details: {}{}{}".format(RED, BLUE, RED, GREEN, str(sys.exc_info()[1]), END))
         os._exit(1)
     regenOnlineIPs()
 

@@ -18,6 +18,8 @@ branches:
 addons:
   apt:
     packages:
+      - python3
+      - python3-pip
       - nmap
 
 notifications:

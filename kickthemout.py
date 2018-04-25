@@ -27,11 +27,17 @@ def shutdown():
 
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # Shut up scapy!
 try:
-    from scapy.config import conf  
-    conf.ipv6_enabled = False
-    from scapy.all import *
+    try:
+        from scapy.config import conf  
+        conf.ipv6_enabled = False
+        from scapy.all import *
+    except:
+        from scapy3k.config import conf  
+        conf.ipv6_enabled = False
+        from scapy3k.all import *
     import scan, spoof, nmap
     from urllib.request import urlopen, Request
+    from urllib.error import URLError
 except KeyboardInterrupt:
     shutdown()
 except:
@@ -128,7 +134,7 @@ def checkInternetConnection():
     try:
         urlopen('https://google.com', timeout=3)
         return True
-    except urllib.URLError as err:
+    except URLError as err:
         return False
     except KeyboardInterrupt:
         shutdown()

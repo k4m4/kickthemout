@@ -27,14 +27,9 @@ def shutdown():
 
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # Shut up scapy!
 try:
-    try:
-        from scapy.config import conf  
-        conf.ipv6_enabled = False
-        from scapy.all import *
-    except:
-        from scapy3k.config import conf  
-        conf.ipv6_enabled = False
-        from scapy3k.all import *
+    from scapy.config import conf  
+    conf.ipv6_enabled = False
+    from scapy.all import *
     import scan, spoof, nmap
     from urllib.request import urlopen, Request
     from urllib.error import URLError

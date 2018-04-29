@@ -151,7 +151,7 @@ def getDefaultInterface(returnNet=False):
         return net
 
     iface_routes = [route for route in scapy.config.conf.route.routes if route[3] == scapy.config.conf.iface and route[1] != 0xFFFFFFFF]
-    network, netmask, _, interface, address = max(iface_routes, key=lambda item:item[1])
+    network, netmask, _, interface, address, _ = max(iface_routes, key=lambda item:item[1])
     net = to_CIDR_notation(network, netmask)
     if net:
         if returnNet:

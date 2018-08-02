@@ -64,7 +64,7 @@ If you would like to install KickThemOut on a Mac, please run the following:
 Also, **keep in mind** that you might be asked to run some extra commands after executing the pip requirement installation.
 
 
-## Arch Installation
+## ArchLinux Installation
 
 You can download KickThemOut on an Arch based system by executing the following:
 
@@ -73,7 +73,7 @@ You can download KickThemOut on an Arch based system by executing the following:
 
 ~ ❯❯❯ cd kickthemout/
 
-~ ❯❯❯ sudo -H pip3 install -r requirements.txt
+~/kickthemout ❯❯❯ sudo -H pip3 install -r requirements.txt
 
 ~/kickthemout ❯❯❯ sudo python3 kickthemout.py
 ```

@@ -89,6 +89,8 @@ def optionBanner():
     sleep(0.2)
     print('\t{}[{}3{}]{} Kick ALL Off'.format(YELLOW, RED, YELLOW, WHITE))
     sleep(0.2)
+    print('\t{}[{}4{}]{} Kick ALL BUT SOME Off (whitelist)'.format(YELLOW, RED, YELLOW, WHITE))
+    sleep(0.2)
     print('\n\t{}[{}E{}]{} Exit KickThemOut\n'.format(YELLOW, RED, YELLOW, WHITE))
 
 
@@ -587,9 +589,7 @@ def kickwhitelistoff():
         except KeyboardInterrupt:
             shutdown()
 
-    print(someTargets)
     someTargets = [x for x in range(0, len(onlineIPs)) if x not in list(map(int, someTargets))]
-    print(someTargets)
     someIPList = ""
     for i in someTargets:
         try:

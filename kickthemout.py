@@ -185,7 +185,7 @@ def getDefaultInterfaceMAC():
 def getGatewayIP():
     global stopAnimation
     try:
-        getGateway = sr1(IP(dst="google.com", ttl=0) / ICMP() / "XXXXXXXXXXX", verbose=False)
+        getGateway = sr1(IP(dst="github.com", ttl=0) / ICMP() / "XXXXXXXXXXX", verbose=False)
         return getGateway.src
     except:
         # request gateway IP address (after failed detection by scapy)

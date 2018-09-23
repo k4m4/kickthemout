@@ -127,7 +127,7 @@ def runDebug():
 # make sure there is an internet connection
 def checkInternetConnection():
     try:
-        urlopen('https://google.com', timeout=3)
+        urlopen('https://github.com', timeout=3)
         return True
     except URLError as err:
         return False

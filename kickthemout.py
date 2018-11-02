@@ -127,7 +127,7 @@ def runDebug():
 # make sure there is an internet connection
 def checkInternetConnection():
     try:
-        urlopen('https://google.com', timeout=3)
+        urlopen('https://github.com', timeout=3)
         return True
     except URLError as err:
         return False
@@ -185,7 +185,7 @@ def getDefaultInterfaceMAC():
 def getGatewayIP():
     global stopAnimation
     try:
-        getGateway = sr1(IP(dst="google.com", ttl=0) / ICMP() / "XXXXXXXXXXX", verbose=False)
+        getGateway = sr1(IP(dst="github.com", ttl=0) / ICMP() / "XXXXXXXXXXX", verbose=False)
         return getGateway.src
     except:
         # request gateway IP address (after failed detection by scapy)

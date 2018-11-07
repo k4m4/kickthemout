@@ -25,11 +25,11 @@ def shutdown():
           '\nCatch ya later!{}'.format(GREEN, END))
     os._exit(1)
 
-logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # Shut up scapy!
+logging.getLogger("kamene.runtime").setLevel(logging.ERROR)  # Shut up kamene!
 try:
-    from scapy.config import conf  
+    from kamene.config import conf  
     conf.ipv6_enabled = False
-    from scapy.all import *
+    from kamene.all import *
     import scan, spoof, nmap
     from urllib.request import urlopen, Request
     from urllib.error import URLError
@@ -143,14 +143,14 @@ def getDefaultInterface(returnNet=False):
             raise ValueError("illegal netmask value", hex(arg))
         return 32 - int(round(math.log(0xFFFFFFFF - arg, 2)))
     def to_CIDR_notation(bytes_network, bytes_netmask):
-        network = scapy.utils.ltoa(bytes_network)
+        network = kamene.utils.ltoa(bytes_network)
         netmask = long2net(bytes_netmask)
         net = "%s/%s" % (network, netmask)
         if netmask < 16:
             return None
         return net
 
-    iface_routes = [route for route in scapy.config.conf.route.routes if route[3] == scapy.config.conf.iface and route[1] != 0xFFFFFFFF]
+    iface_routes = [route for route in kamene.config.conf.route.routes if route[3] == kamene.config.conf.iface and route[1] != 0xFFFFFFFF]
     network, netmask, _, interface, address = max(iface_routes, key=lambda item:item[1])
     net = to_CIDR_notation(network, netmask)
     if net:
@@ -174,7 +174,7 @@ def getDefaultInterfaceMAC():
         else:
             return defaultInterfaceMac
     except:
-        # request interface MAC address (after failed detection by scapy)
+        # request interface MAC address (after failed detection by kamene)
         print("\n{}ERROR: Default Interface MAC Address could not be obtained. Please enter MAC manually.{}\n".format(RED, END))
         header = ('{}kickthemout{}> {}Enter MAC Address {}(MM:MM:MM:SS:SS:SS): '.format(BLUE, WHITE, RED, END))
         return (input(header))
@@ -188,7 +188,7 @@ def getGatewayIP():
         getGateway = sr1(IP(dst="github.com", ttl=0) / ICMP() / "XXXXXXXXXXX", verbose=False)
         return getGateway.src
     except:
-        # request gateway IP address (after failed detection by scapy)
+        # request gateway IP address (after failed detection by kamene)
         stopAnimation = True
         print("\n{}ERROR: Gateway IP could not be obtained. Please enter IP manually.{}\n".format(RED, END))
         header = ('{}kickthemout{}> {}Enter Gateway IP {}(e.g. 192.168.1.1): '.format(BLUE, WHITE, RED, END))
@@ -242,7 +242,7 @@ def regenOnlineIPs():
                 defaultGatewayMac = host[1]
 
     if not defaultGatewayMacSet and defaultGatewayMac == "":
-        # request gateway MAC address (after failed detection by scapy)
+        # request gateway MAC address (after failed detection by kamene)
         print("\n{}ERROR: Default Gateway MAC Address could not be obtained. Please enter MAC manually.{}\n".format(RED, END))
         header = ("{}kickthemout{}> {}Enter your gateway's MAC Address {}(MM:MM:MM:SS:SS:SS): ".format(BLUE, WHITE, RED, END))
         defaultGatewayMac = input(header)

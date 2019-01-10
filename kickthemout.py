@@ -9,12 +9,12 @@ See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 
 import os, sys, logging, math, traceback, optparse, threading
 from time import sleep
-BLUE, RED, WHITE, YELLOW, MAGENTA, GREEN, END = '\33[94m', '\033[91m', '\33[97m', '\33[93m', '\033[1;35m', '\033[1;32m', '\033[0m'
+BLUE, RED, WHITE, YELLOW, MAGENTA, ORANGE, END = '\33[94m', '\033[91m', '\33[97m', '\33[93m', '\033[1;35m', '\033[1;32m', '\033[0m'
 
 try:
     # check whether user is root
     if os.geteuid() != 0:
-        print("\n{}ERROR: KickThemOut must be run with root privileges. Try again with sudo:\n\t{}$ sudo python3 kickthemout.py{}\n".format(RED, GREEN, END))
+        print("\n{}ERROR: KickThemOut must be run with root privileges. Try again with sudo:\n\t{}$ sudo python3 kickthemout.py{}\n".format(RED, ORANGE, END))
         os._exit(1)
 except:
     # then user is probably on windows
@@ -22,7 +22,7 @@ except:
 
 def shutdown():
     print('\n\n{}Thanks for dropping by.'
-          '\nCatch ya later!{}'.format(GREEN, END))
+          '\nCatch ya later!{}'.format(ORANGE, END))
     os._exit(1)
 
 logging.getLogger("kamene.runtime").setLevel(logging.ERROR)  # Shut up kamene!
@@ -37,7 +37,7 @@ except KeyboardInterrupt:
     shutdown()
 except:
     print("\n{}ERROR: Requirements have not been satisfied properly. Please look at the README file for configuration instructions.".format(RED))
-    print("\n{}If you still cannot resolve this error, please submit an issue here:\n\t{}https://github.com/k4m4/kickthemout/issues\n\n{}Details: {}{}{}".format(RED, BLUE, RED, GREEN, str(sys.exc_info()[1]), END))
+    print("\n{}If you still cannot resolve this error, please submit an issue here:\n\t{}https://github.com/k4m4/kickthemout/issues\n\n{}Details: {}{}{}".format(RED, BLUE, RED, ORANGE, str(sys.exc_info()[1]), END))
     os._exit(1)
 
 
@@ -45,7 +45,7 @@ except:
 # display heading
 def heading():
     spaces = " " * 76
-    sys.stdout.write(GREEN + spaces + """
+    sys.stdout.write(ORANGE + spaces + """
     █  █▀ ▄█ ▄█▄    █  █▀    ▄▄▄▄▀  ▄  █ ▄███▄   █▀▄▀█  ████▄   ▄      ▄▄▄▄▀
     █▄█   ██ █▀ ▀▄  █▄█   ▀▀▀ █    █   █ █▀   ▀  █ █ █  █   █    █  ▀▀▀ █
     █▀▄   ██ █   ▀  █▀▄       █    ██▀▀█ ██▄▄    █ ▄ █  █   █ █   █     █
@@ -70,7 +70,7 @@ def scanningAnimation(text):
                 i = 0
             tempText[i] = tempText[i].upper()
             tempText = ''.join(tempText)
-            sys.stdout.write(GREEN + tempText + '\r' + END)
+            sys.stdout.write(ORANGE + tempText + '\r' + END)
             sys.stdout.flush()
             i += 1
             time.sleep(0.1)
@@ -260,7 +260,7 @@ def scanNetwork():
         shutdown()
     except:
         print("\n\n{}ERROR: Network scanning failed. Please check your requirements configuration.{}".format(RED, END))
-        print("\n{}If you still cannot resolve this error, please submit an issue here:\n\t{}https://github.com/k4m4/kickthemout/issues\n\n{}Details: {}{}{}".format(RED, BLUE, RED, GREEN, str(sys.exc_info()[1]), END))
+        print("\n{}If you still cannot resolve this error, please submit an issue here:\n\t{}https://github.com/k4m4/kickthemout/issues\n\n{}Details: {}{}{}".format(RED, BLUE, RED, ORANGE, str(sys.exc_info()[1]), END))
         os._exit(1)
     try:
         regenOnlineIPs()
@@ -272,10 +272,10 @@ def scanNetwork():
 # non-interactive attack
 def nonInteractiveAttack():
 
-    print("\n{}nonInteractiveAttack{} activated...{}\n".format(RED, GREEN, END))
+    print("\n{}nonInteractiveAttack{} activated...{}\n".format(RED, ORANGE, END))
 
     target = options.targets
-    print("\n{}Target(s): {}{}".format(GREEN, END, ", ".join(target)))
+    print("\n{}Target(s): {}{}".format(ORANGE, END, ", ".join(target)))
     global stopAnimation
     stopAnimation = False
     t = threading.Thread(target=scanningAnimation, args=('Checking target status...',))
@@ -326,9 +326,9 @@ def nonInteractiveAttack():
         shutdown()
 
     if options.packets is not None:
-        print("\n{}Spoofing started... {}( {} pkts/min )".format(GREEN, END, str(options.packets)))
+        print("\n{}Spoofing started... {}( {} pkts/min )".format(ORANGE, END, str(options.packets)))
     else:
-        print("\n{}Spoofing started... {}".format(GREEN, END))
+        print("\n{}Spoofing started... {}".format(ORANGE, END))
     try:
         while True:
             # broadcast malicious ARP packets
@@ -345,7 +345,7 @@ def nonInteractiveAttack():
                 time.sleep(10)
     except KeyboardInterrupt:
         # re-arp targets on KeyboardInterrupt exception
-        print("\n{}Re-arping{} target(s)...{}".format(RED, GREEN, END))
+        print("\n{}Re-arping{} target(s)...{}".format(RED, ORANGE, END))
         reArp = 1
         while reArp != 10:
             # broadcast ARP packets with legitimate info to restore connection
@@ -364,7 +364,7 @@ def nonInteractiveAttack():
                     runDebug()
             reArp += 1
             time.sleep(0.2)
-        print("{}Re-arped{} target(s) successfully.{}".format(RED, GREEN, END))
+        print("{}Re-arped{} target(s) successfully.{}".format(RED, ORANGE, END))
 
 
 
@@ -372,7 +372,7 @@ def nonInteractiveAttack():
 def kickoneoff():
     os.system("clear||cls")
 
-    print("\n{}kickONEOff{} selected...{}\n".format(RED, GREEN, END))
+    print("\n{}kickONEOff{} selected...{}\n".format(RED, ORANGE, END))
     global stopAnimation
     stopAnimation = False
     t = threading.Thread(target=scanningAnimation, args=('Hang on...',))
@@ -397,7 +397,7 @@ def kickoneoff():
         except:
             hostname = "N/A"
         vendor = resolveMac(mac)
-        print("  [{}{}{}] {}{}{}\t{}{}\t{} ({}{}{}){}".format(YELLOW, str(i), WHITE, RED, str(onlineIPs[i]), BLUE, mac, GREEN, vendor, YELLOW, hostname, GREEN, END))
+        print("  [{}{}{}] {}{}{}\t{}{}\t{} ({}{}{}){}".format(YELLOW, str(i), WHITE, RED, str(onlineIPs[i]), BLUE, mac, ORANGE, vendor, YELLOW, hostname, ORANGE, END))
 
     canBreak = False
     while not canBreak:
@@ -419,12 +419,12 @@ def kickoneoff():
         print("\nIP address is not up. Please try again.")
         return
 
-    print("\n{}Target: {}{}".format(GREEN, END, oneTargetIP))
+    print("\n{}Target: {}{}".format(ORANGE, END, oneTargetIP))
 
     if options.packets is not None:
-        print("\n{}Spoofing started... {}( {} pkts/min )".format(GREEN, END, str(options.packets)))
+        print("\n{}Spoofing started... {}( {} pkts/min )".format(ORANGE, END, str(options.packets)))
     else:
-        print("\n{}Spoofing started... {}".format(GREEN, END))
+        print("\n{}Spoofing started... {}".format(ORANGE, END))
     try:
         while True:
             # broadcast malicious ARP packets
@@ -435,7 +435,7 @@ def kickoneoff():
                 time.sleep(10)
     except KeyboardInterrupt:
         # re-arp target on KeyboardInterrupt exception
-        print("\n{}Re-arping{} target...{}".format(RED, GREEN, END))
+        print("\n{}Re-arping{} target...{}".format(RED, ORANGE, END))
         reArp = 1
         while reArp != 10:
             try:
@@ -447,7 +447,7 @@ def kickoneoff():
                 runDebug()
             reArp += 1
             time.sleep(0.2)
-        print("{}Re-arped{} target successfully.{}".format(RED, GREEN, END))
+        print("{}Re-arped{} target successfully.{}".format(RED, ORANGE, END))
 
 
 
@@ -455,7 +455,7 @@ def kickoneoff():
 def kicksomeoff():
     os.system("clear||cls")
 
-    print("\n{}kickSOMEOff{} selected...{}\n".format(RED, GREEN, END))
+    print("\n{}kickSOMEOff{} selected...{}\n".format(RED, ORANGE, END))
     global stopAnimation
     stopAnimation = False
     t = threading.Thread(target=scanningAnimation, args=('Hang on...',))
@@ -480,7 +480,7 @@ def kicksomeoff():
         except:
             hostname = "N/A"
         vendor = resolveMac(mac)
-        print("  [{}{}{}] {}{}{}\t{}{}\t{} ({}{}{}){}".format(YELLOW, str(i), WHITE, RED, str(onlineIPs[i]), BLUE, mac, GREEN, vendor, YELLOW, hostname, GREEN, END))
+        print("  [{}{}{}] {}{}{}\t{}{}\t{} ({}{}{}){}".format(YELLOW, str(i), WHITE, RED, str(onlineIPs[i]), BLUE, mac, ORANGE, vendor, YELLOW, hostname, ORANGE, END))
 
     canBreak = False
     while not canBreak:
@@ -501,16 +501,16 @@ def kicksomeoff():
         except KeyboardInterrupt:
             shutdown()
         except:
-            print("\n{}ERROR: '{}{}{}' is not in the list.{}\n".format(RED, GREEN, i, RED, END))
+            print("\n{}ERROR: '{}{}{}' is not in the list.{}\n".format(RED, ORANGE, i, RED, END))
             return
     someIPList = someIPList[:-2] + END
 
-    print("\n{}Targets: {}{}".format(GREEN, END, someIPList))
+    print("\n{}Targets: {}{}".format(ORANGE, END, someIPList))
 
     if options.packets is not None:
-        print("\n{}Spoofing started... {}( {} pkts/min )".format(GREEN, END, str(options.packets)))
+        print("\n{}Spoofing started... {}( {} pkts/min )".format(ORANGE, END, str(options.packets)))
     else:
-        print("\n{}Spoofing started... {}".format(GREEN, END))
+        print("\n{}Spoofing started... {}".format(ORANGE, END))
     try:
         while True:
             # broadcast malicious ARP packets
@@ -525,7 +525,7 @@ def kicksomeoff():
                 time.sleep(10)
     except KeyboardInterrupt:
         # re-arp targets on KeyboardInterrupt exception
-        print("\n{}Re-arping{} targets...{}".format(RED, GREEN, END))
+        print("\n{}Re-arping{} targets...{}".format(RED, ORANGE, END))
         reArp = 1
         while reArp != 10:
             # broadcast ARP packets with legitimate info to restore connection
@@ -541,7 +541,7 @@ def kicksomeoff():
                             runDebug()
             reArp += 1
             time.sleep(0.2)
-        print("{}Re-arped{} targets successfully.{}".format(RED, GREEN, END))
+        print("{}Re-arped{} targets successfully.{}".format(RED, ORANGE, END))
 
 
 
@@ -549,7 +549,7 @@ def kicksomeoff():
 def kickalloff():
     os.system("clear||cls")
 
-    print("\n{}kickALLOff{} selected...{}\n".format(RED, GREEN, END))
+    print("\n{}kickALLOff{} selected...{}\n".format(RED, ORANGE, END))
     global stopAnimation
     stopAnimation = False
     t = threading.Thread(target=scanningAnimation, args=('Hang on...',))
@@ -574,12 +574,12 @@ def kickalloff():
         except:
             hostname = "N/A"
         vendor = resolveMac(mac)
-        print("  [{}{}{}] {}{}{}\t{}{}\t{} ({}{}{}){}".format(YELLOW, str(i), WHITE, RED, str(onlineIPs[i]), BLUE, mac, GREEN, vendor, YELLOW, hostname, GREEN, END))
+        print("  [{}{}{}] {}{}{}\t{}{}\t{} ({}{}{}){}".format(YELLOW, str(i), WHITE, RED, str(onlineIPs[i]), BLUE, mac, ORANGE, vendor, YELLOW, hostname, ORANGE, END))
     
     if options.packets is not None:
-        print("\n{}Spoofing started... {}( {} pkts/min )".format(GREEN, END, str(options.packets)))
+        print("\n{}Spoofing started... {}( {} pkts/min )".format(ORANGE, END, str(options.packets)))
     else:
-        print("\n{}Spoofing started... {}".format(GREEN, END))
+        print("\n{}Spoofing started... {}".format(ORANGE, END))
     try:
         # broadcast malicious ARP packets
         reScan = 0
@@ -597,7 +597,7 @@ def kickalloff():
             else:
                 time.sleep(10)
     except KeyboardInterrupt:
-        print("\n{}Re-arping{} targets...{}".format(RED, GREEN, END))
+        print("\n{}Re-arping{} targets...{}".format(RED, ORANGE, END))
         reArp = 1
         while reArp != 10:
             # broadcast ARP packets with legitimate info to restore connection
@@ -612,7 +612,7 @@ def kickalloff():
                         runDebug()
             reArp += 1
             time.sleep(0.2)
-        print("{}Re-arped{} targets successfully.{}".format(RED, GREEN, END))
+        print("{}Re-arped{} targets successfully.{}".format(RED, ORANGE, END))
 
 
 
@@ -625,18 +625,18 @@ def main():
     if interactive:
 
         print("\n{}Using interface '{}{}{}' with MAC address '{}{}{}'.\nGateway IP: '{}{}{}' --> {}{}{} hosts are up.{}".format(
-            GREEN, RED, defaultInterface, GREEN, RED, defaultInterfaceMac, GREEN, RED, defaultGatewayIP, GREEN, RED, str(len(hostsList)), GREEN, END))
+            ORANGE, RED, defaultInterface, ORANGE, RED, defaultInterfaceMac, ORANGE, RED, defaultGatewayIP, ORANGE, RED, str(len(hostsList)), ORANGE, END))
         # display warning in case of no active hosts
         if len(hostsList) == 0 or len(hostsList) == 1:
             if len(hostsList) == 1:
                 if hostsList[0][0] == defaultGatewayIP:
                     print("\n{}{}WARNING: There are {}0 hosts up{} on you network except your gateway.\n\tYou can't kick anyone off {}:/{}\n".format(
-                        GREEN, RED, GREEN, RED, GREEN, END))
+                        ORANGE, RED, ORANGE, RED, ORANGE, END))
                     os._exit(1)
             else:
                 print(
                 "\n{}{}WARNING: There are {}0 hosts{} up on you network.\n\tIt looks like something went wrong {}:/{}".format(
-                    GREEN, RED, GREEN, RED, GREEN, END))
+                    ORANGE, RED, ORANGE, RED, ORANGE, END))
                 print(
                 "\n{}If you are experiencing this error multiple times, please submit an issue here:\n\t{}https://github.com/k4m4/kickthemout/issues\n{}".format(
                     RED, BLUE, END))
@@ -645,7 +645,7 @@ def main():
     else:
 
         print("\n{}Using interface '{}{}{}' with MAC address '{}{}{}'.\nGateway IP: '{}{}{}' --> Target(s): '{}{}{}'.{}".format(
-            GREEN, RED, defaultInterface, GREEN, RED, defaultInterfaceMac, GREEN, RED, defaultGatewayIP, GREEN, RED, ", ".join(options.targets), GREEN, END))
+            ORANGE, RED, defaultInterface, ORANGE, RED, defaultInterfaceMac, ORANGE, RED, defaultGatewayIP, ORANGE, RED, ", ".join(options.targets), ORANGE, END))
 
     if options.targets is None and options.scan is False:
 
@@ -702,7 +702,7 @@ def main():
             except:
                 hostname = "N/A"
             vendor = resolveMac(mac)
-            print("  [{}{}{}] {}{}{}\t{}{}\t{} ({}{}{}){}".format(YELLOW, str(i), WHITE, RED, str(onlineIPs[i]), BLUE, mac, GREEN, vendor, YELLOW, hostname, GREEN, END))
+            print("  [{}{}{}] {}{}{}\t{}{}\t{} ({}{}{}){}".format(YELLOW, str(i), WHITE, RED, str(onlineIPs[i]), BLUE, mac, ORANGE, vendor, YELLOW, hostname, ORANGE, END))
 
     else:
 

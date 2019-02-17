@@ -643,16 +643,13 @@ def main():
                 os._exit(1)
 
     else:
-
         print("\n{}Using interface '{}{}{}' with MAC address '{}{}{}'.\nGateway IP: '{}{}{}' --> Target(s): '{}{}{}'.{}".format(
             GREEN, RED, defaultInterface, GREEN, RED, defaultInterfaceMac, GREEN, RED, defaultGatewayIP, GREEN, RED, ", ".join(options.targets), GREEN, END))
 
     if options.targets is None and options.scan is False:
-
         try:
 
             while True:
-
                 optionBanner()
 
                 header = ('{}kickthemout{}> {}'.format(BLUE, WHITE, END))
@@ -705,7 +702,6 @@ def main():
             print("  [{}{}{}] {}{}{}\t{}{}\t{} ({}{}{}){}".format(YELLOW, str(i), WHITE, RED, str(onlineIPs[i]), BLUE, mac, GREEN, vendor, YELLOW, hostname, GREEN, END))
 
     else:
-
         nonInteractiveAttack()
 
 
@@ -731,6 +727,9 @@ if __name__ == '__main__':
 
     parser.add_option('-s', '--scan', action='store_true', default=False,
                       dest='scan', help='perform a quick network scan and exit')
+
+    parser.add_option('-a', '--kick-all', action='store_true', default=False,
+                      dest='kick_all', help='perform attack on all online devices')
 
     def targetList(option, opt, value, parser):
         setattr(parser.values, option.dest, value.split(','))
@@ -765,7 +764,7 @@ if __name__ == '__main__':
         print("\n{}ERROR: Argument for number of packets broadcasted per minute must be an integer {}(e.g. {}--packet 60{}).\n".format(RED, END, BLUE, END))
         os._exit(1)
 
-    if options.targets is None:
+    if options.targets is None and options.kick_all is False:
         # set to interactive attack
         interactive = True
         global stopAnimation
@@ -773,14 +772,20 @@ if __name__ == '__main__':
         t = threading.Thread(target=scanningAnimation, args=('Scanning your network, hang on...',))
         t.daemon = True
         t.start()
-
         # commence scanning process
         try:
             scanNetwork()
         except KeyboardInterrupt:
             shutdown()
         stopAnimation = True
-
+    elif options.targets is None and options.kick_all is True:
+        # set to non-interactive attack
+        interactive = False
+        kickalloff()
+        os._exit(0)
+    elif options.targets is not None and options.kick_all is True:
+        print("\n{}ERROR: Cannot use both {}-a/--kick-all{} and {}-t/--target{} flags in one command.{}\n".format(RED, BLUE, RED, BLUE, RED, END))
+        os._exit(1)
     else:
         # set to non-interactive attack
         interactive = False

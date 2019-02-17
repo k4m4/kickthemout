@@ -23,7 +23,7 @@ except:
 def shutdown():
     print('\n\n{}Thanks for dropping by.'
           '\nCatch ya later!{}'.format(GREEN, END))
-    os._exit(1)
+    os._exit(0)
 
 logging.getLogger("kamene.runtime").setLevel(logging.ERROR)  # Shut up kamene!
 try:

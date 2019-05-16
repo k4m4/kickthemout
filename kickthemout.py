@@ -716,6 +716,8 @@ if __name__ == '__main__':
                 '  sudo python3 kickthemout.py --target 192.168.1.10 \n'+
                 '  sudo python3 kickthemout.py -t 192.168.1.5,192.168.1.10 -p 30\n'+
                 '  sudo python3 kickthemout.py -s\n'+
+                '  sudo python3 kickthemout.py -f ip_list.txt\n'+
+                '  sudo python3 kickthemout.py --file ip_list.txt\n'
                 '  sudo python3 kickthemout.py (interactive mode)\n')
 
     parser = optparse.OptionParser(epilog=examples,

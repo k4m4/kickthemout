@@ -737,6 +737,17 @@ if __name__ == '__main__':
         callback=targetList, type='string',
         dest='targets', help='specify target IP address(es) and perform attack')
 
+
+    def target_files(option, opt, value, parser):
+        with open(value) as file:
+            addr_list = file.readlines()
+            setattr(parser.values, option.dest, addr_list)
+
+    parser.add_option('-f', '--file', action='callback',
+        callback=target_files, type='string',metavar='FILE',
+        dest='targets', help='read target IP address(es) from given file and perform attack')
+
+    
     (options, argv) = parser.parse_args()
 
     try:

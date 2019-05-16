@@ -745,7 +745,7 @@ if __name__ == '__main__':
 
     parser.add_option('-f', '--file', action='callback',
         callback=target_files, type='string',metavar='FILE',
-        dest='targets', help='read target IP address(es) from given file and perform attack')
+        dest='targets', help='read target IP address(es), one per line, from given file and perform attack')
 
     
     (options, argv) = parser.parse_args()

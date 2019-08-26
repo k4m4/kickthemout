@@ -157,7 +157,7 @@ def checkInternetConnection():
         NETFLAG=1
         return True
     except URLError as err:
-        trySkipCheckInternetConnection()
+        return trySkipCheckInternetConnection()
     except KeyboardInterrupt:
         shutdown()
 

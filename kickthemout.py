@@ -123,6 +123,23 @@ def runDebug():
     os._exit(1)
 
 
+# try skip checkInternetConnection 
+def trySkipCheckInternetConnection():
+    try:
+        print("\n{}ERROR: It seems you have no access to internet, skip checking connection ?{}\n".format(RED, END))
+        header = ('{}kickthemout{}> {}(y/n): '.format(BLUE, WHITE, RED, END))
+        ans=input(header)
+        if ans == "y":
+            return True
+        elif ans == "n":
+            return False
+        else:
+            print("\n{}Invalid input.{}".format(RED, END))
+            return trySkipCheckInternetConnection()
+    except KeyboardInterrupt:
+        shutdown()
+
+
 
 # make sure there is an internet connection
 def checkInternetConnection():
@@ -130,7 +147,7 @@ def checkInternetConnection():
         urlopen('https://github.com', timeout=3)
         return True
     except URLError as err:
-        return False
+        trySkipCheckInternetConnection()
     except KeyboardInterrupt:
         shutdown()
 

@@ -26,3 +26,4 @@ ENV/
 *.bak
 *.cfg
 __pycache__/
+.DS_Store

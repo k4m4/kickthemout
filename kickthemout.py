@@ -185,7 +185,9 @@ def getDefaultInterfaceMAC():
 def getGatewayIP():
     global stopAnimation
     try:
-        getGateway = sr1(IP(dst="github.com", ttl=0) / ICMP() / "XXXXXXXXXXX", verbose=False)
+        getGateway, timeout = sr1(IP(dst="github.com", ttl=0) / ICMP() / "XXXXXXXXXXX", verbose=False, timeout=4)
+        if timeout:
+            raise Exception()
         return getGateway.src
     except:
         # request gateway IP address (after failed detection by scapy)
@@ -229,7 +231,7 @@ def resolveMac(mac):
 
 # regenerate online IPs array & configure gateway
 def regenOnlineIPs():
-    global onlineIPs, defaultGatewayMac, defaultGatewayMacSet
+    global onlineIPs, defaultGatewayMac, defaultGatewayMacSet, stopAnimation
 
     if not defaultGatewayMacSet:
         defaultGatewayMac = ""
@@ -243,6 +245,7 @@ def regenOnlineIPs():
 
     if not defaultGatewayMacSet and defaultGatewayMac == "":
         # request gateway MAC address (after failed detection by scapy)
+        stopAnimation = True
         print("\n{}ERROR: Default Gateway MAC Address could not be obtained. Please enter MAC manually.{}\n".format(RED, END))
         header = ("{}kickthemout{}> {}Enter your gateway's MAC Address {}(MM:MM:MM:SS:SS:SS): ".format(BLUE, WHITE, RED, END))
         defaultGatewayMac = input(header)

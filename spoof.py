@@ -8,8 +8,8 @@ See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 """
 
 import sys, logging
-logging.getLogger("kamene.runtime").setLevel(logging.ERROR)
-from kamene.all import (
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
+from scapy.all import (
     get_if_hwaddr,
     getmacbyip,
     ARP,

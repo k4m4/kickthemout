@@ -21,7 +21,7 @@
 
 - **OS name & version**: <!-- Replace with os name & version -->
 - **Python version**: <!-- Replace with python version -->
-- **Kamene version**: <!-- Replace with kamene version -->
+- **Scapy version**: <!-- Replace with kamene version -->
 - **Nmap version**: <!-- Replace with nmap version -->
 - **Link of [Gist](https://gist.github.com/)**: <!-- Please create a Gist with the response of a `$ sudo python -vvv kickthemout.py` verbosity command & paste the link here -->
 

@@ -28,3 +28,5 @@
 <!-- Now feel free to write about your issue; please remember to be as descriptive as possible! Thanks again! 🙌 ❤️ --><br/ >
 
 - **Description**: <!-- Replace with a short description of your issue -->
+
+<!-- Please provide all of the preceding information; otherwise, your issue will be labeled `more-information-needed` and will most probably be ignored. Thank you! -->

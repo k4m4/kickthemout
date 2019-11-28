@@ -10,6 +10,11 @@ See License at nikolaskama.me (https://nikolaskama.me/kickthemoutproject)
 import os, sys, logging, math, traceback, optparse, threading
 from time import sleep
 BLUE, RED, WHITE, YELLOW, MAGENTA, GREEN, END = '\33[94m', '\033[91m', '\33[97m', '\33[93m', '\033[1;35m', '\033[1;32m', '\033[0m'
+NETFLAG=0
+
+#NETFLAG=0 User have no access to internet
+#NETFLAG=1 User have access to internet
+#NETFLAG=2 User have no access to internet and choose to skip checkInternetConnection
 
 try:
     # check whether user is root
@@ -123,14 +128,36 @@ def runDebug():
     os._exit(1)
 
 
+# try skip checkInternetConnection 
+def trySkipCheckInternetConnection():
+    global NETFLAG
+    try:
+        print("\n{}ERROR: It seems you have no access to internet, skip checking connection ?{}\n".format(RED, END))
+        header = ('{}kickthemout{}> {}(y/n): '.format(BLUE, WHITE, RED, END))
+        ans=input(header)
+        if ans == "y":
+            NETFLAG=2
+            return True
+        elif ans == "n":
+            NETFLAG=0
+            return False
+        else:
+            print("\n{}Invalid input.{}".format(RED, END))
+            return trySkipCheckInternetConnection()
+    except KeyboardInterrupt:
+        shutdown()
+
+
 
 # make sure there is an internet connection
 def checkInternetConnection():
+    global NETFLAG
     try:
         urlopen('https://github.com', timeout=3)
+        NETFLAG=1
         return True
     except URLError as err:
-        return False
+        return trySkipCheckInternetConnection()
     except KeyboardInterrupt:
         shutdown()
 
@@ -213,19 +240,23 @@ def retrieveMACAddress(host):
 
 # resolve mac address of each vendor
 def resolveMac(mac):
-    try:
-        # send request to macvendors.co
-        url = "http://macvendors.co/api/vendorname/"
-        request = Request(url + mac, headers={'User-Agent': "API Browser"})
-        response = urlopen(request)
-        vendor = response.read()
-        vendor = vendor.decode("utf-8")
-        vendor = vendor[:25]
-        return vendor
-    except KeyboardInterrupt:
-        shutdown()
-    except:
-        return "N/A"
+    global NETFLAG
+    if NETFLAG == 1:
+        try:
+            # send request to macvendors.co
+            url = "http://macvendors.co/api/vendorname/"
+            request = Request(url + mac, headers={'User-Agent': "API Browser"})
+            response = urlopen(request)
+            vendor = response.read()
+            vendor = vendor.decode("utf-8")
+            vendor = vendor[:25]
+            return vendor
+        except KeyboardInterrupt:
+            shutdown()
+        except:
+            return "N/A"
+    elif NETFLAG == 2:
+            return "N/A"
 
 
 

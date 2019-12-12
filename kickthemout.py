@@ -719,6 +719,7 @@ if __name__ == '__main__':
                 '  sudo python3 kickthemout.py --target 192.168.1.10 \n'+
                 '  sudo python3 kickthemout.py -t 192.168.1.5,192.168.1.10 -p 30\n'+
                 '  sudo python3 kickthemout.py -s\n'+
+                '  sudo python3 kickthemout.py -f IPs.txt\n'+
                 '  sudo python3 kickthemout.py (interactive mode)\n')
 
     parser = optparse.OptionParser(epilog=examples,
@@ -740,6 +741,17 @@ if __name__ == '__main__':
         callback=targetList, type='string',
         dest='targets', help='specify target IP address(es) and perform attack')
 
+
+    def targetFiles(option, opt, value, parser):
+        with open(value) as file:
+            addrList = file.readlines()
+            setattr(parser.values, option.dest, addrList)
+
+    parser.add_option('-f', '--file', action='callback',
+        callback=targetFiles, type='string', metavar='FILE',
+        dest='targets', help='read target IP address(es) from line-separated file and perform attack')
+
+    
     (options, argv) = parser.parse_args()
 
     try:

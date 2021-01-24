@@ -27,7 +27,7 @@ def shutdown():
 
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)  # Shut up scapy!
 try:
-    from scapy.config import conf  
+    from scapy.config import conf
     conf.ipv6_enabled = False
     from scapy.all import *
     import scan, spoof, nmap
@@ -184,6 +184,8 @@ def getDefaultInterfaceMAC():
 # retrieve gateway IP
 def getGatewayIP():
     global stopAnimation
+    if options.gateway:
+        return options.gateway
     try:
         getGateway, timeout = sr1(IP(dst="github.com", ttl=0) / ICMP() / "XXXXXXXXXXX", verbose=False, timeout=4)
         if timeout:
@@ -578,7 +580,7 @@ def kickalloff():
             hostname = "N/A"
         vendor = resolveMac(mac)
         print("  [{}{}{}] {}{}{}\t{}{}\t{} ({}{}{}){}".format(YELLOW, str(i), WHITE, RED, str(onlineIPs[i]), BLUE, mac, GREEN, vendor, YELLOW, hostname, GREEN, END))
-    
+
     if options.packets is not None:
         print("\n{}Spoofing started... {}( {} pkts/min )".format(GREEN, END, str(options.packets)))
     else:
@@ -683,14 +685,14 @@ def main():
         t = threading.Thread(target=scanningAnimation, args=('Scanning your network, hang on...',))
         t.daemon = True
         t.start()
-    
+
         # commence scanning process
         try:
             scanNetwork()
         except KeyboardInterrupt:
             shutdown()
         stopAnimation = True
-    
+
         print("\nOnline IPs: ")
         for i in range(len(onlineIPs)):
             mac = ""
@@ -739,6 +741,10 @@ if __name__ == '__main__':
     parser.add_option('-t', '--target', action='callback',
         callback=targetList, type='string',
         dest='targets', help='specify target IP address(es) and perform attack')
+
+    parser.add_option('-g', '--gateway', action='callback',
+        callback=(lambda option, opt, value, parser: setattr(parser.values, option.dest, value)), type='string',
+        dest='gateway', help='specify gateway IP address')
 
     (options, argv) = parser.parse_args()
 

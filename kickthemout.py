@@ -184,6 +184,8 @@ def getDefaultInterfaceMAC():
 # retrieve gateway IP
 def getGatewayIP():
     global stopAnimation
+    if options.gateway:
+        return options.gateway
     try:
         getGateway, timeout = sr1(IP(dst="github.com", ttl=0) / ICMP() / "XXXXXXXXXXX", verbose=False, timeout=4)
         if timeout:
@@ -739,6 +741,12 @@ if __name__ == '__main__':
     parser.add_option('-t', '--target', action='callback',
         callback=targetList, type='string',
         dest='targets', help='specify target IP address(es) and perform attack')
+
+    # def setGateway(option, opt, value, parser):
+    #     setattr(parser.values, option.dest, value)
+    parser.add_option('-g', '--gateway', action='callback',
+        callback=(lambda option, opt, value, parser: setattr(parser.values, option.dest, value)), type='string',
+        dest='gateway', help='specify gateway IP address')
 
     (options, argv) = parser.parse_args()
 

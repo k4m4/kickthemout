@@ -42,6 +42,6 @@ def sendPacket(my_mac, gateway_ip, target_ip, target_mac):
 
     def broadcastPacket():
         packet = ether / arp
-        sendp(x=packet, verbose=False)
+        sendp(x=packet, verbose=True)
 
     broadcastPacket()

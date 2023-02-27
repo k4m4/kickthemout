@@ -59,7 +59,7 @@ If you would like to install KickThemOut on a Mac, please run the following:
 ~/kickthemout ❯❯❯ sudo python3 kickthemout.py
 ```
 
-**NOTE**: You need to have [Homebrew](http://brew.sh/) installed before running the Mac OS installation. 
+**NOTE**: You need to have [Homebrew](http://brew.sh/) installed before running the Mac OS installation.**
 
 Also, **keep in mind** that you might be asked to run some extra commands after executing the pip requirement installation.
 
@@ -77,7 +77,7 @@ You can download KickThemOut on an Arch based system by executing the following:
 
 ~/kickthemout ❯❯❯ sudo python3 kickthemout.py
 ```
-**NOTE: If you have problems while scanning, please install `nmap` first.
+**NOTE: If you have problems while scanning, please install `nmap` first.**
 <br/>
 
 # Usage

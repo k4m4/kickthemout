@@ -77,7 +77,7 @@ You can download KickThemOut on an Arch based system by executing the following:
 
 ~/kickthemout ❯❯❯ sudo python3 kickthemout.py
 ```
-
+**NOTE: If you have problems while scanning, please install `nmap` first.
 <br/>
 
 # Usage

@@ -1,4 +1,4 @@
-![KickThemOut Logo](http://nikolaskama.me/content/images/2017/02/kickthemout_small.png)
+http://192.168.1.1![KickThemOut Logo](http://nikolaskama.me/content/images/2017/02/kickthemout_small.png)
 
 # KickThemOut
 

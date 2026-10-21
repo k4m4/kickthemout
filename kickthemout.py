@@ -214,8 +214,17 @@ def retrieveMACAddress(host):
 # resolve mac address of each vendor
 def resolveMac(mac):
     try:
-        # send request to macvendors.co
-        url = "http://macvendors.co/api/vendorname/"
+        # look up the vendor in the local manuf database first
+        vendor = conf.manufdb._get_manuf(mac)
+        if vendor and vendor != mac:
+            return vendor[:25]
+    except KeyboardInterrupt:
+        shutdown()
+    except:
+        pass
+    try:
+        # fall back to the macvendors.com API
+        url = "https://api.macvendors.com/"
         request = Request(url + mac, headers={'User-Agent': "API Browser"})
         response = urlopen(request)
         vendor = response.read()

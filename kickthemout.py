@@ -150,14 +150,20 @@ def getDefaultInterface(returnNet=False):
             return None
         return net
 
-    iface_routes = [route for route in scapy.config.conf.route.routes if route[3] == scapy.config.conf.iface and route[1] != 0xFFFFFFFF]
-    network, netmask, _, interface, address, _ = max(iface_routes, key=lambda item:item[1])
-    net = to_CIDR_notation(network, netmask)
-    if net:
-        if returnNet:
-            return net
-        else:
-            return interface
+    interface = getattr(scapy.config.conf.iface, "name", scapy.config.conf.iface)
+    if not returnNet:
+        return interface
+
+    try:
+        import netifaces
+        address = netifaces.ifaddresses(interface)[netifaces.AF_INET][0]
+        netmask = scapy.utils.atol(address["netmask"])
+        network = scapy.utils.atol(address["addr"]) & netmask
+        return to_CIDR_notation(network, netmask)
+    except:
+        iface_routes = [route for route in scapy.config.conf.route.routes if str(route[3]) == str(interface) and route[1] not in (0, 0xFFFFFFFF)]
+        network, netmask, _, interface, address, _ = max(iface_routes, key=lambda item:item[1])
+        return to_CIDR_notation(network, netmask)
 
 
 
@@ -185,10 +191,10 @@ def getDefaultInterfaceMAC():
 def getGatewayIP():
     global stopAnimation
     try:
-        getGateway, timeout = sr1(IP(dst="github.com", ttl=0) / ICMP() / "XXXXXXXXXXX", verbose=False, timeout=4)
-        if timeout:
+        response = sr1(IP(dst="github.com", ttl=0) / ICMP() / "XXXXXXXXXXX", verbose=False, timeout=4)
+        if response is None:
             raise Exception()
-        return getGateway.src
+        return response.src
     except:
         # request gateway IP address (after failed detection by scapy)
         stopAnimation = True
@@ -205,9 +211,9 @@ def retrieveMACAddress(host):
         ans, _ = srp(query, timeout=2, verbose=0)
         for _, rcv in ans:
             return rcv[Ether].src
-            break
     except:
         return False
+    return False
 
 
 
@@ -338,7 +344,7 @@ def nonInteractiveAttack():
             for i in target:
                 ipAddress = i
                 macAddress = retrieveMACAddress(ipAddress)
-                if macAddress == False:
+                if not macAddress:
                     print("\n{}ERROR: MAC address of target host could not be retrieved! Maybe host is down?{}".format(RED, END))
                     os._exit(1)
                 spoof.sendPacket(defaultInterfaceMac, defaultGatewayIP, ipAddress, macAddress)

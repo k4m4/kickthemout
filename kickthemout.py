@@ -443,7 +443,7 @@ def kickoneoff():
         while reArp != 10:
             try:
                 # broadcast ARP packets with legitimate info to restore connection
-                spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, host[0], host[1])
+                spoof.sendPacket(defaultGatewayMac, defaultGatewayIP, oneTargetIP, oneTargetMAC)
             except KeyboardInterrupt:
                 pass
             except:
